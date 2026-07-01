@@ -15,6 +15,7 @@ PartnerFinder/
   README.md                 ← 系統功能總說明（英文，GitHub 會排版）
   docs/
     00-系統用途與目標夥伴.md ← 【先讀】這系統要找什麼公司、為什麼（業務導向）
+    00-System-Purpose-and-Target-Partners.md ← same as above, English version
     01-開發需求.md          ← 原始開發需求規格（老闆／發起人給的）
     02-開發紀錄與決策.md    ← 做了什麼、為什麼這樣選、目前進度、待辦
     03-安裝步驟-給同事.md   ← 【非技術也能照做】怎麼裝、怎麼跑、手機怎麼連
