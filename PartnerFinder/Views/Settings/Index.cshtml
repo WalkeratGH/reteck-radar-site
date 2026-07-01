@@ -1,0 +1,67 @@
+@{
+    ViewData["Title"] = "Settings";
+    var connectors = ViewBag.Connectors as (string Name, bool Configured)[] ?? Array.Empty<(string, bool)>();
+    var categories = ViewBag.ServiceCategories as string[] ?? Array.Empty<string>();
+}
+
+<h1 class="h3 mb-3">Settings</h1>
+
+<div class="row g-4">
+    <div class="col-lg-6">
+        <div class="card mb-4">
+            <div class="card-header fw-semibold">Environment</div>
+            <div class="card-body">
+                <dl class="row mb-0">
+                    <dt class="col-sm-5">Total partners</dt><dd class="col-sm-7">@ViewBag.PartnerCount</dd>
+                    <dt class="col-sm-5">Database</dt><dd class="col-sm-7"><code>@ViewBag.DatabasePath</code></dd>
+                    <dt class="col-sm-5">Current scope</dt><dd class="col-sm-7">United States (MVP focus)</dd>
+                </dl>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header fw-semibold">Future Connectors</div>
+            <div class="card-body">
+                <p class="text-muted small">Reserved for later phases. Register a real implementation in <code>Program.cs</code> to enable.</p>
+                <ul class="list-group list-group-flush">
+                    @foreach (var c in connectors)
+                    {
+                        <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                            @c.Name
+                            <span class="badge @(c.Configured ? "bg-success" : "bg-secondary")">
+                                @(c.Configured ? "Configured" : "Not configured")
+                            </span>
+                        </li>
+                    }
+                    <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                        LinkedIn manual research workflow
+                        <span class="badge bg-info">Manual</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                        Duplicate company detection
+                        <span class="badge bg-success">On (name + website)</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                        Automatic scoring engine
+                        <span class="badge bg-success">On</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-header fw-semibold">Service Categories</div>
+            <div class="card-body">
+                <p class="text-muted small">Used across Add/Edit and the Keyword Generator. Edit in <code>Data/PartnerOptions.cs</code>.</p>
+                <ul class="mb-0">
+                    @foreach (var cat in categories)
+                    {
+                        <li>@cat</li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

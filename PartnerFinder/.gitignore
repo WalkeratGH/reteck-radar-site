@@ -1,0 +1,13 @@
+# Build output
+bin/
+obj/
+
+# Local SQLite database (created automatically on first run)
+*.db
+*.db-shm
+*.db-wal
+
+# User-specific / IDE
+*.user
+.vs/
+.idea/

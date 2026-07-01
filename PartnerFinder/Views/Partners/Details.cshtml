@@ -1,0 +1,156 @@
+@model Partner
+@using PartnerFinder.Services
+@{
+    ViewData["Title"] = Model.CompanyName;
+    var score = ViewBag.ScoreResult as ScoreResult;
+
+    string LevelBadge(RecommendedLevel l) => l switch
+    {
+        RecommendedLevel.A => "bg-success",
+        RecommendedLevel.B => "bg-warning text-dark",
+        _ => "bg-secondary"
+    };
+
+    string Yn(bool b) => b ? "<span class='text-success'>Yes</span>" : "<span class='text-muted'>No</span>";
+}
+
+<div class="d-flex justify-content-between align-items-start mb-3">
+    <div>
+        <h1 class="h3 mb-1">@Model.CompanyName</h1>
+        <div class="text-muted">
+            @(string.Join(", ", new[] { Model.City, Model.Country }.Where(s => !string.IsNullOrWhiteSpace(s))))
+            @if (!string.IsNullOrWhiteSpace(Model.ServiceCategory)) { <span>· @Model.ServiceCategory</span> }
+        </div>
+    </div>
+    <div class="text-nowrap">
+        <a class="btn btn-outline-secondary" asp-action="Index">Back</a>
+        <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-8">
+        <div class="card mb-3">
+            <div class="card-header fw-semibold">Overview</div>
+            <div class="card-body">
+                <dl class="row mb-0">
+                    <dt class="col-sm-3">Website</dt><dd class="col-sm-9">@(string.IsNullOrWhiteSpace(Model.Website) ? "—" : Html.Raw($"<a href=\"{Model.Website}\" target=\"_blank\" rel=\"noopener\">{Model.Website}</a>"))</dd>
+                    <dt class="col-sm-3">Main Services</dt><dd class="col-sm-9">@(Model.MainServices ?? "—")</dd>
+                    <dt class="col-sm-3">Contact</dt><dd class="col-sm-9">@(Model.ContactPerson ?? "—") @(string.IsNullOrWhiteSpace(Model.ContactTitle) ? "" : $"({Model.ContactTitle})")</dd>
+                    <dt class="col-sm-3">Email</dt><dd class="col-sm-9">@(Model.Email ?? "—")</dd>
+                    <dt class="col-sm-3">Phone</dt><dd class="col-sm-9">@(Model.Phone ?? "—")</dd>
+                    <dt class="col-sm-3">LinkedIn</dt><dd class="col-sm-9">@(Model.LinkedIn ?? "—")</dd>
+                    <dt class="col-sm-3">Source URL</dt><dd class="col-sm-9">@(Model.SourceUrl ?? "—")</dd>
+                    <dt class="col-sm-3">Certifications</dt><dd class="col-sm-9">@(Model.Certifications ?? "—")</dd>
+                    <dt class="col-sm-3">Last Updated</dt><dd class="col-sm-9">@Model.LastUpdatedDate.ToString("yyyy-MM-dd")</dd>
+                </dl>
+            </div>
+        </div>
+
+        <div class="row g-3">
+            <div class="col-md-6">
+                <div class="card h-100">
+                    <div class="card-header fw-semibold">IT / Data Center</div>
+                    <div class="card-body">
+                        <ul class="list-unstyled mb-2 small">
+                            <li>Data Center Experience: @Html.Raw(Yn(Model.DataCenterExperience))</li>
+                            <li>Smart Hands: @Html.Raw(Yn(Model.SmartHandsCapability))</li>
+                            <li>IMAC: @Html.Raw(Yn(Model.ImacCapability))</li>
+                            <li>Break / Fix: @Html.Raw(Yn(Model.BreakFixCapability))</li>
+                            <li>Network Support: @Html.Raw(Yn(Model.NetworkSupportCapability))</li>
+                            <li>Server Support: @Html.Raw(Yn(Model.ServerSupportCapability))</li>
+                            <li>Storage Support: @Html.Raw(Yn(Model.StorageSupportCapability))</li>
+                        </ul>
+                        <div class="small text-muted">
+                            Microsoft: @Model.MicrosoftPartnerStatus · Dell: @Model.DellPartnerStatus<br />
+                            Cisco: @Model.CiscoPartnerStatus · HPE: @Model.HpePartnerStatus
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card h-100">
+                    <div class="card-header fw-semibold">AI Infrastructure</div>
+                    <div class="card-body">
+                        <ul class="list-unstyled mb-2 small">
+                            <li>AI Server Build: @Html.Raw(Yn(Model.AiServerBuildCapability))</li>
+                            <li>GPU Workstation Build: @Html.Raw(Yn(Model.GpuWorkstationBuildCapability))</li>
+                            <li>Edge AI Deployment: @Html.Raw(Yn(Model.EdgeAiDeploymentCapability))</li>
+                            <li>Local LLM Deployment: @Html.Raw(Yn(Model.LocalLlmDeploymentCapability))</li>
+                            <li>NVIDIA GPU: @Html.Raw(Yn(Model.NvidiaGpuExperience)) · AMD GPU: @Html.Raw(Yn(Model.AmdGpuExperience))</li>
+                            <li>Jetson / Edge: @Html.Raw(Yn(Model.NvidiaJetsonExperience))</li>
+                            <li>Small AI Cluster: @Html.Raw(Yn(Model.SmallAiClusterExperience))</li>
+                            <li>On-Prem AI: @Html.Raw(Yn(Model.OnPremAiDeploymentExperience))</li>
+                            <li>Inference Setup: @Html.Raw(Yn(Model.AiModelInferenceSetup))</li>
+                            <li>Linux/Docker/K8s: @Html.Raw(Yn(Model.LinuxDockerKubernetesCapability))</li>
+                            <li>Cooling/Power: @Html.Raw(Yn(Model.CoolingPowerPlanningCapability))</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @if (!string.IsNullOrWhiteSpace(Model.AiInfrastructureSummary) || !string.IsNullOrWhiteSpace(Model.AiSummary) || !string.IsNullOrWhiteSpace(Model.Notes))
+        {
+            <div class="card mt-3">
+                <div class="card-header fw-semibold">Summaries &amp; Notes</div>
+                <div class="card-body small">
+                    @if (!string.IsNullOrWhiteSpace(Model.AiSummary)) { <p><strong>AI Summary:</strong> @Model.AiSummary</p> }
+                    @if (!string.IsNullOrWhiteSpace(Model.AiInfrastructureSummary)) { <p><strong>AI Infrastructure:</strong> @Model.AiInfrastructureSummary</p> }
+                    @if (!string.IsNullOrWhiteSpace(Model.Notes)) { <p class="mb-0"><strong>Notes:</strong> @Model.Notes</p> }
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="col-lg-4">
+        <div class="card mb-3">
+            <div class="card-body text-center">
+                <div class="display-5 fw-bold">@Model.QualificationScore<span class="fs-5 text-muted">/100</span></div>
+                <span class="badge @LevelBadge(Model.RecommendedLevel) fs-6">Level @Model.RecommendedLevel</span>
+                <div class="text-muted mt-2 small">AI Infrastructure Score: @Model.AiInfrastructureScore / 30</div>
+            </div>
+        </div>
+
+        @if (score != null)
+        {
+            <div class="card mb-3">
+                <div class="card-header fw-semibold">Score Breakdown</div>
+                <table class="table table-sm mb-0 small">
+                    <tbody>
+                    @foreach (var line in score.Lines)
+                    {
+                        <tr>
+                            <td>@line.Item</td>
+                            <td class="text-end text-nowrap">@line.Points / @line.MaxPoints</td>
+                        </tr>
+                    }
+                    </tbody>
+                    <tfoot class="table-light">
+                        <tr class="fw-bold"><td>Total</td><td class="text-end">@score.Total / 100</td></tr>
+                    </tfoot>
+                </table>
+            </div>
+        }
+
+        <div class="card">
+            <div class="card-header fw-semibold">Review</div>
+            <div class="card-body">
+                <form asp-action="UpdateReview" method="post">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="id" value="@Model.Id" />
+                    <div class="mb-2">
+                        <label class="form-label mb-0">Manual Review Status</label>
+                        <select asp-for="ManualReviewStatus" name="manualReviewStatus" asp-items="Html.GetEnumSelectList<ManualReviewStatus>()" class="form-select">
+                        </select>
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label mb-0">Follow Up Action</label>
+                        <input name="followUpAction" value="@Model.FollowUpAction" class="form-control" />
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-sm w-100">Update</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
