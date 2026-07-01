@@ -18,9 +18,12 @@ builder.Services.AddScoped<KeywordGeneratorService>();
 builder.Services.AddScoped<ExportService>();
 builder.Services.AddScoped<DuplicateDetectionService>();
 
-// Future-expansion connectors (currently "not configured" no-op implementations).
-// Swap these registrations for real implementations when you add live APIs.
-builder.Services.AddSingleton<IWebSearchConnector, NullWebSearchConnector>();
+// Live web search via Brave Search API. Activates automatically once an API key
+// is set in appsettings.json ("Search:Brave:ApiKey"); otherwise IsConfigured is
+// false and the Web Search page shows setup instructions instead of results.
+builder.Services.AddHttpClient<IWebSearchConnector, BraveWebSearchConnector>();
+
+// Other future-expansion connectors (still "not configured" no-op implementations).
 builder.Services.AddSingleton<ISerpApiConnector, NullWebSearchConnector>();
 builder.Services.AddSingleton<IMicrosoftPartnerConnector, NullWebSearchConnector>();
 builder.Services.AddSingleton<IAiSummaryGenerator, NullAiSummaryGenerator>();

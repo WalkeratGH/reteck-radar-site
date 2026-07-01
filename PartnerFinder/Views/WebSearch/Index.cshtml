@@ -1,0 +1,82 @@
+@using PartnerFinder.Services
+@{
+    ViewData["Title"] = "Web Search";
+    var configured = ViewBag.Configured as bool? ?? false;
+    var query = ViewBag.Query as string;
+    var results = ViewBag.Results as IReadOnlyList<SearchHit>;
+    var error = ViewBag.Error as string;
+
+    // Turn a result URL into a plausible company name / website for prefilling.
+    string HostOf(string url)
+    {
+        return Uri.TryCreate(url, UriKind.Absolute, out var u) ? u.Host.Replace("www.", "") : url;
+    }
+}
+
+<h1 class="h3 mb-1">Web Search <span class="badge bg-info align-middle">Brave</span></h1>
+<p class="text-muted">
+    Search the web automatically and file candidate companies with one click.
+    Tip: you can send phrases here straight from the
+    <a asp-controller="Keyword" asp-action="Index">Keyword Generator</a>.
+</p>
+
+@if (!configured)
+{
+    <div class="alert alert-warning">
+        <h5 class="alert-heading">Web Search is not set up yet</h5>
+        <p class="mb-2">This feature needs a free Brave Search API key.</p>
+        <ol class="mb-2">
+            <li>Get a free key at <a href="https://brave.com/search/api/" target="_blank" rel="noopener">brave.com/search/api</a>.</li>
+            <li>Open <code>appsettings.json</code> and paste it: <code>"Search": { "Brave": { "ApiKey": "YOUR_KEY" } }</code></li>
+            <li>Restart the app.</li>
+        </ol>
+        <p class="mb-0">See <code>自動搜尋設定.md</code> for a step-by-step guide.</p>
+    </div>
+}
+
+<form method="get" asp-action="Index" class="card card-body mb-3">
+    <div class="input-group">
+        <input name="q" value="@query" class="form-control form-control-lg"
+               placeholder="e.g. GPU workstation builder Austin Texas" autofocus />
+        <button type="submit" class="btn btn-primary" @(configured ? "" : "disabled")>Search</button>
+    </div>
+</form>
+
+@if (error != null)
+{
+    <div class="alert alert-danger">
+        Search failed: @error
+        <div class="small mt-1">Check the API key is valid and you still have free quota left.</div>
+    </div>
+}
+
+@if (results != null)
+{
+    if (!results.Any())
+    {
+        <div class="alert alert-info">No results for “@query”.</div>
+    }
+    else
+    {
+        <p class="text-muted">@results.Count result(s) for “@query”.</p>
+        <div class="list-group">
+            @foreach (var hit in results)
+            {
+                <div class="list-group-item">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div class="me-3">
+                            <a href="@hit.Url" target="_blank" rel="noopener" class="fw-semibold text-decoration-none">@hit.Title</a>
+                            <div class="small text-success">@hit.Url</div>
+                            <div class="small text-muted">@hit.Snippet</div>
+                        </div>
+                        <a class="btn btn-sm btn-outline-primary text-nowrap"
+                           asp-controller="Partners" asp-action="Create"
+                           asp-route-companyName="@HostOf(hit.Url)"
+                           asp-route-website="@hit.Url"
+                           asp-route-sourceUrl="@hit.Url">+ File as partner</a>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+}

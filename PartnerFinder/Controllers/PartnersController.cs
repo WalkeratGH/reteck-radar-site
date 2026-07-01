@@ -82,11 +82,17 @@ public class PartnersController : Controller
         return View(partner);
     }
 
-    // Add Partner (GET)
-    public IActionResult Create()
+    // Add Partner (GET). Optional query params let the Web Search page pre-fill
+    // the form when filing a search result as a new partner.
+    public IActionResult Create(string? companyName, string? website, string? sourceUrl)
     {
         PopulateDropdowns();
-        return View(new Partner());
+        return View(new Partner
+        {
+            CompanyName = companyName ?? string.Empty,
+            Website = website,
+            SourceUrl = sourceUrl
+        });
     }
 
     // Add Partner (POST)
