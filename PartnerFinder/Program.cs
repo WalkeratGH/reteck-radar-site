@@ -41,9 +41,11 @@ if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
     app.UseHsts();
+    // Only force HTTPS in production. Running locally (e.g. on a LAN so a phone can
+    // connect over plain http) skips this, keeping the console output clean.
+    app.UseHttpsRedirection();
 }
 
-app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthorization();
