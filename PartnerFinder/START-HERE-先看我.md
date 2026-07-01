@@ -1,5 +1,7 @@
 # Re-Teck Partner Finder — 交接包 / Handoff Package
 
+> English index: `START-HERE.md`。本包每份文件都有中英兩版（英文版檔名為英文）。
+
 這是一套 **.NET 8 網頁系統**，用來搜尋、整理、評分全球（目前先做美國）的
 **IT 系統整合商 / 資料中心服務商 / 小型 AI 運算建置商**，做為 Re-Teck 的合作夥伴資料庫。
 
