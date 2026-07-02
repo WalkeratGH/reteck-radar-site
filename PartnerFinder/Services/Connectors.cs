@@ -34,11 +34,21 @@ public interface IMicrosoftPartnerConnector
     Task<IReadOnlyList<SearchHit>> LookupAsync(string companyName, CancellationToken ct = default);
 }
 
+// Result of asking the AI to evaluate a partner. All fields optional (best effort).
+public class AiSummaryResult
+{
+    public string? Summary { get; set; }                    // -> Partner.AiSummary
+    public string? AiInfrastructureSummary { get; set; }    // -> Partner.AiInfrastructureSummary
+    public List<string> SuggestedCapabilities { get; set; } = new();
+    public string? SuggestedFollowUp { get; set; }          // -> Partner.FollowUpAction
+    public string? Error { get; set; }                      // set when the call failed
+}
+
 // Generates the AI Summary / AI Infrastructure Summary text for a partner.
 public interface IAiSummaryGenerator
 {
     bool IsConfigured { get; }
-    Task<string> SummarizeAsync(Partner partner, CancellationToken ct = default);
+    Task<AiSummaryResult> SummarizeAsync(Partner partner, CancellationToken ct = default);
 }
 
 // Weekly market radar job (planned).
@@ -65,8 +75,8 @@ public class NullWebSearchConnector : IWebSearchConnector, ISerpApiConnector, IM
 public class NullAiSummaryGenerator : IAiSummaryGenerator
 {
     public bool IsConfigured => false;
-    public Task<string> SummarizeAsync(Partner partner, CancellationToken ct = default)
-        => Task.FromResult(string.Empty);
+    public Task<AiSummaryResult> SummarizeAsync(Partner partner, CancellationToken ct = default)
+        => Task.FromResult(new AiSummaryResult { Error = "AI Summary is not configured" });
 }
 
 public class NullMarketRadarService : IMarketRadarService

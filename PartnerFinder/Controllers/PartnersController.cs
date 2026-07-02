@@ -13,14 +13,16 @@ public class PartnersController : Controller
     private readonly ScoringService _scoring;
     private readonly DuplicateDetectionService _dupes;
     private readonly WebsiteInfoService _webInfo;
+    private readonly IAiSummaryGenerator _ai;
 
     public PartnersController(AppDbContext db, ScoringService scoring, DuplicateDetectionService dupes,
-        WebsiteInfoService webInfo)
+        WebsiteInfoService webInfo, IAiSummaryGenerator ai)
     {
         _db = db;
         _scoring = scoring;
         _dupes = dupes;
         _webInfo = webInfo;
+        _ai = ai;
     }
 
     // Partner List + search/filter
@@ -82,7 +84,43 @@ public class PartnersController : Controller
         if (partner == null) return NotFound();
 
         ViewBag.ScoreResult = _scoring.Score(partner);
+        ViewBag.AiConfigured = _ai.IsConfigured;
         return View(partner);
+    }
+
+    // Generate the AI Summary via the Claude API and store it on the partner.
+    // Suggested capabilities are appended as text for a human to verify - never
+    // auto-checked, so the AI cannot silently change scoring inputs.
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> GenerateAiSummary(int id)
+    {
+        var partner = await _db.Partners.FindAsync(id);
+        if (partner == null) return NotFound();
+
+        var result = await _ai.SummarizeAsync(partner);
+        if (result.Error != null)
+        {
+            TempData["DuplicateWarning"] = $"AI Summary failed: {result.Error}";
+            return RedirectToAction(nameof(Details), new { id });
+        }
+
+        var summary = result.Summary ?? "";
+        if (result.SuggestedCapabilities.Count > 0)
+            summary += $"\nSuggested capabilities to verify: {string.Join(", ", result.SuggestedCapabilities)}.";
+
+        partner.AiSummary = summary;
+        if (string.IsNullOrWhiteSpace(partner.AiInfrastructureSummary))
+            partner.AiInfrastructureSummary = result.AiInfrastructureSummary;
+        if (string.IsNullOrWhiteSpace(partner.FollowUpAction))
+            partner.FollowUpAction = result.SuggestedFollowUp;
+
+        partner.LastUpdatedDate = DateTime.UtcNow;
+        _scoring.Apply(partner);
+        await _db.SaveChangesAsync();
+
+        TempData["Message"] = "AI Summary generated - please review it below.";
+        return RedirectToAction(nameof(Details), new { id });
     }
 
     // Add Partner (GET). Optional query params let the Web Search page pre-fill

@@ -133,6 +133,34 @@
             </div>
         }
 
+        <div class="card mb-3">
+            <div class="card-header fw-semibold">AI Summary <span class="badge bg-info">Claude</span></div>
+            <div class="card-body">
+                @if (!string.IsNullOrWhiteSpace(Model.AiSummary))
+                {
+                    <p class="small" style="white-space: pre-line">@Model.AiSummary</p>
+                }
+                @if (ViewBag.AiConfigured == true)
+                {
+                    <form asp-action="GenerateAiSummary" method="post">
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" name="id" value="@Model.Id" />
+                        <button type="submit" class="btn btn-info btn-sm w-100">
+                            @(string.IsNullOrWhiteSpace(Model.AiSummary) ? "Generate AI Summary" : "Regenerate AI Summary")
+                        </button>
+                        <div class="form-text">Takes ~10-30 seconds. Reads this profile (and the company website) and writes an evaluation.</div>
+                    </form>
+                }
+                else
+                {
+                    <div class="small text-muted">
+                        Not set up yet - paste an Anthropic API key into <code>appsettings.json</code>
+                        (<code>Ai:Anthropic:ApiKey</code>) and restart. See <code>AI-Summary-Setup.md</code>.
+                    </div>
+                }
+            </div>
+        </div>
+
         <div class="card">
             <div class="card-header fw-semibold">Review</div>
             <div class="card-body">

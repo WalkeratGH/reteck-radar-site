@@ -35,6 +35,11 @@ fully local and offline-capable; all requested features implemented, plus an add
   Country/City/Service Type/AI (no API).
 - **Automatic Web Search (Web Search page):** Brave API; type a query → list results →
   one-click "File as partner" pre-fills the Create form.
+- **AI Summary (Claude API)** (`ClaudeAiSummaryService`, official Anthropic C# SDK): one click on
+  the Detail page generates an evaluation summary / AI-infrastructure summary / suggested
+  capabilities (for human verification only — never auto-checked) / suggested next action.
+  Key lives at `Ai:Anthropic:ApiKey`; model configurable (default claude-opus-4-8).
+  See `AI-Summary-Setup.md`.
 - **Company-info auto-enrichment** (`WebsiteInfoService`): clicking "File as partner"
   fetches the company's website (homepage + contact page, max 2 requests) and extracts
   company name, email, phone, LinkedIn, US city/state, and a service description to

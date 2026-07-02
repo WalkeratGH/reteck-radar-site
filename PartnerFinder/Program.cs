@@ -34,7 +34,9 @@ builder.Services.AddHttpClient<WebsiteInfoService>()
 // Other future-expansion connectors (still "not configured" no-op implementations).
 builder.Services.AddSingleton<ISerpApiConnector, NullWebSearchConnector>();
 builder.Services.AddSingleton<IMicrosoftPartnerConnector, NullWebSearchConnector>();
-builder.Services.AddSingleton<IAiSummaryGenerator, NullAiSummaryGenerator>();
+// AI Summary via the Claude API (official Anthropic SDK). Activates automatically
+// once an API key is set in appsettings.json ("Ai:Anthropic:ApiKey").
+builder.Services.AddScoped<IAiSummaryGenerator, ClaudeAiSummaryService>();
 builder.Services.AddSingleton<IMarketRadarService, NullMarketRadarService>();
 
 var app = builder.Build();
