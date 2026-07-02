@@ -69,6 +69,22 @@ public interface IAiSummaryGenerator
     Task<AiSummaryResult> SummarizeAsync(Partner partner, CancellationToken ct = default);
 }
 
+// Result of a contact lookup for a company domain (e.g. via Hunter.io).
+public class ContactResult
+{
+    public string? Email { get; set; }
+    public string? ContactPerson { get; set; }
+    public string? ContactTitle { get; set; }
+    public string? Error { get; set; }
+}
+
+// Finds publicly listed contacts for a company website domain.
+public interface IContactFinder
+{
+    bool IsConfigured { get; }
+    Task<ContactResult> FindAsync(string websiteOrDomain, CancellationToken ct = default);
+}
+
 // Weekly market radar job (planned).
 public interface IMarketRadarService
 {

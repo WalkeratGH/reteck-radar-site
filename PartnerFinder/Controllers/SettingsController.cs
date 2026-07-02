@@ -15,6 +15,8 @@ public class SettingsController : Controller
     private readonly IMicrosoftPartnerConnector _msPartner;
     private readonly IAiSummaryGenerator _aiSummary;
     private readonly IMarketRadarService _marketRadar;
+    private readonly IContactFinder _contacts;
+    private readonly SamGovService _samGov;
 
     public SettingsController(
         AppDbContext db,
@@ -22,7 +24,9 @@ public class SettingsController : Controller
         ISerpApiConnector serpApi,
         IMicrosoftPartnerConnector msPartner,
         IAiSummaryGenerator aiSummary,
-        IMarketRadarService marketRadar)
+        IMarketRadarService marketRadar,
+        IContactFinder contacts,
+        SamGovService samGov)
     {
         _db = db;
         _webSearch = webSearch;
@@ -30,6 +34,8 @@ public class SettingsController : Controller
         _msPartner = msPartner;
         _aiSummary = aiSummary;
         _marketRadar = marketRadar;
+        _contacts = contacts;
+        _samGov = samGov;
     }
 
     public async Task<IActionResult> Index()
@@ -39,9 +45,11 @@ public class SettingsController : Controller
         ViewBag.Connectors = new (string Name, bool Configured)[]
         {
             ("Web Search API connector", _webSearch.IsConfigured),
+            ("AI Summary generator", _aiSummary.IsConfigured),
+            ("Hunter.io contact finder", _contacts.IsConfigured),
+            ("SAM.gov discovery", _samGov.IsConfigured),
             ("SerpAPI connector", _serpApi.IsConfigured),
             ("Microsoft Partner directory connector", _msPartner.IsConfigured),
-            ("AI Summary generator", _aiSummary.IsConfigured),
             ("Weekly market radar", _marketRadar.IsConfigured),
         };
         ViewBag.ServiceCategories = PartnerOptions.ServiceCategories;

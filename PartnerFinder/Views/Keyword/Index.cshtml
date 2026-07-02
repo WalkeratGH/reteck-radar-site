@@ -62,6 +62,43 @@
     </div>
 }
 
+<div class="card mt-4">
+    <div class="card-header fw-semibold">Official Partner Directories (free, high-quality lists)</div>
+    <div class="card-body">
+        <p class="text-muted small mb-2">
+            Browse a vendor's official partner directory (filter to United States + your solution area),
+            copy a company's website, then paste it into <a asp-controller="WebSearch" asp-action="Index">Web Search</a>
+            and hit <strong>⚡ File + AI research</strong>. If a directory link has moved, use its "search" fallback.
+        </p>
+        <div class="table-responsive">
+            <table class="table table-sm align-middle mb-0">
+                <tbody>
+                @foreach (var (label, url, search) in new[]
+                {
+                    ("Microsoft — AppSource Partner Directory", "https://appsource.microsoft.com/en-us/marketplace/partner-dir", "Microsoft solutions partner directory united states"),
+                    ("NVIDIA — Partner Network (GPU / AI builders)", "https://www.nvidia.com/en-us/about-nvidia/partners/", "NVIDIA partner network find a partner united states"),
+                    ("Dell Technologies — Find a Partner", "https://www.dell.com/en-us/dt/partner/find-a-partner.htm", "Dell Technologies find a partner locator"),
+                    ("Cisco — Partner Locator", "https://www.cisco.com/c/en/us/buy/partner-locator.html", "Cisco partner locator united states"),
+                    ("HPE — Find a Partner", "https://findapartner.hpe.com/", "HPE find a partner locator"),
+                    ("Supermicro — Where to Buy (AI server builders)", "https://www.supermicro.com/en/wheretobuy", "Supermicro authorized reseller united states"),
+                    ("CRN — Solution Provider 500 / MSP 500 lists", "https://www.crn.com/rankings-and-lists", "CRN solution provider 500 list"),
+                })
+                {
+                    <tr>
+                        <td>@label</td>
+                        <td class="text-end text-nowrap">
+                            <a class="btn btn-sm btn-outline-primary" href="@url" target="_blank" rel="noopener">Open</a>
+                            <a class="btn btn-sm btn-outline-secondary" target="_blank" rel="noopener"
+                               href="https://www.google.com/search?q=@Uri.EscapeDataString(search)">search</a>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
 @section Scripts {
     <script>
         function copyOne(btn) {

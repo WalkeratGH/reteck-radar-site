@@ -47,6 +47,15 @@ fully local and offline-capable; all requested features implemented, plus an add
 - **Targeting fields**: new booleans `EquipmentLeasingSignal` (equipment leasing / HaaS) and
   `SmeFocusSignal` (SME customer base) — migration `AddTargetingSignals`; AI research sets them;
   included in CSV/Excel export.
+- **Hunter.io contact enrichment** (`HunterContactService`, `Contacts:Hunter:ApiKey`): after AI
+  research, if Email/Contact Person/Title are still empty they're filled from Hunter.io Domain
+  Search on the company domain (empty fields only).
+- **SAM.gov Discover page** (`SamGovService`, `Discovery:SamGov:ApiKey`, free official API):
+  lists US federal contractors by state + NAICS code (name/city/website) with per-row
+  "+ File" and "⚡ file + AI research" actions.
+- **Brand directory links**: the Keyword page gained an Official Partner Directories card
+  (Microsoft/NVIDIA/Dell/Cisco/HPE/Supermicro/CRN, each with a search fallback).
+  Setup guides: `資料來源設定.md` / `Data-Sources-Setup.md`.
 - **Company-info auto-enrichment** (`WebsiteInfoService`): clicking "File as partner"
   fetches the company's website (homepage + contact page, max 2 requests) and extracts
   company name, email, phone, LinkedIn, US city/state, and a service description to

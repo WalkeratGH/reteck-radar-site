@@ -1,0 +1,118 @@
+@using PartnerFinder.Services
+@{
+    ViewData["Title"] = "Discover";
+    var configured = ViewBag.Configured as bool? ?? false;
+    var aiConfigured = ViewBag.AiConfigured as bool? ?? false;
+    var result = ViewBag.Result as SamGovResult;
+    var naicsOptions = ViewBag.NaicsOptions as (string Code, string Label)[] ?? Array.Empty<(string, string)>();
+}
+
+<h1 class="h3 mb-1">Discover <span class="badge bg-success align-middle">SAM.gov</span></h1>
+<p class="text-muted">
+    Search the official US federal-contractor registry for IT service providers by state and
+    industry code — a free, legal source of company names and websites. File the good ones,
+    then let AI research fill the rest.
+</p>
+
+@if (!configured)
+{
+    <div class="alert alert-warning">
+        <h5 class="alert-heading">SAM.gov is not set up yet</h5>
+        <ol class="mb-2">
+            <li>Register a free account at <a href="https://sam.gov" target="_blank" rel="noopener">sam.gov</a>.</li>
+            <li>Open your profile → <strong>Account Details</strong> → generate an <strong>API Key</strong>.</li>
+            <li>Paste it into <code>appsettings.json</code>: <code>"Discovery": { "SamGov": { "ApiKey": "YOUR_KEY" } }</code></li>
+            <li>Restart the app.</li>
+        </ol>
+        <p class="mb-0">See <code>資料來源設定.md</code> / <code>Data-Sources-Setup.md</code> for details.</p>
+    </div>
+}
+
+<form method="get" asp-action="Index" class="card card-body mb-3">
+    <div class="row g-2 align-items-end">
+        <div class="col-md-2">
+            <label class="form-label mb-0">State (2 letters)</label>
+            <input name="state" value="@ViewBag.State" class="form-control" placeholder="e.g. TX" maxlength="2" />
+        </div>
+        <div class="col-md-5">
+            <label class="form-label mb-0">Industry (NAICS)</label>
+            <select name="naics" class="form-select">
+                <option value="">-- any --</option>
+                @foreach (var (code, label) in naicsOptions)
+                {
+                    <option value="@code" selected="@(code == (string?)ViewBag.Naics)">@label</option>
+                }
+            </select>
+        </div>
+        <div class="col-md-3">
+            <label class="form-label mb-0">Company name (optional)</label>
+            <input name="name" value="@ViewBag.Name" class="form-control" />
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-primary w-100" @(configured ? "" : "disabled")>Search</button>
+        </div>
+    </div>
+</form>
+
+@if (result != null)
+{
+    @if (result.Error != null)
+    {
+        <div class="alert alert-danger">@result.Error</div>
+    }
+    else if (!result.Entities.Any())
+    {
+        <div class="alert alert-info">No companies matched. Try another state or industry code.</div>
+    }
+    else
+    {
+        <p class="text-muted">Showing @result.Entities.Count of @result.TotalRecords registered companies.</p>
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead class="table-light">
+                    <tr><th>Company</th><th>Location</th><th>Website</th><th></th></tr>
+                </thead>
+                <tbody>
+                @foreach (var e in result.Entities)
+                {
+                    var samUrl = e.Uei != null ? $"https://sam.gov/entity/{e.Uei}" : "https://sam.gov";
+                    <tr>
+                        <td class="fw-semibold">@e.Name</td>
+                        <td>@(string.Join(", ", new[] { e.City, e.State }.Where(s => !string.IsNullOrWhiteSpace(s))))</td>
+                        <td>
+                            @if (!string.IsNullOrWhiteSpace(e.Website))
+                            {
+                                <a href="@e.Website" target="_blank" rel="noopener" class="small">@e.Website</a>
+                            }
+                            else
+                            {
+                                <span class="text-muted small">—</span>
+                            }
+                        </td>
+                        <td class="text-end text-nowrap">
+                            @if (aiConfigured && !string.IsNullOrWhiteSpace(e.Website))
+                            {
+                                <form method="post" asp-controller="Partners" asp-action="FileAndResearch" class="d-inline">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="companyName" value="@e.Name" />
+                                    <input type="hidden" name="website" value="@e.Website" />
+                                    <input type="hidden" name="sourceUrl" value="@samUrl" />
+                                    <button type="submit" class="btn btn-sm btn-primary" title="File + AI research (~30-60s)">⚡</button>
+                                </form>
+                            }
+                            <a class="btn btn-sm btn-outline-primary"
+                               asp-controller="Partners" asp-action="Create"
+                               asp-route-companyName="@e.Name"
+                               asp-route-website="@e.Website"
+                               asp-route-sourceUrl="@samUrl"
+                               asp-route-city="@(string.Join(", ", new[] { e.City, e.State }.Where(s => !string.IsNullOrWhiteSpace(s))))"
+                               asp-route-country="United States"
+                               asp-route-autoFill="@(!string.IsNullOrWhiteSpace(e.Website))">+ File</a>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    }
+}

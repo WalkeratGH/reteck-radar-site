@@ -14,15 +14,17 @@ public class PartnersController : Controller
     private readonly DuplicateDetectionService _dupes;
     private readonly WebsiteInfoService _webInfo;
     private readonly IAiSummaryGenerator _ai;
+    private readonly IContactFinder _contacts;
 
     public PartnersController(AppDbContext db, ScoringService scoring, DuplicateDetectionService dupes,
-        WebsiteInfoService webInfo, IAiSummaryGenerator ai)
+        WebsiteInfoService webInfo, IAiSummaryGenerator ai, IContactFinder contacts)
     {
         _db = db;
         _scoring = scoring;
         _dupes = dupes;
         _webInfo = webInfo;
         _ai = ai;
+        _contacts = contacts;
     }
 
     // Partner List + search/filter
@@ -110,6 +112,7 @@ public class PartnersController : Controller
         }
 
         ApplyResearch(partner, result);
+        await EnrichContactsAsync(partner);
         await _db.SaveChangesAsync();
 
         TempData["Message"] = "AI research complete - fields were auto-filled, please verify below.";
@@ -145,6 +148,7 @@ public class PartnersController : Controller
                 continue;
             }
             ApplyResearch(partner, result);
+            await EnrichContactsAsync(partner);
             await _db.SaveChangesAsync();
             ok++;
         }
@@ -200,10 +204,29 @@ public class PartnersController : Controller
             return RedirectToAction(nameof(Details), new { id = partner.Id });
         }
         ApplyResearch(partner, result);
+        await EnrichContactsAsync(partner);
         await _db.SaveChangesAsync();
 
         TempData["Message"] = $"\"{partner.CompanyName}\" filed and researched - please verify the auto-filled fields.";
         return RedirectToAction(nameof(Details), new { id = partner.Id });
+    }
+
+    // Fills Email / Contact Person / Contact Title from Hunter.io when they are
+    // still empty after AI research. Best effort - failures are ignored.
+    private async Task EnrichContactsAsync(Partner p)
+    {
+        if (!_contacts.IsConfigured || string.IsNullOrWhiteSpace(p.Website)) return;
+        if (!string.IsNullOrWhiteSpace(p.Email) &&
+            !string.IsNullOrWhiteSpace(p.ContactPerson) &&
+            !string.IsNullOrWhiteSpace(p.ContactTitle)) return;
+
+        var found = await _contacts.FindAsync(p.Website!);
+        if (found.Error != null) return;
+
+        if (string.IsNullOrWhiteSpace(p.Email)) p.Email = found.Email;
+        if (string.IsNullOrWhiteSpace(p.ContactPerson)) p.ContactPerson = found.ContactPerson;
+        if (string.IsNullOrWhiteSpace(p.ContactTitle)) p.ContactTitle = found.ContactTitle;
+        _scoring.Apply(p);
     }
 
     // Copies an AI research result onto the entity: text fields fill-if-empty,
@@ -290,7 +313,7 @@ public class PartnersController : Controller
     // company's website is fetched and basic details (name, email, phone, LinkedIn,
     // city, description) are extracted automatically - always verify by hand.
     public async Task<IActionResult> Create(string? companyName, string? website, string? sourceUrl,
-        bool autoFill = false)
+        bool autoFill = false, string? city = null, string? country = null)
     {
         PopulateDropdowns();
 
@@ -298,7 +321,9 @@ public class PartnersController : Controller
         {
             CompanyName = companyName ?? string.Empty,
             Website = website,
-            SourceUrl = sourceUrl
+            SourceUrl = sourceUrl,
+            City = city,
+            Country = country
         };
 
         if (autoFill && !string.IsNullOrWhiteSpace(website))

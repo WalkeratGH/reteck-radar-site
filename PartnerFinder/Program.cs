@@ -37,6 +37,14 @@ builder.Services.AddSingleton<IMicrosoftPartnerConnector, NullWebSearchConnector
 // AI Summary via the Claude API (official Anthropic SDK). Activates automatically
 // once an API key is set in appsettings.json ("Ai:Anthropic:ApiKey").
 builder.Services.AddScoped<IAiSummaryGenerator, ClaudeAiSummaryService>();
+
+// Hunter.io contact lookup ("Contacts:Hunter:ApiKey") - fills Email / Contact
+// Person / Contact Title automatically during AI research.
+builder.Services.AddHttpClient<IContactFinder, HunterContactService>();
+
+// SAM.gov federal-contractor discovery ("Discovery:SamGov:ApiKey") - powers the
+// Discover page (search US IT providers by state + industry code).
+builder.Services.AddHttpClient<SamGovService>();
 builder.Services.AddSingleton<IMarketRadarService, NullMarketRadarService>();
 
 var app = builder.Build();
