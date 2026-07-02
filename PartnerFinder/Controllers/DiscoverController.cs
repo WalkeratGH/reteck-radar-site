@@ -18,7 +18,7 @@ public class DiscoverController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> Index(string? state, string? naics, string? name)
+    public async Task<IActionResult> Index(string? state, string? naics, string? name, int page = 0)
     {
         ViewBag.Configured = _sam.IsConfigured;
         ViewBag.AiConfigured = _ai.IsConfigured;
@@ -30,7 +30,7 @@ public class DiscoverController : Controller
         if (_sam.IsConfigured &&
             (!string.IsNullOrWhiteSpace(state) || !string.IsNullOrWhiteSpace(naics) || !string.IsNullOrWhiteSpace(name)))
         {
-            ViewBag.Result = await _sam.SearchAsync(state, naics, name);
+            ViewBag.Result = await _sam.SearchAsync(state, naics, name, page);
         }
 
         return View();

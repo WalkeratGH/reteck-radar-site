@@ -67,7 +67,12 @@
     else
     {
         <p class="text-muted">
-            Showing @result.Entities.Count of @result.TotalRecords registered companies.
+            @{
+                var firstRow = result.Page * result.PageSize + 1;
+                var lastRow = result.Page * result.PageSize + result.Entities.Count;
+            }
+            Showing @firstRow–@lastRow of @result.TotalRecords registered companies
+            (page @(result.Page + 1) of @result.TotalPages).
             <span class="small">Filing actions open in a new tab, so this list stays here.</span>
         </p>
         <div class="table-responsive">
@@ -118,5 +123,34 @@
                 </tbody>
             </table>
         </div>
+
+        @if (result.TotalPages > 1)
+        {
+            <nav class="d-flex justify-content-between align-items-center">
+                @if (result.HasPrevious)
+                {
+                    <a class="btn btn-outline-secondary"
+                       asp-action="Index"
+                       asp-route-state="@ViewBag.State" asp-route-naics="@ViewBag.Naics"
+                       asp-route-name="@ViewBag.Name" asp-route-page="@(result.Page - 1)">&laquo; Previous</a>
+                }
+                else
+                {
+                    <span></span>
+                }
+                <span class="text-muted small">Page @(result.Page + 1) of @result.TotalPages</span>
+                @if (result.HasNext)
+                {
+                    <a class="btn btn-outline-primary"
+                       asp-action="Index"
+                       asp-route-state="@ViewBag.State" asp-route-naics="@ViewBag.Naics"
+                       asp-route-name="@ViewBag.Name" asp-route-page="@(result.Page + 1)">Next &raquo;</a>
+                }
+                else
+                {
+                    <span></span>
+                }
+            </nav>
+        }
     }
 }

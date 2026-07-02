@@ -17,17 +17,27 @@ public class WebSearchController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> Index(string? q)
+    public async Task<IActionResult> Index(string? q, int page = 0)
     {
+        if (page < 0) page = 0;
+        if (page > BraveWebSearchConnector.MaxOffset) page = BraveWebSearchConnector.MaxOffset;
+
         ViewBag.Configured = _search.IsConfigured;
         ViewBag.AiConfigured = _ai.IsConfigured;
         ViewBag.Query = q;
+        ViewBag.Page = page;
 
         if (_search.IsConfigured && !string.IsNullOrWhiteSpace(q))
         {
             try
             {
-                ViewBag.Results = await _search.SearchAsync(q);
+                var results = await _search.SearchAsync(q, page);
+                ViewBag.Results = results;
+                // Brave doesn't return a total count, so offer "Next" whenever a
+                // full page came back (and we're below Brave's page-offset cap).
+                ViewBag.HasPrevious = page > 0;
+                ViewBag.HasNext = results.Count >= BraveWebSearchConnector.PageSize
+                                  && page < BraveWebSearchConnector.MaxOffset;
             }
             catch (Exception ex)
             {

@@ -9,7 +9,13 @@ public class SamGovResult
 {
     public List<SamEntity> Entities { get; } = new();
     public int TotalRecords { get; set; }
+    public int Page { get; set; }            // 0-based page index
+    public int PageSize { get; set; } = 10;
     public string? Error { get; set; }
+
+    public int TotalPages => TotalRecords <= 0 ? 0 : (TotalRecords + PageSize - 1) / PageSize;
+    public bool HasPrevious => Page > 0;
+    public bool HasNext => Page + 1 < TotalPages;
 }
 
 // Discovery source backed by the official (free) SAM.gov Entity Management API.
@@ -46,9 +52,11 @@ public class SamGovService
 
     public bool IsConfigured => !string.IsNullOrWhiteSpace(_apiKey);
 
-    public async Task<SamGovResult> SearchAsync(string? state, string? naics, string? name, CancellationToken ct = default)
+    public async Task<SamGovResult> SearchAsync(string? state, string? naics, string? name, int page = 0, CancellationToken ct = default)
     {
-        var result = new SamGovResult();
+        const int pageSize = 10;
+        if (page < 0) page = 0;
+        var result = new SamGovResult { Page = page, PageSize = pageSize };
         if (!IsConfigured)
         {
             result.Error = "SAM.gov is not configured";
@@ -56,9 +64,10 @@ public class SamGovService
         }
 
         // Note: the SAM.gov Entity API caps "size" at 10 records per page
-        // (a larger value returns HTTP 400 "size is N").
+        // (a larger value returns HTTP 400 "size is N"); "page" is 0-based, so
+        // we page through the full result set 10 at a time.
         var url = $"{_baseUrl}/entity-information/v3/entities?api_key={Uri.EscapeDataString(_apiKey!)}" +
-                  "&registrationStatus=A&includeSections=entityRegistration,coreData&size=10";
+                  $"&registrationStatus=A&includeSections=entityRegistration,coreData&size={pageSize}&page={page}";
         if (!string.IsNullOrWhiteSpace(state)) url += $"&physicalAddressProvinceOrStateCode={Uri.EscapeDataString(state.Trim().ToUpperInvariant())}";
         if (!string.IsNullOrWhiteSpace(naics)) url += $"&primaryNaics={Uri.EscapeDataString(naics.Trim())}";
         if (!string.IsNullOrWhiteSpace(name)) url += $"&legalBusinessName={Uri.EscapeDataString(name.Trim())}";

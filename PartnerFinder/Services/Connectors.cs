@@ -14,17 +14,18 @@ namespace PartnerFinder.Services;
 public record SearchHit(string Title, string Url, string Snippet);
 
 // Generic web-search connector (Google Programmable Search, Bing, etc.).
+// offset is a 0-based page index for paging through results.
 public interface IWebSearchConnector
 {
     bool IsConfigured { get; }
-    Task<IReadOnlyList<SearchHit>> SearchAsync(string query, CancellationToken ct = default);
+    Task<IReadOnlyList<SearchHit>> SearchAsync(string query, int offset = 0, CancellationToken ct = default);
 }
 
 // SerpAPI-specific connector (kept separate so results can be parsed differently).
 public interface ISerpApiConnector
 {
     bool IsConfigured { get; }
-    Task<IReadOnlyList<SearchHit>> SearchAsync(string query, CancellationToken ct = default);
+    Task<IReadOnlyList<SearchHit>> SearchAsync(string query, int offset = 0, CancellationToken ct = default);
 }
 
 // Microsoft Partner directory lookup.
@@ -100,7 +101,7 @@ public interface IMarketRadarService
 public class NullWebSearchConnector : IWebSearchConnector, ISerpApiConnector, IMicrosoftPartnerConnector
 {
     public bool IsConfigured => false;
-    public Task<IReadOnlyList<SearchHit>> SearchAsync(string query, CancellationToken ct = default)
+    public Task<IReadOnlyList<SearchHit>> SearchAsync(string query, int offset = 0, CancellationToken ct = default)
         => Task.FromResult<IReadOnlyList<SearchHit>>(Array.Empty<SearchHit>());
     public Task<IReadOnlyList<SearchHit>> LookupAsync(string companyName, CancellationToken ct = default)
         => Task.FromResult<IReadOnlyList<SearchHit>>(Array.Empty<SearchHit>());

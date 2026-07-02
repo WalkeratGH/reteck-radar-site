@@ -69,7 +69,7 @@ public class ClaudeAiSummaryService : IAiSummaryGenerator
             try
             {
                 var query = $"\"{partner.CompanyName}\" {partner.City} {partner.Country} IT services AI GPU leasing";
-                var hits = await _search.SearchAsync(query, ct);
+                var hits = await _search.SearchAsync(query, 0, ct);
                 searchText = string.Join("\n", hits.Take(5).Select(h => $"- {h.Title} | {h.Url} | {h.Snippet}"));
             }
             catch { /* search snippets are a bonus */ }

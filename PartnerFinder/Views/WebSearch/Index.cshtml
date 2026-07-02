@@ -58,8 +58,9 @@
     }
     else
     {
+        var page = ViewBag.Page as int? ?? 0;
         <p class="text-muted">
-            @results.Count result(s) for “@query”.
+            @results.Count result(s) for “@query”@(page > 0 ? $" (page {page + 1})" : "").
             <span class="small">Filing actions open in a new tab, so this results list stays here.</span>
         </p>
         <div class="list-group">
@@ -95,5 +96,30 @@
                 </div>
             }
         </div>
+
+        @if ((ViewBag.HasPrevious ?? false) || (ViewBag.HasNext ?? false))
+        {
+            <nav class="d-flex justify-content-between align-items-center mt-3">
+                @if (ViewBag.HasPrevious == true)
+                {
+                    <a class="btn btn-outline-secondary" asp-action="Index"
+                       asp-route-q="@query" asp-route-page="@(page - 1)">&laquo; Previous</a>
+                }
+                else
+                {
+                    <span></span>
+                }
+                <span class="text-muted small">Page @(page + 1)</span>
+                @if (ViewBag.HasNext == true)
+                {
+                    <a class="btn btn-outline-primary" asp-action="Index"
+                       asp-route-q="@query" asp-route-page="@(page + 1)">Next &raquo;</a>
+                }
+                else
+                {
+                    <span></span>
+                }
+            </nav>
+        }
     }
 }
