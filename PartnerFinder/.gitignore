@@ -7,6 +7,10 @@ obj/
 *.db-shm
 *.db-wal
 
+# Local secrets: your API keys live here and must never be committed.
+# Copy appsettings.Local.example.json to appsettings.Local.json and fill it in.
+appsettings.Local.json
+
 # User-specific / IDE
 *.user
 .vs/

@@ -73,4 +73,9 @@ use the "search" fallback button next to it.)
 | Contact enrichment | `Contacts:Hunter:ApiKey` | hunter.io | free 25/month |
 | SAM.gov discovery | `Discovery:SamGov:ApiKey` | sam.gov | free |
 
-> 🔒 As always: never upload or share `appsettings.json` once keys are pasted in.
+> 💡 **Preferred place for keys:** paste them into `appsettings.Local.json`
+> (copy it from `appsettings.Local.example.json`) rather than `appsettings.json`.
+> That file is Git-ignored, so keys survive `git pull` updates and are never
+> uploaded. See `Update-via-GitHub.md` / `用GitHub更新.md`.
+>
+> 🔒 As always: never upload or share a file that contains real keys.

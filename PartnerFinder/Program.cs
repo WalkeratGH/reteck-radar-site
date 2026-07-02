@@ -4,6 +4,12 @@ using PartnerFinder.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Local, git-ignored overrides for API keys. Paste your keys ONCE into
+// appsettings.Local.json (copy it from appsettings.Local.example.json). Because
+// that file is never tracked by Git, pulling updates (git pull) never conflicts
+// with your keys, and you don't have to re-paste them after every update.
+builder.Configuration.AddJsonFile("appsettings.Local.json", optional: true, reloadOnChange: true);
+
 // MVC + views.
 builder.Services.AddControllersWithViews();
 
