@@ -11,8 +11,9 @@
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-controller="Home" asp-action="Index">
-                    🛰️ Partner Finder
+                <a class="navbar-brand d-flex align-items-center gap-2" asp-controller="Home" asp-action="Index">
+                    <img src="~/images/re-teck-logo.png" alt="Re-Teck" height="34" class="bg-white rounded px-2 py-1" />
+                    <span>Partner Finder</span>
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
                         aria-label="Toggle navigation">
@@ -31,10 +32,6 @@
                         <li class="nav-item"><a class="nav-link" asp-controller="Settings" asp-action="Index">Settings</a></li>
                     </ul>
                 </div>
-                <a href="https://www.re-teck.com" target="_blank" rel="noopener" class="ms-lg-3 d-none d-sm-inline-block">
-                    <img src="~/images/re-teck-logo.png" alt="Re-Teck - Reverse Supply Chain Management" height="38"
-                         class="bg-white rounded px-2 py-1" />
-                </a>
             </div>
         </nav>
     </header>
