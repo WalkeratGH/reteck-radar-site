@@ -58,10 +58,13 @@ public class WebsiteInfoService
     public WebsiteInfoService(HttpClient http)
     {
         _http = http;
-        _http.Timeout = TimeSpan.FromSeconds(10);
-        // A plain UA avoids the most trivial bot blocks; some sites will still refuse.
-        _http.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (compatible; PartnerFinder/1.0)");
-        _http.DefaultRequestHeaders.Accept.ParseAdd("text/html");
+        _http.Timeout = TimeSpan.FromSeconds(12);
+        // Browser-like headers: many company sites (Cloudflare etc.) return 403 to
+        // anything that looks like a bot, so we present ourselves as a normal browser.
+        _http.DefaultRequestHeaders.UserAgent.ParseAdd(
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36");
+        _http.DefaultRequestHeaders.Accept.ParseAdd("text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+        _http.DefaultRequestHeaders.AcceptLanguage.ParseAdd("en-US,en;q=0.9");
     }
 
     public async Task<WebsiteInfo> FetchAsync(string website, CancellationToken ct = default)
@@ -81,9 +84,20 @@ public class WebsiteInfoService
         {
             html = Truncate(await _http.GetStringAsync(uri, ct));
         }
+        catch (HttpRequestException ex) when (ex.StatusCode != null)
+        {
+            // e.g. 403 = the site blocks automated access; 404 = wrong URL.
+            info.Error = $"the website answered HTTP {(int)ex.StatusCode.Value} {ex.StatusCode}";
+            return info;
+        }
+        catch (TaskCanceledException)
+        {
+            info.Error = "the website took too long to respond (timeout)";
+            return info;
+        }
         catch (Exception ex)
         {
-            info.Error = $"Could not fetch website ({ex.GetType().Name})";
+            info.Error = $"could not reach the website ({ex.GetType().Name})";
             return info;
         }
 

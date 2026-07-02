@@ -24,7 +24,12 @@ builder.Services.AddScoped<DuplicateDetectionService>();
 builder.Services.AddHttpClient<IWebSearchConnector, BraveWebSearchConnector>();
 
 // Fetches a company website to pre-fill partner details (auto-enrichment).
-builder.Services.AddHttpClient<WebsiteInfoService>();
+// Automatic decompression makes requests look like a normal browser (gzip/br).
+builder.Services.AddHttpClient<WebsiteInfoService>()
+    .ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
+    {
+        AutomaticDecompression = System.Net.DecompressionMethods.All
+    });
 
 // Other future-expansion connectors (still "not configured" no-op implementations).
 builder.Services.AddSingleton<ISerpApiConnector, NullWebSearchConnector>();
