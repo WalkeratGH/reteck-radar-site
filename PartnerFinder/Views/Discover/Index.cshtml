@@ -66,7 +66,10 @@
     }
     else
     {
-        <p class="text-muted">Showing @result.Entities.Count of @result.TotalRecords registered companies.</p>
+        <p class="text-muted">
+            Showing @result.Entities.Count of @result.TotalRecords registered companies.
+            <span class="small">Filing actions open in a new tab, so this list stays here.</span>
+        </p>
         <div class="table-responsive">
             <table class="table table-hover align-middle">
                 <thead class="table-light">
@@ -92,15 +95,16 @@
                         <td class="text-end text-nowrap">
                             @if (aiConfigured && !string.IsNullOrWhiteSpace(e.Website))
                             {
-                                <form method="post" asp-controller="Partners" asp-action="FileAndResearch" class="d-inline">
+                                <form method="post" asp-controller="Partners" asp-action="FileAndResearch" class="d-inline" target="_blank">
                                     @Html.AntiForgeryToken()
                                     <input type="hidden" name="companyName" value="@e.Name" />
                                     <input type="hidden" name="website" value="@e.Website" />
                                     <input type="hidden" name="sourceUrl" value="@samUrl" />
-                                    <button type="submit" class="btn btn-sm btn-primary" title="File + AI research (~30-60s)">⚡</button>
+                                    <button type="submit" class="btn btn-sm btn-primary" title="Opens in a new tab so this results table stays here. File + AI research (~30-60s).">⚡</button>
                                 </form>
                             }
                             <a class="btn btn-sm btn-outline-primary"
+                               target="_blank" rel="noopener"
                                asp-controller="Partners" asp-action="Create"
                                asp-route-companyName="@e.Name"
                                asp-route-website="@e.Website"
