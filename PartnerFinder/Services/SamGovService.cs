@@ -55,8 +55,10 @@ public class SamGovService
             return result;
         }
 
+        // Note: the SAM.gov Entity API caps "size" at 10 records per page
+        // (a larger value returns HTTP 400 "size is N").
         var url = $"{_baseUrl}/entity-information/v3/entities?api_key={Uri.EscapeDataString(_apiKey!)}" +
-                  "&registrationStatus=A&includeSections=entityRegistration,coreData&size=30";
+                  "&registrationStatus=A&includeSections=entityRegistration,coreData&size=10";
         if (!string.IsNullOrWhiteSpace(state)) url += $"&physicalAddressProvinceOrStateCode={Uri.EscapeDataString(state.Trim().ToUpperInvariant())}";
         if (!string.IsNullOrWhiteSpace(naics)) url += $"&primaryNaics={Uri.EscapeDataString(naics.Trim())}";
         if (!string.IsNullOrWhiteSpace(name)) url += $"&legalBusinessName={Uri.EscapeDataString(name.Trim())}";
