@@ -12,7 +12,17 @@
 
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h1 class="h3 mb-0">Partners <span class="text-muted fs-5">(@Model.Partners.Count)</span></h1>
-    <div>
+    <div class="d-flex gap-2">
+        @if (ViewBag.AiConfigured == true && (ViewBag.AiPending as int? ?? 0) > 0)
+        {
+            <form method="post" asp-action="ResearchBatch" class="d-inline">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="btn btn-info"
+                        title="Runs AI research on up to 5 partners per click; takes a few minutes.">
+                    🤖 AI Research (@ViewBag.AiPending pending)
+                </button>
+            </form>
+        }
         <a class="btn btn-outline-secondary" asp-controller="Export" asp-action="Index">Export</a>
         <a class="btn btn-primary" asp-action="Create">+ Add Partner</a>
     </div>

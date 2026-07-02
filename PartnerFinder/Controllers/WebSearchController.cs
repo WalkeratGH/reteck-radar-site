@@ -8,13 +8,19 @@ namespace PartnerFinder.Controllers;
 public class WebSearchController : Controller
 {
     private readonly IWebSearchConnector _search;
+    private readonly IAiSummaryGenerator _ai;
 
-    public WebSearchController(IWebSearchConnector search) => _search = search;
+    public WebSearchController(IWebSearchConnector search, IAiSummaryGenerator ai)
+    {
+        _search = search;
+        _ai = ai;
+    }
 
     [HttpGet]
     public async Task<IActionResult> Index(string? q)
     {
         ViewBag.Configured = _search.IsConfigured;
+        ViewBag.AiConfigured = _ai.IsConfigured;
         ViewBag.Query = q;
 
         if (_search.IsConfigured && !string.IsNullOrWhiteSpace(q))

@@ -74,6 +74,8 @@ public class PartnersController : Controller
                               .Distinct().OrderBy(c => c).ToListAsync()
         };
 
+        ViewBag.AiConfigured = _ai.IsConfigured;
+        ViewBag.AiPending = await _db.Partners.CountAsync(p => p.AiSummary == null || p.AiSummary == "");
         return View(vm);
     }
 
@@ -88,9 +90,11 @@ public class PartnersController : Controller
         return View(partner);
     }
 
-    // Generate the AI Summary via the Claude API and store it on the partner.
-    // Suggested capabilities are appended as text for a human to verify - never
-    // auto-checked, so the AI cannot silently change scoring inputs.
+    // AI Research & Auto-fill: Claude reads the company's website (multiple
+    // pages) plus web-search snippets and fills the record - capabilities are
+    // auto-CHECKED when evidence supports them (never unchecked), text fields
+    // are filled only when empty, and the record is re-scored. The AI Summary
+    // lists everything that was auto-applied so a human can verify.
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> GenerateAiSummary(int id)
@@ -101,26 +105,184 @@ public class PartnersController : Controller
         var result = await _ai.SummarizeAsync(partner);
         if (result.Error != null)
         {
-            TempData["DuplicateWarning"] = $"AI Summary failed: {result.Error}";
+            TempData["DuplicateWarning"] = $"AI research failed: {result.Error}";
             return RedirectToAction(nameof(Details), new { id });
         }
 
-        var summary = result.Summary ?? "";
-        if (result.SuggestedCapabilities.Count > 0)
-            summary += $"\nSuggested capabilities to verify: {string.Join(", ", result.SuggestedCapabilities)}.";
-
-        partner.AiSummary = summary;
-        if (string.IsNullOrWhiteSpace(partner.AiInfrastructureSummary))
-            partner.AiInfrastructureSummary = result.AiInfrastructureSummary;
-        if (string.IsNullOrWhiteSpace(partner.FollowUpAction))
-            partner.FollowUpAction = result.SuggestedFollowUp;
-
-        partner.LastUpdatedDate = DateTime.UtcNow;
-        _scoring.Apply(partner);
+        ApplyResearch(partner, result);
         await _db.SaveChangesAsync();
 
-        TempData["Message"] = "AI Summary generated - please review it below.";
+        TempData["Message"] = "AI research complete - fields were auto-filled, please verify below.";
         return RedirectToAction(nameof(Details), new { id });
+    }
+
+    // Research up to 5 partners that have no AI Summary yet (batch takes a
+    // couple of minutes because each company is researched individually).
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> ResearchBatch()
+    {
+        var pending = await _db.Partners
+            .Where(p => p.AiSummary == null || p.AiSummary == "")
+            .OrderBy(p => p.Id)
+            .Take(5)
+            .ToListAsync();
+
+        if (pending.Count == 0)
+        {
+            TempData["Message"] = "All partners already have an AI summary.";
+            return RedirectToAction(nameof(Index));
+        }
+
+        int ok = 0;
+        var failures = new List<string>();
+        foreach (var partner in pending)
+        {
+            var result = await _ai.SummarizeAsync(partner);
+            if (result.Error != null)
+            {
+                failures.Add($"{partner.CompanyName}: {result.Error}");
+                continue;
+            }
+            ApplyResearch(partner, result);
+            await _db.SaveChangesAsync();
+            ok++;
+        }
+
+        var remaining = await _db.Partners.CountAsync(p => p.AiSummary == null || p.AiSummary == "");
+        TempData["Message"] = $"AI research finished for {ok} partner(s). {remaining} still pending - click again to continue.";
+        if (failures.Count > 0)
+            TempData["DuplicateWarning"] = string.Join(" | ", failures.Take(3));
+        return RedirectToAction(nameof(Index));
+    }
+
+    // One click from Web Search: file the company AND run AI research on it,
+    // landing on a mostly-filled, scored partner record.
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> FileAndResearch(string companyName, string website, string? sourceUrl)
+    {
+        if (string.IsNullOrWhiteSpace(website)) return RedirectToAction(nameof(Index));
+
+        // If this company is already filed, go to the existing record.
+        var candidate = new Partner { CompanyName = companyName, Website = website };
+        var existing = await _db.Partners.AsNoTracking().ToListAsync();
+        var dupe = _dupes.FindPotentialDuplicates(candidate, existing).FirstOrDefault();
+        if (dupe != null)
+        {
+            TempData["Message"] = $"\"{dupe.CompanyName}\" was already filed - showing the existing record.";
+            return RedirectToAction(nameof(Details), new { id = dupe.Id });
+        }
+
+        // Quick pre-fill from the website, then create the record.
+        var partner = new Partner { CompanyName = companyName, Website = website, SourceUrl = sourceUrl };
+        var info = await _webInfo.FetchAsync(website);
+        if (info.Error == null)
+        {
+            if (!string.IsNullOrWhiteSpace(info.CompanyName)) partner.CompanyName = info.CompanyName!;
+            partner.MainServices = info.Description;
+            partner.Email = info.Email;
+            partner.Phone = info.Phone;
+            partner.LinkedIn = info.LinkedIn;
+            partner.City = info.City;
+            partner.Country = info.Country;
+        }
+        partner.LastUpdatedDate = DateTime.UtcNow;
+        _scoring.Apply(partner);
+        _db.Partners.Add(partner);
+        await _db.SaveChangesAsync();
+
+        // Deep research + auto-fill.
+        var result = await _ai.SummarizeAsync(partner);
+        if (result.Error != null)
+        {
+            TempData["DuplicateWarning"] = $"Filed, but AI research failed: {result.Error}";
+            return RedirectToAction(nameof(Details), new { id = partner.Id });
+        }
+        ApplyResearch(partner, result);
+        await _db.SaveChangesAsync();
+
+        TempData["Message"] = $"\"{partner.CompanyName}\" filed and researched - please verify the auto-filled fields.";
+        return RedirectToAction(nameof(Details), new { id = partner.Id });
+    }
+
+    // Copies an AI research result onto the entity: text fields fill-if-empty,
+    // capabilities/brands/signals are only ever turned ON, then re-score.
+    private void ApplyResearch(Partner p, AiSummaryResult r)
+    {
+        if (string.IsNullOrWhiteSpace(p.MainServices)) p.MainServices = r.MainServices;
+        if (string.IsNullOrWhiteSpace(p.Certifications)) p.Certifications = r.Certifications;
+        if (string.IsNullOrWhiteSpace(p.City)) p.City = r.City;
+        if (string.IsNullOrWhiteSpace(p.Country)) p.Country = r.Country;
+        if (string.IsNullOrWhiteSpace(p.Email)) p.Email = r.Email;
+        if (string.IsNullOrWhiteSpace(p.Phone)) p.Phone = r.Phone;
+        if (string.IsNullOrWhiteSpace(p.AiInfrastructureSummary)) p.AiInfrastructureSummary = r.AiInfrastructureSummary;
+        if (string.IsNullOrWhiteSpace(p.FollowUpAction)) p.FollowUpAction = r.SuggestedFollowUp;
+
+        var newlyChecked = new List<string>();
+        foreach (var name in r.SuggestedCapabilities.Distinct())
+            if (SetCapability(p, name)) newlyChecked.Add(name);
+
+        var newBrands = new List<string>();
+        foreach (var brand in r.BrandPartnerships.Distinct())
+        {
+            switch (brand)
+            {
+                case "Microsoft" when p.MicrosoftPartnerStatus == PartnerStatus.None:
+                    p.MicrosoftPartnerStatus = PartnerStatus.Registered; newBrands.Add(brand); break;
+                case "Dell" when p.DellPartnerStatus == PartnerStatus.None:
+                    p.DellPartnerStatus = PartnerStatus.Registered; newBrands.Add(brand); break;
+                case "Cisco" when p.CiscoPartnerStatus == PartnerStatus.None:
+                    p.CiscoPartnerStatus = PartnerStatus.Registered; newBrands.Add(brand); break;
+                case "HPE" when p.HpePartnerStatus == PartnerStatus.None:
+                    p.HpePartnerStatus = PartnerStatus.Registered; newBrands.Add(brand); break;
+            }
+        }
+
+        if (r.EquipmentLeasing == true) p.EquipmentLeasingSignal = true;
+        if (r.SmeFocus == true) p.SmeFocusSignal = true;
+
+        var summary = new System.Text.StringBuilder(r.Summary ?? "");
+        if (newlyChecked.Count > 0)
+            summary.Append($"\nAuto-checked from evidence (please verify): {string.Join(", ", newlyChecked)}.");
+        if (newBrands.Count > 0)
+            summary.Append($"\nBrand partnerships found (set to Registered): {string.Join(", ", newBrands)}.");
+        p.AiSummary = summary.ToString();
+
+        p.LastUpdatedDate = DateTime.UtcNow;
+        _scoring.Apply(p);
+    }
+
+    // Maps a capability name from the AI to the matching bool field.
+    // Returns true only when the flag flipped from off to on.
+    private static bool SetCapability(Partner p, string name)
+    {
+        (Func<bool> get, Action set)? f = name switch
+        {
+            "Data Center Experience" => (() => p.DataCenterExperience, () => p.DataCenterExperience = true),
+            "Smart Hands" => (() => p.SmartHandsCapability, () => p.SmartHandsCapability = true),
+            "IMAC" => (() => p.ImacCapability, () => p.ImacCapability = true),
+            "Break/Fix" => (() => p.BreakFixCapability, () => p.BreakFixCapability = true),
+            "Network Support" => (() => p.NetworkSupportCapability, () => p.NetworkSupportCapability = true),
+            "Server Support" => (() => p.ServerSupportCapability, () => p.ServerSupportCapability = true),
+            "Storage Support" => (() => p.StorageSupportCapability, () => p.StorageSupportCapability = true),
+            "AI Server Build" => (() => p.AiServerBuildCapability, () => p.AiServerBuildCapability = true),
+            "GPU Workstation Build" => (() => p.GpuWorkstationBuildCapability, () => p.GpuWorkstationBuildCapability = true),
+            "Edge AI Deployment" => (() => p.EdgeAiDeploymentCapability, () => p.EdgeAiDeploymentCapability = true),
+            "Local LLM Deployment" => (() => p.LocalLlmDeploymentCapability, () => p.LocalLlmDeploymentCapability = true),
+            "NVIDIA GPU Experience" => (() => p.NvidiaGpuExperience, () => p.NvidiaGpuExperience = true),
+            "AMD GPU Experience" => (() => p.AmdGpuExperience, () => p.AmdGpuExperience = true),
+            "NVIDIA Jetson / Edge Device" => (() => p.NvidiaJetsonExperience, () => p.NvidiaJetsonExperience = true),
+            "Small AI Cluster" => (() => p.SmallAiClusterExperience, () => p.SmallAiClusterExperience = true),
+            "On-Prem AI Deployment" => (() => p.OnPremAiDeploymentExperience, () => p.OnPremAiDeploymentExperience = true),
+            "AI Model Inference Setup" => (() => p.AiModelInferenceSetup, () => p.AiModelInferenceSetup = true),
+            "Linux/Docker/Kubernetes" => (() => p.LinuxDockerKubernetesCapability, () => p.LinuxDockerKubernetesCapability = true),
+            "Cooling/Power Planning" => (() => p.CoolingPowerPlanningCapability, () => p.CoolingPowerPlanningCapability = true),
+            _ => null,
+        };
+        if (f == null || f.Value.get()) return false;
+        f.Value.set();
+        return true;
     }
 
     // Add Partner (GET). Optional query params let the Web Search page pre-fill

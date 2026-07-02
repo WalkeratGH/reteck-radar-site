@@ -34,13 +34,31 @@ public interface IMicrosoftPartnerConnector
     Task<IReadOnlyList<SearchHit>> LookupAsync(string companyName, CancellationToken ct = default);
 }
 
-// Result of asking the AI to evaluate a partner. All fields optional (best effort).
+// Result of the AI researching a partner. All fields optional (best effort);
+// only evidence-backed values are returned, so blanks stay blank.
 public class AiSummaryResult
 {
     public string? Summary { get; set; }                    // -> Partner.AiSummary
     public string? AiInfrastructureSummary { get; set; }    // -> Partner.AiInfrastructureSummary
-    public List<string> SuggestedCapabilities { get; set; } = new();
     public string? SuggestedFollowUp { get; set; }          // -> Partner.FollowUpAction
+
+    // Field auto-fill (applied only to empty fields).
+    public string? MainServices { get; set; }
+    public string? Certifications { get; set; }
+    public string? City { get; set; }
+    public string? Country { get; set; }
+    public string? Email { get; set; }
+    public string? Phone { get; set; }
+
+    // Capabilities the evidence supports - auto-checked (never unchecked).
+    public List<string> SuggestedCapabilities { get; set; } = new();
+    // Brand partnerships found ("Microsoft"/"Dell"/"Cisco"/"HPE").
+    public List<string> BrandPartnerships { get; set; } = new();
+
+    // Re-Teck targeting signals.
+    public bool? EquipmentLeasing { get; set; }
+    public bool? SmeFocus { get; set; }
+
     public string? Error { get; set; }                      // set when the call failed
 }
 

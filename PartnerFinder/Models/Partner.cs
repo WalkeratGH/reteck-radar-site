@@ -105,6 +105,16 @@ public class Partner
     public string? Certifications { get; set; }
 
     // ---------------------------------------------------------------
+    // Re-Teck targeting signals: companies that lease equipment and serve
+    // SMEs consume hardware continuously - the ideal downstream partner.
+    // ---------------------------------------------------------------
+    [Display(Name = "Equipment Leasing / HaaS")]
+    public bool EquipmentLeasingSignal { get; set; }
+
+    [Display(Name = "SME-Focused Customer Base")]
+    public bool SmeFocusSignal { get; set; }
+
+    // ---------------------------------------------------------------
     // AI Infrastructure capabilities (yes / no flags)
     // ---------------------------------------------------------------
     [Display(Name = "AI Server Build Capability")]

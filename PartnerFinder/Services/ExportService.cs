@@ -37,6 +37,8 @@ public class ExportService
         ("Cisco Partner", p => p.CiscoPartnerStatus.ToString()),
         ("HPE Partner", p => p.HpePartnerStatus.ToString()),
         ("Certifications", p => p.Certifications ?? ""),
+        ("Equipment Leasing/HaaS", p => YesNo(p.EquipmentLeasingSignal)),
+        ("SME Focus", p => YesNo(p.SmeFocusSignal)),
         ("AI Server Build", p => YesNo(p.AiServerBuildCapability)),
         ("GPU Workstation Build", p => YesNo(p.GpuWorkstationBuildCapability)),
         ("Edge AI Deployment", p => YesNo(p.EdgeAiDeploymentCapability)),

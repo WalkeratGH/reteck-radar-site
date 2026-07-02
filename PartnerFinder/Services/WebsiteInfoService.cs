@@ -127,6 +127,82 @@ public class WebsiteInfoService
     private static string Truncate(string html)
         => html.Length > MaxHtmlChars ? html[..MaxHtmlChars] : html;
 
+    // ------------------------------------------------------------------
+    // Deep text extraction for AI research: fetches the homepage plus up to
+    // 3 relevant internal pages (about/services/products/...) and returns
+    // their readable text, capped so the AI prompt stays a reasonable size.
+    // ------------------------------------------------------------------
+    private const int MaxTextPerPage = 8_000;
+    private const int MaxPagesToFollow = 3;
+
+    private static readonly Regex ScriptStyleRx = new(@"<(script|style|noscript|svg)[\s\S]*?</\1>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+    private static readonly Regex TagRx = new(@"<[^>]+>", RegexOptions.Compiled);
+    private static readonly Regex AnyHrefRx = new(@"href\s*=\s*[""']([^""'#]+)[""']", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+    private static readonly Regex InterestingPathRx = new(
+        @"about|service|solution|product|company|capabilit|offering|industri|ai|gpu|data-?cent|leas|rental|smb|sme",
+        RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
+    public async Task<string> FetchSiteTextAsync(string website, CancellationToken ct = default)
+    {
+        var url = website.Trim();
+        if (!url.StartsWith("http", StringComparison.OrdinalIgnoreCase)) url = "https://" + url;
+        if (!Uri.TryCreate(url, UriKind.Absolute, out var home)) return string.Empty;
+
+        var sb = new System.Text.StringBuilder();
+
+        string homeHtml;
+        try
+        {
+            homeHtml = Truncate(await _http.GetStringAsync(home, ct));
+        }
+        catch
+        {
+            return string.Empty;
+        }
+
+        sb.AppendLine($"=== Page: {home} ===");
+        sb.AppendLine(HtmlToText(homeHtml));
+
+        // Follow a few promising internal links (about/services/products/...).
+        var followed = 0;
+        var seen = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { home.AbsolutePath };
+        foreach (Match m in AnyHrefRx.Matches(homeHtml))
+        {
+            if (followed >= MaxPagesToFollow) break;
+            var href = m.Groups[1].Value;
+            if (href.StartsWith("mailto:", StringComparison.OrdinalIgnoreCase) ||
+                href.StartsWith("tel:", StringComparison.OrdinalIgnoreCase) ||
+                href.StartsWith("javascript:", StringComparison.OrdinalIgnoreCase)) continue;
+            if (!Uri.TryCreate(home, href, out var abs) || abs.Host != home.Host) continue;
+            if (!InterestingPathRx.IsMatch(abs.AbsolutePath)) continue;
+            if (!seen.Add(abs.AbsolutePath)) continue;
+
+            try
+            {
+                var html = Truncate(await _http.GetStringAsync(abs, ct));
+                sb.AppendLine();
+                sb.AppendLine($"=== Page: {abs} ===");
+                sb.AppendLine(HtmlToText(html));
+                followed++;
+            }
+            catch
+            {
+                // Skip pages that fail; the homepage text is usually enough.
+            }
+        }
+
+        return sb.ToString();
+    }
+
+    private static string HtmlToText(string html)
+    {
+        var cleaned = ScriptStyleRx.Replace(html, " ");
+        cleaned = TagRx.Replace(cleaned, " ");
+        cleaned = WebUtility.HtmlDecode(cleaned);
+        cleaned = Regex.Replace(cleaned, @"\s+", " ").Trim();
+        return cleaned.Length > MaxTextPerPage ? cleaned[..MaxTextPerPage] : cleaned;
+    }
+
     private static void Extract(string html, Uri site, WebsiteInfo info)
     {
         info.CompanyName ??= ExtractCompanyName(html);

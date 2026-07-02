@@ -69,12 +69,24 @@
                             <div class="small text-success">@hit.Url</div>
                             <div class="small text-muted">@hit.Snippet</div>
                         </div>
-                        <a class="btn btn-sm btn-outline-primary text-nowrap"
-                           asp-controller="Partners" asp-action="Create"
-                           asp-route-companyName="@HostOf(hit.Url)"
-                           asp-route-website="@hit.Url"
-                           asp-route-sourceUrl="@hit.Url"
-                           asp-route-autoFill="true">+ File as partner</a>
+                        <span class="text-nowrap">
+                            @if (ViewBag.AiConfigured == true)
+                            {
+                                <form method="post" asp-controller="Partners" asp-action="FileAndResearch" class="d-inline">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="companyName" value="@HostOf(hit.Url)" />
+                                    <input type="hidden" name="website" value="@hit.Url" />
+                                    <input type="hidden" name="sourceUrl" value="@hit.Url" />
+                                    <button type="submit" class="btn btn-sm btn-primary" title="File the company and run AI research automatically (~30-60s)">⚡ File + AI research</button>
+                                </form>
+                            }
+                            <a class="btn btn-sm btn-outline-primary"
+                               asp-controller="Partners" asp-action="Create"
+                               asp-route-companyName="@HostOf(hit.Url)"
+                               asp-route-website="@hit.Url"
+                               asp-route-sourceUrl="@hit.Url"
+                               asp-route-autoFill="true">+ File as partner</a>
+                        </span>
                     </div>
                 </div>
             }

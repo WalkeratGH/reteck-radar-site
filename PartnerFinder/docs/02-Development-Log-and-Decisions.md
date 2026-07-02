@@ -35,11 +35,18 @@ fully local and offline-capable; all requested features implemented, plus an add
   Country/City/Service Type/AI (no API).
 - **Automatic Web Search (Web Search page):** Brave API; type a query → list results →
   one-click "File as partner" pre-fills the Create form.
-- **AI Summary (Claude API)** (`ClaudeAiSummaryService`, official Anthropic C# SDK): one click on
-  the Detail page generates an evaluation summary / AI-infrastructure summary / suggested
-  capabilities (for human verification only — never auto-checked) / suggested next action.
-  Key lives at `Ai:Anthropic:ApiKey`; model configurable (default claude-opus-4-8).
-  See `AI-Summary-Setup.md`.
+- **AI Research & Auto-fill (Claude API)** (`ClaudeAiSummaryService`, official Anthropic C# SDK):
+  deep-reads the company website (multiple pages) plus Brave search snippets, then **auto-fills
+  the record** — capabilities auto-checked (on only, never off), brand partnerships
+  (None→Registered), certifications/city/country/email/phone/main services (empty fields only),
+  leasing/SME signals — and re-scores automatically. The AI Summary lists everything auto-applied
+  for human verification. Entry points: Detail-page button, batch button on the Partner List
+  (max 5 per click), and "⚡ File + AI research" on Web Search (one click from search hit to a
+  filled, scored record). Key at `Ai:Anthropic:ApiKey`; model configurable (default
+  claude-opus-4-8). See `AI-Summary-Setup.md`.
+- **Targeting fields**: new booleans `EquipmentLeasingSignal` (equipment leasing / HaaS) and
+  `SmeFocusSignal` (SME customer base) — migration `AddTargetingSignals`; AI research sets them;
+  included in CSV/Excel export.
 - **Company-info auto-enrichment** (`WebsiteInfoService`): clicking "File as partner"
   fetches the company's website (homepage + contact page, max 2 requests) and extracts
   company name, email, phone, LinkedIn, US city/state, and a service description to

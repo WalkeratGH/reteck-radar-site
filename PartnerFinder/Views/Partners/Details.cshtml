@@ -42,6 +42,7 @@
                     <dt class="col-sm-3">LinkedIn</dt><dd class="col-sm-9">@(Model.LinkedIn ?? "—")</dd>
                     <dt class="col-sm-3">Source URL</dt><dd class="col-sm-9">@(Model.SourceUrl ?? "—")</dd>
                     <dt class="col-sm-3">Certifications</dt><dd class="col-sm-9">@(Model.Certifications ?? "—")</dd>
+                    <dt class="col-sm-3">Leasing / HaaS</dt><dd class="col-sm-9">@Html.Raw(Yn(Model.EquipmentLeasingSignal)) <span class="text-muted small">· SME focus: @Html.Raw(Yn(Model.SmeFocusSignal))</span></dd>
                     <dt class="col-sm-3">Last Updated</dt><dd class="col-sm-9">@Model.LastUpdatedDate.ToString("yyyy-MM-dd")</dd>
                 </dl>
             </div>
@@ -146,9 +147,12 @@
                         @Html.AntiForgeryToken()
                         <input type="hidden" name="id" value="@Model.Id" />
                         <button type="submit" class="btn btn-info btn-sm w-100">
-                            @(string.IsNullOrWhiteSpace(Model.AiSummary) ? "Generate AI Summary" : "Regenerate AI Summary")
+                            @(string.IsNullOrWhiteSpace(Model.AiSummary) ? "🤖 AI Research & Auto-fill" : "🤖 Re-run AI Research")
                         </button>
-                        <div class="form-text">Takes ~10-30 seconds. Reads this profile (and the company website) and writes an evaluation.</div>
+                        <div class="form-text">
+                            ~30-60s. Reads the company website (multiple pages) + web search, then auto-fills
+                            capabilities, brands, contacts, leasing/SME signals and re-scores. Verify afterwards.
+                        </div>
                     </form>
                 }
                 else

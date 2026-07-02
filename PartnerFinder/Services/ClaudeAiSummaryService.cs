@@ -6,17 +6,22 @@ using PartnerFinder.Models;
 
 namespace PartnerFinder.Services;
 
-// Live AI Summary generator backed by the Claude API (official Anthropic SDK).
-// Reads the API key from configuration ("Ai:Anthropic:ApiKey" in appsettings.json).
-// When no key is set, IsConfigured is false and the UI shows setup instructions.
+// AI deep research backed by the Claude API (official Anthropic SDK).
 //
+// Gathers evidence first - the company's website text (homepage + a few key
+// pages) and, when Brave search is configured, recent web-search snippets -
+// then asks Claude to fill the partner's fields from that evidence:
+// capabilities, brand partnerships, contacts, leasing / SME targeting signals,
+// and an evaluation summary. Only evidence-backed values are returned.
+//
+// Reads the API key from configuration ("Ai:Anthropic:ApiKey" in appsettings.json).
 // Get a key at https://console.anthropic.com (API Keys -> Create Key).
-// The model is configurable via "Ai:Anthropic:Model" (default: claude-opus-4-8;
+// Model is configurable via "Ai:Anthropic:Model" (default: claude-opus-4-8;
 // set "claude-haiku-4-5" for the cheapest option).
 public class ClaudeAiSummaryService : IAiSummaryGenerator
 {
-    // Capability names Claude may suggest - shown to the human for verification,
-    // never auto-applied. Keep in sync with the Partner capability fields.
+    // Capability names Claude may report. Keep in sync with the Partner fields
+    // and with PartnersController.ApplyResearch's mapping.
     private static readonly string[] CapabilityNames =
     {
         "Data Center Experience", "Smart Hands", "IMAC", "Break/Fix",
@@ -27,16 +32,20 @@ public class ClaudeAiSummaryService : IAiSummaryGenerator
         "AI Model Inference Setup", "Linux/Docker/Kubernetes", "Cooling/Power Planning"
     };
 
+    private static readonly string[] BrandNames = { "Microsoft", "Dell", "Cisco", "HPE" };
+
     private readonly string? _apiKey;
     private readonly string _model;
     private readonly WebsiteInfoService _webInfo;
+    private readonly IWebSearchConnector _search;
 
-    public ClaudeAiSummaryService(IConfiguration config, WebsiteInfoService webInfo)
+    public ClaudeAiSummaryService(IConfiguration config, WebsiteInfoService webInfo, IWebSearchConnector search)
     {
         _apiKey = config["Ai:Anthropic:ApiKey"];
         var model = config["Ai:Anthropic:Model"];
         _model = string.IsNullOrWhiteSpace(model) ? "claude-opus-4-8" : model!;
         _webInfo = webInfo;
+        _search = search;
     }
 
     public bool IsConfigured => !string.IsNullOrWhiteSpace(_apiKey);
@@ -46,19 +55,24 @@ public class ClaudeAiSummaryService : IAiSummaryGenerator
         if (!IsConfigured)
             return new AiSummaryResult { Error = "No Anthropic API key configured (Ai:Anthropic:ApiKey)" };
 
-        // Best effort: pull the company website's own description for extra context.
-        string? websiteDescription = null;
+        // --- Evidence gathering (best effort, failures ignored) ---
+        string siteText = "";
         if (!string.IsNullOrWhiteSpace(partner.Website))
+        {
+            try { siteText = await _webInfo.FetchSiteTextAsync(partner.Website!, ct); }
+            catch { /* website text is a bonus */ }
+        }
+
+        string searchText = "";
+        if (_search.IsConfigured)
         {
             try
             {
-                var info = await _webInfo.FetchAsync(partner.Website!, ct);
-                websiteDescription = info.Description;
+                var query = $"\"{partner.CompanyName}\" {partner.City} {partner.Country} IT services AI GPU leasing";
+                var hits = await _search.SearchAsync(query, ct);
+                searchText = string.Join("\n", hits.Take(5).Select(h => $"- {h.Title} | {h.Url} | {h.Snippet}"));
             }
-            catch
-            {
-                // Website context is a bonus; ignore failures.
-            }
+            catch { /* search snippets are a bonus */ }
         }
 
         try
@@ -68,11 +82,11 @@ public class ClaudeAiSummaryService : IAiSummaryGenerator
             var response = await client.Messages.Create(new MessageCreateParams
             {
                 Model = _model,
-                MaxTokens = 8000,
+                MaxTokens = 12000,
                 Thinking = new ThinkingConfigAdaptive(),
                 System = SystemPrompt,
                 OutputConfig = new OutputConfig { Format = new JsonOutputFormat { Schema = BuildSchema() } },
-                Messages = [new() { Role = Role.User, Content = BuildProfile(partner, websiteDescription) }],
+                Messages = [new() { Role = Role.User, Content = BuildPrompt(partner, siteText, searchText) }],
             });
 
             var json = response.Content
@@ -105,63 +119,70 @@ public class ClaudeAiSummaryService : IAiSummaryGenerator
     }
 
     private const string SystemPrompt =
-        "You are a partner-qualification analyst at Re-Teck, an ITAD / data-center asset " +
-        "recovery and hardware reuse company. Re-Teck looks for IT / AI infrastructure " +
-        "system integrators and service providers that consume GPUs, RAM and servers in " +
-        "their equipment-leasing and SME services - they matter as buyers of refurbished " +
-        "hardware, as channel partners, and as recycling sources. " +
-        "Write concise, factual business English. Base every statement strictly on the " +
-        "provided data; when information is missing, say what should be verified instead " +
-        "of guessing.";
+        "You are a partner-qualification researcher at Re-Teck, an ITAD / data-center asset " +
+        "recovery and hardware reuse company. Re-Teck looks for IT / AI infrastructure system " +
+        "integrators and service providers that consume GPUs, RAM and servers in their " +
+        "equipment-leasing and SME services - they matter as buyers of refurbished hardware, " +
+        "as channel partners, and as recycling sources. " +
+        "Fill the JSON strictly from the evidence provided (company record, website text, web " +
+        "search snippets). Only claim a capability, partnership or signal when the evidence " +
+        "supports it; when unknown, return an empty string / empty array / false. " +
+        "Never invent contact details - only return an email or phone that literally appears " +
+        "in the evidence. Write concise, factual business English.";
 
-    private static string BuildProfile(Partner p, string? websiteDescription)
+    private static string BuildPrompt(Partner p, string siteText, string searchText)
     {
         var sb = new StringBuilder();
-        sb.AppendLine("Evaluate this candidate partner for Re-Teck and fill the JSON schema.");
-        sb.AppendLine("- summary: 3-5 sentences on fit with Re-Teck's goals (hardware demand, leasing/SME signals, partnership value).");
-        sb.AppendLine("- ai_infrastructure_summary: 1-3 sentences on their AI infrastructure capability.");
-        sb.AppendLine("- suggested_capabilities: capabilities the data suggests but that are NOT yet checked below (empty array if none).");
+        sb.AppendLine("Research this candidate partner for Re-Teck and fill the JSON schema.");
+        sb.AppendLine("Field notes:");
+        sb.AppendLine("- summary: 3-5 sentences on fit with Re-Teck (hardware demand, leasing/SME signals, partnership value) plus what to verify.");
+        sb.AppendLine("- capabilities: EVERY capability the evidence supports (including ones already checked).");
+        sb.AppendLine("- brand_partnerships: brands where a partner/reseller relationship is evident.");
+        sb.AppendLine("- equipment_leasing: true if they lease/rent hardware or sell as-a-service.");
+        sb.AppendLine("- sme_focus: true if their customers are mainly small/medium businesses.");
+        sb.AppendLine("- city/country/email/phone/main_services/certifications: fill from evidence, empty string if not evident.");
         sb.AppendLine("- suggested_follow_up: one concrete next action for our team.");
         sb.AppendLine();
-        sb.AppendLine("=== Company profile ===");
+        sb.AppendLine("=== Current record ===");
         sb.AppendLine($"Company: {p.CompanyName}");
         Add(sb, "Location", string.Join(", ", new[] { p.City, p.Country }.Where(s => !string.IsNullOrWhiteSpace(s))));
         Add(sb, "Website", p.Website);
         Add(sb, "Service category", p.ServiceCategory);
         Add(sb, "Main services", p.MainServices);
-        Add(sb, "Website description", websiteDescription);
         Add(sb, "Certifications", p.Certifications);
-        Add(sb, "Brand partnerships",
-            string.Join(", ", new[]
-            {
-                p.MicrosoftPartnerStatus != PartnerStatus.None ? $"Microsoft ({p.MicrosoftPartnerStatus})" : null,
-                p.DellPartnerStatus != PartnerStatus.None ? $"Dell ({p.DellPartnerStatus})" : null,
-                p.CiscoPartnerStatus != PartnerStatus.None ? $"Cisco ({p.CiscoPartnerStatus})" : null,
-                p.HpePartnerStatus != PartnerStatus.None ? $"HPE ({p.HpePartnerStatus})" : null,
-            }.Where(s => s != null)));
         Add(sb, "Notes", p.Notes);
-        Add(sb, "Existing AI infrastructure summary", p.AiInfrastructureSummary);
 
-        sb.AppendLine();
-        sb.AppendLine("=== Capabilities already checked ===");
-        var check = new (string Name, bool On)[]
+        var check = CurrentCapabilities(p).Where(c => c.On).Select(c => c.Name).ToList();
+        sb.AppendLine($"Capabilities already checked: {(check.Count > 0 ? string.Join(", ", check) : "(none)")}");
+
+        if (!string.IsNullOrWhiteSpace(siteText))
         {
-            ("Data Center Experience", p.DataCenterExperience), ("Smart Hands", p.SmartHandsCapability),
-            ("IMAC", p.ImacCapability), ("Break/Fix", p.BreakFixCapability),
-            ("Network Support", p.NetworkSupportCapability), ("Server Support", p.ServerSupportCapability),
-            ("Storage Support", p.StorageSupportCapability), ("AI Server Build", p.AiServerBuildCapability),
-            ("GPU Workstation Build", p.GpuWorkstationBuildCapability), ("Edge AI Deployment", p.EdgeAiDeploymentCapability),
-            ("Local LLM Deployment", p.LocalLlmDeploymentCapability), ("NVIDIA GPU Experience", p.NvidiaGpuExperience),
-            ("AMD GPU Experience", p.AmdGpuExperience), ("NVIDIA Jetson / Edge Device", p.NvidiaJetsonExperience),
-            ("Small AI Cluster", p.SmallAiClusterExperience), ("On-Prem AI Deployment", p.OnPremAiDeploymentExperience),
-            ("AI Model Inference Setup", p.AiModelInferenceSetup), ("Linux/Docker/Kubernetes", p.LinuxDockerKubernetesCapability),
-            ("Cooling/Power Planning", p.CoolingPowerPlanningCapability),
-        };
-        var onList = check.Where(c => c.On).Select(c => c.Name).ToList();
-        sb.AppendLine(onList.Count > 0 ? string.Join(", ", onList) : "(none)");
-
+            sb.AppendLine();
+            sb.AppendLine("=== Company website text ===");
+            sb.AppendLine(siteText);
+        }
+        if (!string.IsNullOrWhiteSpace(searchText))
+        {
+            sb.AppendLine();
+            sb.AppendLine("=== Web search snippets ===");
+            sb.AppendLine(searchText);
+        }
         return sb.ToString();
     }
+
+    internal static (string Name, bool On)[] CurrentCapabilities(Partner p) => new[]
+    {
+        ("Data Center Experience", p.DataCenterExperience), ("Smart Hands", p.SmartHandsCapability),
+        ("IMAC", p.ImacCapability), ("Break/Fix", p.BreakFixCapability),
+        ("Network Support", p.NetworkSupportCapability), ("Server Support", p.ServerSupportCapability),
+        ("Storage Support", p.StorageSupportCapability), ("AI Server Build", p.AiServerBuildCapability),
+        ("GPU Workstation Build", p.GpuWorkstationBuildCapability), ("Edge AI Deployment", p.EdgeAiDeploymentCapability),
+        ("Local LLM Deployment", p.LocalLlmDeploymentCapability), ("NVIDIA GPU Experience", p.NvidiaGpuExperience),
+        ("AMD GPU Experience", p.AmdGpuExperience), ("NVIDIA Jetson / Edge Device", p.NvidiaJetsonExperience),
+        ("Small AI Cluster", p.SmallAiClusterExperience), ("On-Prem AI Deployment", p.OnPremAiDeploymentExperience),
+        ("AI Model Inference Setup", p.AiModelInferenceSetup), ("Linux/Docker/Kubernetes", p.LinuxDockerKubernetesCapability),
+        ("Cooling/Power Planning", p.CoolingPowerPlanningCapability),
+    };
 
     private static void Add(StringBuilder sb, string label, string? value)
     {
@@ -175,16 +196,23 @@ public class ClaudeAiSummaryService : IAiSummaryGenerator
         {
             summary = new { type = "string" },
             ai_infrastructure_summary = new { type = "string" },
-            suggested_capabilities = new
-            {
-                type = "array",
-                items = new { type = "string", @enum = CapabilityNames },
-            },
+            main_services = new { type = "string" },
+            certifications = new { type = "string" },
+            city = new { type = "string" },
+            country = new { type = "string" },
+            email = new { type = "string" },
+            phone = new { type = "string" },
+            capabilities = new { type = "array", items = new { type = "string", @enum = CapabilityNames } },
+            brand_partnerships = new { type = "array", items = new { type = "string", @enum = BrandNames } },
+            equipment_leasing = new { type = "boolean" },
+            sme_focus = new { type = "boolean" },
             suggested_follow_up = new { type = "string" },
         }),
         ["required"] = JsonSerializer.SerializeToElement(new[]
         {
-            "summary", "ai_infrastructure_summary", "suggested_capabilities", "suggested_follow_up",
+            "summary", "ai_infrastructure_summary", "main_services", "certifications",
+            "city", "country", "email", "phone", "capabilities", "brand_partnerships",
+            "equipment_leasing", "sme_focus", "suggested_follow_up",
         }),
         ["additionalProperties"] = JsonSerializer.SerializeToElement(false),
     };
@@ -197,19 +225,38 @@ public class ClaudeAiSummaryService : IAiSummaryGenerator
         {
             Summary = GetString(root, "summary"),
             AiInfrastructureSummary = GetString(root, "ai_infrastructure_summary"),
+            MainServices = GetString(root, "main_services"),
+            Certifications = GetString(root, "certifications"),
+            City = GetString(root, "city"),
+            Country = GetString(root, "country"),
+            Email = GetString(root, "email"),
+            Phone = GetString(root, "phone"),
             SuggestedFollowUp = GetString(root, "suggested_follow_up"),
+            EquipmentLeasing = GetBool(root, "equipment_leasing"),
+            SmeFocus = GetBool(root, "sme_focus"),
         };
-        if (root.TryGetProperty("suggested_capabilities", out var caps) && caps.ValueKind == JsonValueKind.Array)
-        {
-            foreach (var c in caps.EnumerateArray())
-            {
-                if (c.ValueKind == JsonValueKind.String && !string.IsNullOrWhiteSpace(c.GetString()))
-                    result.SuggestedCapabilities.Add(c.GetString()!);
-            }
-        }
+        FillList(root, "capabilities", result.SuggestedCapabilities);
+        FillList(root, "brand_partnerships", result.BrandPartnerships);
         return result;
     }
 
+    private static void FillList(JsonElement root, string name, List<string> target)
+    {
+        if (root.TryGetProperty(name, out var arr) && arr.ValueKind == JsonValueKind.Array)
+            foreach (var item in arr.EnumerateArray())
+                if (item.ValueKind == JsonValueKind.String && !string.IsNullOrWhiteSpace(item.GetString()))
+                    target.Add(item.GetString()!);
+    }
+
     private static string? GetString(JsonElement e, string name)
-        => e.TryGetProperty(name, out var v) && v.ValueKind == JsonValueKind.String ? v.GetString() : null;
+    {
+        if (!e.TryGetProperty(name, out var v) || v.ValueKind != JsonValueKind.String) return null;
+        var s = v.GetString();
+        return string.IsNullOrWhiteSpace(s) ? null : s;
+    }
+
+    private static bool? GetBool(JsonElement e, string name)
+        => e.TryGetProperty(name, out var v) && (v.ValueKind == JsonValueKind.True || v.ValueKind == JsonValueKind.False)
+            ? v.GetBoolean()
+            : null;
 }
