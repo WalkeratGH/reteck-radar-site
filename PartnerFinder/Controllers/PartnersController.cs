@@ -160,13 +160,31 @@ public class PartnersController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-    // One click from Web Search: file the company AND run AI research on it,
-    // landing on a mostly-filled, scored partner record.
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> FileAndResearch(string companyName, string website, string? sourceUrl)
+    // One click from Web Search / Discover: file the company AND run AI research
+    // on it. Because that work takes ~30-60s, this GET returns an instant
+    // "processing" page with a spinner; its JavaScript then calls
+    // FileAndResearchRun (below) to do the actual work and redirects to the
+    // finished record. Opening it in a new tab therefore shows progress
+    // immediately instead of a blank page.
+    [HttpGet]
+    public IActionResult FileAndResearch(string companyName, string website, string? sourceUrl)
     {
         if (string.IsNullOrWhiteSpace(website)) return RedirectToAction(nameof(Index));
+        ViewBag.CompanyName = companyName;
+        ViewBag.Website = website;
+        ViewBag.SourceUrl = sourceUrl;
+        return View("Researching");
+    }
+
+    // Does the actual filing + AI research (called by the Researching page via
+    // fetch). Returns JSON with the URL of the resulting record so the browser
+    // can navigate to it once the work finishes.
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> FileAndResearchRun(string companyName, string website, string? sourceUrl)
+    {
+        if (string.IsNullOrWhiteSpace(website))
+            return Json(new { error = "No website was provided." });
 
         // If this company is already filed, go to the existing record.
         var candidate = new Partner { CompanyName = companyName, Website = website };
@@ -175,7 +193,7 @@ public class PartnersController : Controller
         if (dupe != null)
         {
             TempData["Message"] = $"\"{dupe.CompanyName}\" was already filed - showing the existing record.";
-            return RedirectToAction(nameof(Details), new { id = dupe.Id });
+            return Json(new { url = Url.Action(nameof(Details), new { id = dupe.Id }) });
         }
 
         // Quick pre-fill from the website, then create the record.
@@ -201,14 +219,14 @@ public class PartnersController : Controller
         if (result.Error != null)
         {
             TempData["DuplicateWarning"] = $"Filed, but AI research failed: {result.Error}";
-            return RedirectToAction(nameof(Details), new { id = partner.Id });
+            return Json(new { url = Url.Action(nameof(Details), new { id = partner.Id }) });
         }
         ApplyResearch(partner, result);
         await EnrichContactsAsync(partner);
         await _db.SaveChangesAsync();
 
         TempData["Message"] = $"\"{partner.CompanyName}\" filed and researched - please verify the auto-filled fields.";
-        return RedirectToAction(nameof(Details), new { id = partner.Id });
+        return Json(new { url = Url.Action(nameof(Details), new { id = partner.Id }) });
     }
 
     // Fills Email / Contact Person / Contact Title from Hunter.io when they are

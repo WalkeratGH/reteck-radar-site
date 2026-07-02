@@ -15,7 +15,7 @@
     <div class="d-flex gap-2">
         @if (ViewBag.AiConfigured == true && (ViewBag.AiPending as int? ?? 0) > 0)
         {
-            <form method="post" asp-action="ResearchBatch" class="d-inline">
+            <form method="post" asp-action="ResearchBatch" class="d-inline" data-longtask="Researching up to 5 partners… this can take a few minutes.">
                 @Html.AntiForgeryToken()
                 <button type="submit" class="btn btn-info"
                         title="Runs AI research on up to 5 partners per click; takes a few minutes.">

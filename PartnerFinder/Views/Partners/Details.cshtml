@@ -143,7 +143,7 @@
                 }
                 @if (ViewBag.AiConfigured == true)
                 {
-                    <form asp-action="GenerateAiSummary" method="post">
+                    <form asp-action="GenerateAiSummary" method="post" data-longtask="Researching @Model.CompanyName…">
                         @Html.AntiForgeryToken()
                         <input type="hidden" name="id" value="@Model.Id" />
                         <button type="submit" class="btn btn-info btn-sm w-100">

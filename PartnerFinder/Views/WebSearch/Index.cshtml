@@ -75,13 +75,13 @@
                         <span class="text-nowrap">
                             @if (ViewBag.AiConfigured == true)
                             {
-                                <form method="post" asp-controller="Partners" asp-action="FileAndResearch" class="d-inline" target="_blank">
-                                    @Html.AntiForgeryToken()
-                                    <input type="hidden" name="companyName" value="@HostOf(hit.Url)" />
-                                    <input type="hidden" name="website" value="@hit.Url" />
-                                    <input type="hidden" name="sourceUrl" value="@hit.Url" />
-                                    <button type="submit" class="btn btn-sm btn-primary" title="Opens in a new tab so your search results stay here. Files the company and runs AI research automatically (~30-60s).">⚡ File + AI research</button>
-                                </form>
+                                <a class="btn btn-sm btn-primary"
+                                   target="_blank" rel="noopener"
+                                   asp-controller="Partners" asp-action="FileAndResearch"
+                                   asp-route-companyName="@HostOf(hit.Url)"
+                                   asp-route-website="@hit.Url"
+                                   asp-route-sourceUrl="@hit.Url"
+                                   title="Opens in a new tab (with a progress spinner) so your search results stay here. Files the company and runs AI research automatically (~30-60s).">⚡ File + AI research</a>
                             }
                             <a class="btn btn-sm btn-outline-primary"
                                target="_blank" rel="noopener"
