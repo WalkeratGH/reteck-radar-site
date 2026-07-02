@@ -64,20 +64,39 @@ public class SamGovService
         try
         {
             using var resp = await _http.GetAsync(url, ct);
-            if ((int)resp.StatusCode is 401 or 403)
-            {
-                result.Error = "SAM.gov rejected the API key (check it in your SAM.gov profile)";
-                return result;
-            }
-            if ((int)resp.StatusCode == 429)
-            {
-                result.Error = "SAM.gov rate limit reached - try again later";
-                return result;
-            }
-            resp.EnsureSuccessStatusCode();
+            var status = (int)resp.StatusCode;
 
-            await using var stream = await resp.Content.ReadAsStreamAsync(ct);
-            using var doc = await JsonDocument.ParseAsync(stream, cancellationToken: ct);
+            if (status is 401 or 403)
+            {
+                result.Error = "SAM.gov rejected the API key (401/403). In your SAM.gov profile go to " +
+                               "Account Details and make sure the Public API Key is generated and copied " +
+                               "correctly. A brand-new key can take a few minutes to activate.";
+                return result;
+            }
+            if (status == 429)
+            {
+                result.Error = "SAM.gov rate limit reached (429) - the daily quota is used up. Try again later.";
+                return result;
+            }
+
+            var payload = await resp.Content.ReadAsStringAsync(ct);
+
+            if (status == 404)
+            {
+                result.Error = "SAM.gov returned HTTP 404 (endpoint not found). The API path may have changed - " +
+                               "please send me this message so I can update it. " + ShortBody(payload);
+                return result;
+            }
+            if (status < 200 || status >= 300)
+            {
+                // Surface SAM.gov's own explanation (it usually returns a JSON
+                // error body describing the bad parameter) instead of a generic
+                // exception name, so the real cause is visible.
+                result.Error = $"SAM.gov returned HTTP {status}. {ExtractApiMessage(payload)}";
+                return result;
+            }
+
+            using var doc = JsonDocument.Parse(payload);
             var root = doc.RootElement;
 
             if (root.TryGetProperty("totalRecords", out var total) && total.ValueKind == JsonValueKind.Number)
@@ -109,9 +128,21 @@ public class SamGovService
                 }
             }
         }
+        catch (TaskCanceledException)
+        {
+            result.Error = "SAM.gov timed out (no response within 30s). Check your internet connection and try again.";
+        }
+        catch (HttpRequestException ex)
+        {
+            result.Error = $"Could not reach SAM.gov ({ex.Message}). Check your internet connection or a firewall/VPN.";
+        }
+        catch (JsonException)
+        {
+            result.Error = "SAM.gov returned a response that could not be read (unexpected format).";
+        }
         catch (Exception ex)
         {
-            result.Error = $"SAM.gov lookup failed ({ex.GetType().Name})";
+            result.Error = $"SAM.gov lookup failed: {ex.Message}";
         }
         return result;
     }
@@ -122,5 +153,36 @@ public class SamGovService
         if (!e.TryGetProperty(name, out var v) || v.ValueKind != JsonValueKind.String) return null;
         var s = v.GetString();
         return string.IsNullOrWhiteSpace(s) ? null : s;
+    }
+
+    // Pulls a human-readable message out of SAM.gov's JSON error body when
+    // possible (it varies: "error", "message", "errorMessage", or a nested
+    // description), otherwise falls back to a trimmed snippet of the raw body.
+    private static string ExtractApiMessage(string body)
+    {
+        if (string.IsNullOrWhiteSpace(body)) return "(no details returned)";
+        try
+        {
+            using var doc = JsonDocument.Parse(body);
+            var root = doc.RootElement;
+            foreach (var key in new[] { "error_description", "errorMessage", "message", "error" })
+            {
+                if (root.TryGetProperty(key, out var v))
+                {
+                    if (v.ValueKind == JsonValueKind.String) return v.GetString()!;
+                    if (v.ValueKind == JsonValueKind.Object && v.TryGetProperty("message", out var m)
+                        && m.ValueKind == JsonValueKind.String) return m.GetString()!;
+                }
+            }
+        }
+        catch (JsonException) { /* not JSON - fall through to snippet */ }
+        return ShortBody(body);
+    }
+
+    private static string ShortBody(string body)
+    {
+        body = body.Trim();
+        if (body.Length == 0) return "(empty response)";
+        return body.Length > 300 ? body[..300] + "…" : body;
     }
 }
