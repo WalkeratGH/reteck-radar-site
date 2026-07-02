@@ -52,66 +52,86 @@ public class SamGovService
 
     public bool IsConfigured => !string.IsNullOrWhiteSpace(_apiKey);
 
+    // The SAM.gov Entity API caps "size" at 10 records per request, so to show a
+    // fuller list we fetch several consecutive API pages and combine them into
+    // one displayed page.
+    private const int ApiPageSize = 10;
+    private const int ApiPagesPerDisplayPage = 3;   // 3 x 10 = 30 shown per page
+    private const int DisplayPageSize = ApiPageSize * ApiPagesPerDisplayPage;
+
     public async Task<SamGovResult> SearchAsync(string? state, string? naics, string? name, int page = 0, CancellationToken ct = default)
     {
-        const int pageSize = 10;
         if (page < 0) page = 0;
-        var result = new SamGovResult { Page = page, PageSize = pageSize };
+        var result = new SamGovResult { Page = page, PageSize = DisplayPageSize };
         if (!IsConfigured)
         {
             result.Error = "SAM.gov is not configured";
             return result;
         }
 
-        // Note: the SAM.gov Entity API caps "size" at 10 records per page
-        // (a larger value returns HTTP 400 "size is N"); "page" is 0-based, so
-        // we page through the full result set 10 at a time.
-        var url = $"{_baseUrl}/entity-information/v3/entities?api_key={Uri.EscapeDataString(_apiKey!)}" +
-                  $"&registrationStatus=A&includeSections=entityRegistration,coreData&size={pageSize}&page={page}";
-        if (!string.IsNullOrWhiteSpace(state)) url += $"&physicalAddressProvinceOrStateCode={Uri.EscapeDataString(state.Trim().ToUpperInvariant())}";
-        if (!string.IsNullOrWhiteSpace(naics)) url += $"&primaryNaics={Uri.EscapeDataString(naics.Trim())}";
-        if (!string.IsNullOrWhiteSpace(name)) url += $"&legalBusinessName={Uri.EscapeDataString(name.Trim())}";
+        // Build the shared query (everything except the API page index).
+        var query = $"?api_key={Uri.EscapeDataString(_apiKey!)}" +
+                    $"&registrationStatus=A&includeSections=entityRegistration,coreData&size={ApiPageSize}";
+        if (!string.IsNullOrWhiteSpace(state)) query += $"&physicalAddressProvinceOrStateCode={Uri.EscapeDataString(state.Trim().ToUpperInvariant())}";
+        if (!string.IsNullOrWhiteSpace(naics)) query += $"&primaryNaics={Uri.EscapeDataString(naics.Trim())}";
+        if (!string.IsNullOrWhiteSpace(name)) query += $"&legalBusinessName={Uri.EscapeDataString(name.Trim())}";
 
+        var firstApiPage = page * ApiPagesPerDisplayPage;
+        for (var i = 0; i < ApiPagesPerDisplayPage; i++)
+        {
+            var apiPage = firstApiPage + i;
+            var pageResult = await FetchApiPageAsync(query, apiPage, ct);
+
+            if (pageResult.Error != null)
+            {
+                // Surface an error only if even the first sub-page failed;
+                // otherwise keep whatever earlier sub-pages returned.
+                if (i == 0) result.Error = pageResult.Error;
+                break;
+            }
+
+            if (i == 0) result.TotalRecords = pageResult.Total;
+            result.Entities.AddRange(pageResult.Entities);
+
+            // A short sub-page means we've reached the end of the result set.
+            if (pageResult.Entities.Count < ApiPageSize) break;
+        }
+        return result;
+    }
+
+    private record ApiPage(List<SamEntity> Entities, int Total, string? Error);
+
+    // Fetches and parses a single SAM.gov API page (up to 10 records).
+    private async Task<ApiPage> FetchApiPageAsync(string query, int apiPage, CancellationToken ct)
+    {
+        var entities = new List<SamEntity>();
+        var url = $"{_baseUrl}/entity-information/v3/entities{query}&page={apiPage}";
         try
         {
             using var resp = await _http.GetAsync(url, ct);
             var status = (int)resp.StatusCode;
 
             if (status is 401 or 403)
-            {
-                result.Error = "SAM.gov rejected the API key (401/403). In your SAM.gov profile go to " +
-                               "Account Details and make sure the Public API Key is generated and copied " +
-                               "correctly. A brand-new key can take a few minutes to activate.";
-                return result;
-            }
+                return new ApiPage(entities, 0, "SAM.gov rejected the API key (401/403). In your SAM.gov profile go to " +
+                    "Account Details and make sure the Public API Key is generated and copied correctly. " +
+                    "A brand-new key can take a few minutes to activate.");
             if (status == 429)
-            {
-                result.Error = "SAM.gov rate limit reached (429) - the daily quota is used up. Try again later.";
-                return result;
-            }
+                return new ApiPage(entities, 0, "SAM.gov rate limit reached (429) - the daily quota is used up. Try again later.");
 
             var payload = await resp.Content.ReadAsStringAsync(ct);
 
             if (status == 404)
-            {
-                result.Error = "SAM.gov returned HTTP 404 (endpoint not found). The API path may have changed - " +
-                               "please send me this message so I can update it. " + ShortBody(payload);
-                return result;
-            }
+                return new ApiPage(entities, 0, "SAM.gov returned HTTP 404 (endpoint not found). The API path may have " +
+                    "changed - please send me this message so I can update it. " + ShortBody(payload));
             if (status < 200 || status >= 300)
-            {
-                // Surface SAM.gov's own explanation (it usually returns a JSON
-                // error body describing the bad parameter) instead of a generic
-                // exception name, so the real cause is visible.
-                result.Error = $"SAM.gov returned HTTP {status}. {ExtractApiMessage(payload)}";
-                return result;
-            }
+                return new ApiPage(entities, 0, $"SAM.gov returned HTTP {status}. {ExtractApiMessage(payload)}");
 
             using var doc = JsonDocument.Parse(payload);
             var root = doc.RootElement;
 
-            if (root.TryGetProperty("totalRecords", out var total) && total.ValueKind == JsonValueKind.Number)
-                result.TotalRecords = total.GetInt32();
+            var total = 0;
+            if (root.TryGetProperty("totalRecords", out var t) && t.ValueKind == JsonValueKind.Number)
+                total = t.GetInt32();
 
             if (root.TryGetProperty("entityData", out var list) && list.ValueKind == JsonValueKind.Array)
             {
@@ -135,27 +155,27 @@ public class SamGovService
                         }
                     }
 
-                    result.Entities.Add(new SamEntity(entityName!, website, city, st, GetStr(reg, "ueiSAM")));
+                    entities.Add(new SamEntity(entityName!, website, city, st, GetStr(reg, "ueiSAM")));
                 }
             }
+            return new ApiPage(entities, total, null);
         }
         catch (TaskCanceledException)
         {
-            result.Error = "SAM.gov timed out (no response within 30s). Check your internet connection and try again.";
+            return new ApiPage(entities, 0, "SAM.gov timed out (no response within 30s). Check your internet connection and try again.");
         }
         catch (HttpRequestException ex)
         {
-            result.Error = $"Could not reach SAM.gov ({ex.Message}). Check your internet connection or a firewall/VPN.";
+            return new ApiPage(entities, 0, $"Could not reach SAM.gov ({ex.Message}). Check your internet connection or a firewall/VPN.");
         }
         catch (JsonException)
         {
-            result.Error = "SAM.gov returned a response that could not be read (unexpected format).";
+            return new ApiPage(entities, 0, "SAM.gov returned a response that could not be read (unexpected format).");
         }
         catch (Exception ex)
         {
-            result.Error = $"SAM.gov lookup failed: {ex.Message}";
+            return new ApiPage(entities, 0, $"SAM.gov lookup failed: {ex.Message}");
         }
-        return result;
     }
 
     private static string? GetStr(JsonElement e, string name)
