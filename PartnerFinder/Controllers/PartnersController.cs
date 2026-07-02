@@ -12,12 +12,15 @@ public class PartnersController : Controller
     private readonly AppDbContext _db;
     private readonly ScoringService _scoring;
     private readonly DuplicateDetectionService _dupes;
+    private readonly WebsiteInfoService _webInfo;
 
-    public PartnersController(AppDbContext db, ScoringService scoring, DuplicateDetectionService dupes)
+    public PartnersController(AppDbContext db, ScoringService scoring, DuplicateDetectionService dupes,
+        WebsiteInfoService webInfo)
     {
         _db = db;
         _scoring = scoring;
         _dupes = dupes;
+        _webInfo = webInfo;
     }
 
     // Partner List + search/filter
@@ -83,16 +86,49 @@ public class PartnersController : Controller
     }
 
     // Add Partner (GET). Optional query params let the Web Search page pre-fill
-    // the form when filing a search result as a new partner.
-    public IActionResult Create(string? companyName, string? website, string? sourceUrl)
+    // the form when filing a search result as a new partner. With autoFill=true the
+    // company's website is fetched and basic details (name, email, phone, LinkedIn,
+    // city, description) are extracted automatically - always verify by hand.
+    public async Task<IActionResult> Create(string? companyName, string? website, string? sourceUrl,
+        bool autoFill = false)
     {
         PopulateDropdowns();
-        return View(new Partner
+
+        var partner = new Partner
         {
             CompanyName = companyName ?? string.Empty,
             Website = website,
             SourceUrl = sourceUrl
-        });
+        };
+
+        if (autoFill && !string.IsNullOrWhiteSpace(website))
+        {
+            var info = await _webInfo.FetchAsync(website);
+            if (info.Error != null)
+            {
+                ViewBag.AutoFillNote = $"Auto-fill: could not read the website ({info.Error}). Please fill in manually.";
+            }
+            else
+            {
+                if (!string.IsNullOrWhiteSpace(info.CompanyName)) partner.CompanyName = info.CompanyName!;
+                partner.MainServices ??= info.Description;
+                partner.Email ??= info.Email;
+                partner.Phone ??= info.Phone;
+                partner.LinkedIn ??= info.LinkedIn;
+                partner.City ??= info.City;
+                partner.Country ??= info.Country;
+
+                var found = string.Join(", ", info.FoundFields());
+                ViewBag.AutoFillNote = found.Length > 0
+                    ? $"Auto-filled from the company website: {found}. Please verify before saving."
+                    : "Auto-fill: the website had no readable contact details. Please fill in manually.";
+            }
+        }
+
+        // Form inputs read ModelState (bound from the query string) before the model,
+        // which would show the raw companyName param instead of the auto-filled name.
+        ModelState.Clear();
+        return View(partner);
     }
 
     // Add Partner (POST)

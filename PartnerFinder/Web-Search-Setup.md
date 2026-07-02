@@ -71,6 +71,11 @@ about 5 minutes.
 
 1. In **Keyword Generator**, produce phrases → click **Auto search** on a phrase (jumps
    straight to Web Search).
-2. In **Web Search**, click **+ File as partner** on promising companies.
-3. On the Create page add contacts and check capability boxes → save; the system scores
-   and grades (A/B/C) automatically.
+2. In **Web Search**, click **+ File as partner** on promising companies. The system
+   **auto-reads the company's website** and pre-fills what it finds (company name,
+   email, phone, LinkedIn, city, service description); a banner lists what was found.
+3. On the Create page **verify the auto-filled data**, add contacts, check capability
+   boxes → save; the system scores and grades (A/B/C) automatically.
+
+> Auto-fill is best-effort: only details published on the company's site can be found;
+> anything missing is left blank for manual entry.

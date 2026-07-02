@@ -35,6 +35,11 @@ fully local and offline-capable; all requested features implemented, plus an add
   Country/City/Service Type/AI (no API).
 - **Automatic Web Search (Web Search page):** Brave API; type a query → list results →
   one-click "File as partner" pre-fills the Create form.
+- **Company-info auto-enrichment** (`WebsiteInfoService`): clicking "File as partner"
+  fetches the company's website (homepage + contact page, max 2 requests) and extracts
+  company name, email, phone, LinkedIn, US city/state, and a service description to
+  pre-fill the form; missing fields stay blank for manual entry. Best-effort — only
+  publicly visible details can be found.
 - **Dashboard:** totals, A/B/C counts, by-country, AI-capable count, missing-contact count,
   pending-review count.
 - **Export:** CSV (UTF-8 BOM so Chinese opens cleanly in Excel) and Excel `.xlsx`.

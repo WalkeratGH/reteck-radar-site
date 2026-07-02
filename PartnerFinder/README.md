@@ -20,6 +20,7 @@ AI Server / Edge AI / GPU Workstation projects).
 | **Add / Edit Partner** | Full data-entry form (basic info, IT/DC capabilities, AI capabilities, evaluation) |
 | **Partner Detail** | Full profile + automatic **score breakdown** + quick review-status update |
 | **Keyword Generator** | Turns Country / City / Service Type / AI-required into copy-paste Google/LinkedIn search phrases (no API) |
+| **Web Search** | Live web search (Brave API, free key required); one-click "File as partner" **auto-fills** company name, email, phone, LinkedIn, city and description from the company's website |
 | **Qualification Scores** | Ranked scoreboard of every partner (General /70 + AI /30 = /100) |
 | **Export** | Download the whole database as **CSV** or **Excel (.xlsx)** |
 | **Settings** | Environment info, future-connector status, service-category list |
@@ -108,6 +109,8 @@ PartnerFinder/
     ExportService.cs         CSV + Excel export
     DuplicateDetectionService.cs Name/website duplicate warning
     Connectors.cs            FUTURE connectors (interfaces + no-op impls)
+    BraveWebSearchConnector.cs   Live web search (Brave API)
+    WebsiteInfoService.cs    Auto-fill partner details from a company website
   Controllers/               Home, Partners, Keyword, Qualification, Export, Settings
   Views/                     Razor + Bootstrap UI
   Migrations/                EF Core migration (InitialCreate)

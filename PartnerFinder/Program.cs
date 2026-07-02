@@ -23,6 +23,9 @@ builder.Services.AddScoped<DuplicateDetectionService>();
 // false and the Web Search page shows setup instructions instead of results.
 builder.Services.AddHttpClient<IWebSearchConnector, BraveWebSearchConnector>();
 
+// Fetches a company website to pre-fill partner details (auto-enrichment).
+builder.Services.AddHttpClient<WebsiteInfoService>();
+
 // Other future-expansion connectors (still "not configured" no-op implementations).
 builder.Services.AddSingleton<ISerpApiConnector, NullWebSearchConnector>();
 builder.Services.AddSingleton<IMicrosoftPartnerConnector, NullWebSearchConnector>();

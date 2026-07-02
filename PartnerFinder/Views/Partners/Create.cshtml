@@ -5,6 +5,11 @@
 
 <h1 class="h3 mb-3">Add Partner</h1>
 
+@if (ViewBag.AutoFillNote != null)
+{
+    <div class="alert alert-info">@ViewBag.AutoFillNote</div>
+}
+
 <form asp-action="Create" method="post">
     @Html.AntiForgeryToken()
     <partial name="_PartnerForm" model="Model" />
