@@ -207,7 +207,7 @@ footer{margin-top:48px;border-top:1px solid var(--line);padding-top:14px;font-fa
   <div class="date-block">
     <span class="report-date">2026-07-03</span>
     <span class="date-window">last 72h</span>
-    <span class="date-window">updated 2026-07-04 07:38 (UTC+8) · by Walker</span>
+    <span class="date-window">updated 2026-07-04 07:40 (UTC+8) · by Walker</span>
   </div>
   <div class="date-nav">
     
@@ -334,7 +334,7 @@ footer{margin-top:48px;border-top:1px solid var(--line);padding-top:14px;font-fa
   <div id="compBody"></div>
 </section>
 
-<footerRE-TECK Market Radar · internal use only · updated 2026-07-04 07:38 (UTC+8) by Walker · generated 2026-07-03 23:38 UTC</footer>
+<footerRE-TECK Market Radar · internal use only · updated 2026-07-04 07:40 (UTC+8) by Walker · generated 2026-07-03 23:40 UTC</footer>
 </div>
 
 <script>
@@ -412,6 +412,7 @@ var UI = {
   allRegions:{en:"All regions","zh-Hant":"全部地區","zh-Hans":"全部地区",ja:"全地域",de:"Alle Regionen",nl:"Alle regio's"},
   angle:{en:"Re-Teck angle","zh-Hant":"Re-Teck 觀點","zh-Hans":"Re-Teck 观点",ja:"Re-Teck の視点",de:"Re-Teck-Perspektive",nl:"Re-Teck-perspectief"},
   source:{en:"Source","zh-Hant":"來源","zh-Hans":"来源",ja:"出典",de:"Quelle",nl:"Bron"},
+  updated:{en:"Updated","zh-Hant":"更新","zh-Hans":"更新",ja:"更新",de:"Stand",nl:"Bijgewerkt"},
   lowConf:{en:"low confidence","zh-Hant":"低信心","zh-Hans":"低信心",ja:"信頼度低",de:"geringe Sicherheit",nl:"lage zekerheid"},
   empty:{en:"No relevant news in this window.","zh-Hant":"此區間內無相關新聞。","zh-Hans":"此区间内无相关新闻。",ja:"この期間に関連ニュースはありません。",de:"Keine relevanten Nachrichten in diesem Zeitraum.",nl:"Geen relevant nieuws in deze periode."},
   /* Tabs */
@@ -807,7 +808,9 @@ function renderComp(){
       items.forEach(function(it){
         var b=bcls[it.impact]||"signal", bt=btxt[it.impact]||it.impact||"";
         var pts=(dfld(it,"key_points")||[]).map(function(k){return "<li>"+esc(k)+"</li>";}).join("");
-        h += "<div class='reg'><div class='rt'><span class='rname'>"+esc(it.company)+"</span><span class='badge "+b+"'>"+esc(bt)+"</span><span class='rmeta'>"+esc(it.location||regionName(rk))+"</span></div>"+
+        var upd=it.as_of||cp.report_date||"";
+        h += "<div class='reg'><div class='rt'><span class='rname'>"+esc(it.company)+"</span><span class='badge "+b+"'>"+esc(bt)+"</span><span class='rmeta'>"+esc(it.location||regionName(rk))+
+          (upd?" · "+esc(t("updated"))+" "+esc(upd):"")+"</span></div>"+
           "<p>"+esc(dfld(it,"headline"))+"</p>"+(pts?"<ul style='margin:4px 0 4px 16px'>"+pts+"</ul>":"")+
           (it.implication?"<div class='impl'>"+esc(dfld(it,"implication"))+"</div>":"")+
           (it.url?"<div class='srclist'><a href='"+esc(it.url)+"' target='_blank' rel='noopener noreferrer'>"+esc(t("source"))+"</a></div>":"")+"</div>";
