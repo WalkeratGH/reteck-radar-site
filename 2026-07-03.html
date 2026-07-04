@@ -75,7 +75,7 @@ h2.sec .hint{font-family:'IBM Plex Sans',sans-serif;font-weight:400;font-size:12
 .card ul{list-style:none;margin-bottom:10px}
 .card ul li{font-size:13.5px;color:#33423D;padding-left:16px;position:relative;margin-bottom:2px}
 .card ul li::before{content:"–";position:absolute;left:0;color:var(--teal)}
-.angle{background:var(--teal-lt);border-radius:3px;padding:9px 12px;font-size:13.5px}
+.angle{background:var(--teal-lt);border-left:3px solid var(--teal);border-radius:0 3px 3px 0;padding:9px 12px;font-size:13.5px}
 .angle b{font-family:'Archivo',sans-serif;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--teal);display:block;margin-bottom:2px}
 .src{margin-top:9px;font-family:'IBM Plex Mono',monospace;font-size:11.5px;color:var(--muted)}
 .src a{color:var(--teal);text-decoration:none;border-bottom:1px solid var(--teal-lt)}
@@ -141,7 +141,8 @@ footer{margin-top:48px;border-top:1px solid var(--line);padding-top:14px;font-fa
 .reg .rname{font-family:'Archivo',sans-serif;font-weight:700;font-size:13.5px}
 .reg .rmeta{font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--muted)}
 .reg p{font-size:12.5px;color:#33423D;margin:3px 0;line-height:1.45}
-.reg .impl{background:var(--teal-lt);border-radius:3px;padding:6px 9px;font-size:12.5px;margin-top:6px}
+.reg .impl{background:var(--teal-lt);border-left:3px solid var(--teal);border-radius:0 3px 3px 0;padding:7px 10px;font-size:12.5px;margin-top:6px}
+.reg .impl b{font-family:'Archivo',sans-serif;font-size:10.5px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--teal);display:block;margin-bottom:2px}
 .badge{font-family:'IBM Plex Mono',monospace;font-size:10px;padding:2px 8px;border-radius:999px;text-transform:uppercase;letter-spacing:.5px}
 .badge.threat{color:#C0392B;background:#FBEAE8;border:1px solid #F3D2CD}
 .badge.opp{color:#0E8A43;background:var(--teal-lt);border:1px solid var(--teal-lt)}
@@ -207,7 +208,7 @@ footer{margin-top:48px;border-top:1px solid var(--line);padding-top:14px;font-fa
   <div class="date-block">
     <span class="report-date">2026-07-03</span>
     <span class="date-window">last 72h</span>
-    <span class="date-window">updated 2026-07-04 07:53 (UTC+8) · by Walker</span>
+    <span class="date-window">updated 2026-07-04 08:01 (UTC+8) · by Walker</span>
   </div>
   <div class="date-nav">
     
@@ -334,7 +335,7 @@ footer{margin-top:48px;border-top:1px solid var(--line);padding-top:14px;font-fa
   <div id="compBody"></div>
 </section>
 
-<footerRE-TECK Market Radar · internal use only · updated 2026-07-04 07:53 (UTC+8) by Walker · generated 2026-07-03 23:53 UTC</footer>
+<footerRE-TECK Market Radar · internal use only · updated 2026-07-04 08:01 (UTC+8) by Walker · generated 2026-07-04 00:01 UTC</footer>
 </div>
 
 <script>
@@ -557,7 +558,7 @@ function buildCards(){
       "<span class='loc'>" + esc(it.location || regionLabel(it.region)) + "</span>" + conf + "</div>" +
       "<h3>" + esc(fld(it,"headline")) + "</h3>" +
       (pts ? "<ul>" + pts + "</ul>" : "") +
-      (angle ? "<div class='angle'><b>" + esc(t("angle")) + "</b>" + esc(angle) + "</div>" : "") +
+      (angle ? "<div class='angle'><b>◆ " + esc(t("angle")) + "</b>" + esc(angle) + "</div>" : "") +
       src + "</article>";
   });
   document.getElementById("cards").innerHTML = h;
@@ -783,7 +784,7 @@ function renderReg(){
     items.forEach(function(it){
       h += "<div class='reg'><div class='rt'><span class='rname'>"+esc(dfld(it,"name"))+"</span><span class='rmeta'>"+esc(dfld(it,"type"))+(it.status?(" · "+esc(dfld(it,"status"))):"")+(it.date?(" · "+esc(it.date)):"")+"</span></div>"+
         (it.requires?"<p>"+esc(dfld(it,"requires"))+"</p>":"")+
-        (it.reteck_implication?"<div class='impl'><b>Re-Teck:</b> "+esc(dfld(it,"reteck_implication"))+"</div>":"")+
+        (it.reteck_implication?"<div class='impl'><b>◆ "+esc(t("angle"))+"</b>"+esc(dfld(it,"reteck_implication"))+"</div>":"")+
         (it.url?"<div class='srclist'><a href='"+esc(it.url)+"' target='_blank' rel='noopener noreferrer'>"+esc(t("source"))+"</a></div>":"")+"</div>";
     });
     h += "</div>";
@@ -812,7 +813,7 @@ function renderComp(){
         h += "<div class='reg'><div class='rt'><span class='rname'>"+esc(it.company)+"</span><span class='badge "+b+"'>"+esc(bt)+"</span><span class='rmeta'>"+esc(it.location||regionName(rk))+
           (upd?" · "+esc(t("updated"))+" "+esc(upd):"")+"</span></div>"+
           "<p>"+esc(dfld(it,"headline"))+"</p>"+(pts?"<ul style='margin:4px 0 4px 16px'>"+pts+"</ul>":"")+
-          (it.implication?"<div class='impl'>"+esc(dfld(it,"implication"))+"</div>":"")+
+          (it.implication?"<div class='impl'><b>◆ "+esc(t("angle"))+"</b>"+esc(dfld(it,"implication"))+"</div>":"")+
           (it.url?"<div class='srclist'><a href='"+esc(it.url)+"' target='_blank' rel='noopener noreferrer'>"+esc(t("source"))+"</a></div>":"")+"</div>";
       });
       h += "</div>";
