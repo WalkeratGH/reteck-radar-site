@@ -147,6 +147,10 @@ footer{margin-top:48px;border-top:1px solid var(--line);padding-top:14px;font-fa
 .opp .oh{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:6px}
 .opp .oh h4{margin-bottom:0}
 .odate{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);white-space:nowrap}
+/* Commodity prices: table + detail side by side (chart follows selection without scrolling) */
+.px-layout{display:grid;grid-template-columns:minmax(340px,5fr) minmax(380px,7fr);gap:20px;align-items:start}
+.px-right{position:sticky;top:12px}
+@media (max-width:980px){.px-layout{grid-template-columns:1fr}.px-right{position:static}}
 /* Competitor radar: category switch animation + multi-news sub-blocks */
 .comp-anim{animation:compIn .28s ease}
 @keyframes compIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
@@ -220,7 +224,7 @@ footer{margin-top:48px;border-top:1px solid var(--line);padding-top:14px;font-fa
   <div class="date-block">
     <span class="report-date">2026-07-03</span>
     <span class="date-window">last 72h</span>
-    <span class="date-window">updated 2026-07-04 08:58 (UTC+8) · by Walker</span>
+    <span class="date-window">updated 2026-07-04 09:04 (UTC+8) · by Walker</span>
   </div>
   <div class="date-nav">
     
@@ -325,12 +329,18 @@ footer{margin-top:48px;border-top:1px solid var(--line);padding-top:14px;font-fa
   <h2 class="dash-h" id="pxTitle">Commodity Prices</h2>
   <p class="dash-note" id="pxNote"></p>
   <div class="dash-meta" id="pxMeta"></div>
-  <table class="dtable" id="pxTable"></table>
-  <h3 class="dash-h"><span id="pxDetailName">—</span> <span class="dash-meta" id="pxBench"></span></h3>
-  <div id="pxDq"></div>
-  <div class="chart-box"><canvas id="pxChart"></canvas></div>
-  <table class="dtable" id="pxGrades"></table>
-  <div class="srclist" id="pxSrc"></div>
+  <div class="px-layout">
+    <div class="px-left">
+      <table class="dtable" id="pxTable"></table>
+    </div>
+    <div class="px-right">
+      <h3 class="dash-h" style="margin-top:0"><span id="pxDetailName">—</span> <span class="dash-meta" id="pxBench"></span></h3>
+      <div id="pxDq"></div>
+      <div class="chart-box"><canvas id="pxChart"></canvas></div>
+      <table class="dtable" id="pxGrades"></table>
+      <div class="srclist" id="pxSrc"></div>
+    </div>
+  </div>
 </section>
 
 <!-- ===== REGULATORY & ESG ===== -->
@@ -348,7 +358,7 @@ footer{margin-top:48px;border-top:1px solid var(--line);padding-top:14px;font-fa
   <div id="compBody"></div>
 </section>
 
-<footerRE-TECK Market Radar · internal use only · updated 2026-07-04 08:58 (UTC+8) by Walker · generated 2026-07-04 00:58 UTC</footer>
+<footerRE-TECK Market Radar · internal use only · updated 2026-07-04 09:04 (UTC+8) by Walker · generated 2026-07-04 01:04 UTC</footer>
 </div>
 
 <script>
