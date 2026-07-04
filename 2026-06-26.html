@@ -821,5 +821,21 @@ TAB_KEYS.forEach(function(x){ var el=document.getElementById("tab-"+x); if(el) e
 applyTheme(themeDark);
 refresh();
 </script>
+<script>
+/* backfill: rebuild archive dropdown from dates.json so this older page can reach newer reports */
+(function(){
+  var sel=document.querySelector(".date-nav select");
+  if(!sel || location.protocol==="file:") return;
+  var cur=""; Array.prototype.forEach.call(sel.options,function(o){ if(o.value==="#") cur=o.textContent.trim(); });
+  fetch("dates.json",{cache:"no-store"}).then(function(r){ return r.ok ? r.json() : null; }).then(function(j){
+    var ds=((j&&j.dates)||[]).slice();
+    if(!ds.length) return;
+    if(cur && ds.indexOf(cur)<0){ ds.push(cur); ds.sort(); ds.reverse(); }
+    sel.innerHTML=ds.map(function(d){
+      return "<option value='"+(d===cur?"#":d+".html")+"'"+(d===cur?" selected":"")+">"+d+"</option>";
+    }).join("");
+  }).catch(function(){});
+})();
+</script>
 </body>
 </html>

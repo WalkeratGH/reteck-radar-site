@@ -224,7 +224,7 @@ footer{margin-top:48px;border-top:1px solid var(--line);padding-top:14px;font-fa
   <div class="date-block">
     <span class="report-date">2026-07-03</span>
     <span class="date-window">last 72h</span>
-    <span class="date-window">updated 2026-07-04 09:04 (UTC+8) · by Walker</span>
+    <span class="date-window">updated 2026-07-04 09:17 (UTC+8) · by Walker</span>
   </div>
   <div class="date-nav">
     
@@ -358,7 +358,7 @@ footer{margin-top:48px;border-top:1px solid var(--line);padding-top:14px;font-fa
   <div id="compBody"></div>
 </section>
 
-<footerRE-TECK Market Radar · internal use only · updated 2026-07-04 09:04 (UTC+8) by Walker · generated 2026-07-04 01:04 UTC</footer>
+<footerRE-TECK Market Radar · internal use only · updated 2026-07-04 09:17 (UTC+8) by Walker · generated 2026-07-04 01:17 UTC</footer>
 </div>
 
 <script>
@@ -878,6 +878,23 @@ try{ var savedT = localStorage.getItem("radarTab"); if (TAB_KEYS.indexOf(savedT)
 TAB_KEYS.forEach(function(x){ var el=document.getElementById("tab-"+x); if(el) el.classList.toggle("on", x===curTab); });
 applyTheme(themeDark);
 refresh();
+
+/* Archive dropdown: rebuild from dates.json at load so OLDER published pages
+   can still navigate to NEWER reports (the baked-in list is frozen at render
+   time). Offline single-file use keeps the baked-in list. */
+(function(){
+  var sel=document.querySelector(".date-nav select");
+  if(!sel || location.protocol==="file:") return;
+  var cur=""; Array.prototype.forEach.call(sel.options,function(o){ if(o.value==="#") cur=o.textContent.trim(); });
+  fetch("dates.json",{cache:"no-store"}).then(function(r){ return r.ok ? r.json() : null; }).then(function(j){
+    var ds=((j&&j.dates)||[]).slice();
+    if(!ds.length) return;
+    if(cur && ds.indexOf(cur)<0){ ds.push(cur); ds.sort(); ds.reverse(); }
+    sel.innerHTML=ds.map(function(d){
+      return "<option value='"+(d===cur?"#":d+".html")+"'"+(d===cur?" selected":"")+">"+d+"</option>";
+    }).join("");
+  }).catch(function(){});
+})();
 </script>
 </body>
 </html>
