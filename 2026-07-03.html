@@ -143,6 +143,14 @@ footer{margin-top:48px;border-top:1px solid var(--line);padding-top:14px;font-fa
 .reg p{font-size:12.5px;color:#33423D;margin:3px 0;line-height:1.45}
 .reg .impl{background:var(--teal-lt);border-left:3px solid var(--teal);border-radius:0 3px 3px 0;padding:7px 10px;font-size:12.5px;margin-top:6px}
 .reg .impl b{font-family:'Archivo',sans-serif;font-size:10.5px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--teal);display:block;margin-bottom:2px}
+/* Competitor radar: category switch animation + multi-news sub-blocks */
+.comp-anim{animation:compIn .28s ease}
+@keyframes compIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+#compTypes button{transition:box-shadow .2s ease,background .2s ease,color .2s ease}
+[data-theme="dark"] #compTypes button.on{box-shadow:0 0 12px rgba(45,212,191,.35)}
+[data-theme="dark"] #compTypes button:not(.on):hover{border-color:var(--teal);color:var(--teal)}
+.reg .cnews.more{margin-top:9px;padding-top:9px;border-top:1px dashed var(--line)}
+.reg .cdate{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);margin-left:6px;white-space:nowrap}
 .badge{font-family:'IBM Plex Mono',monospace;font-size:10px;padding:2px 8px;border-radius:999px;text-transform:uppercase;letter-spacing:.5px}
 .badge.threat{color:#C0392B;background:#FBEAE8;border:1px solid #F3D2CD}
 .badge.opp{color:#0E8A43;background:var(--teal-lt);border:1px solid var(--teal-lt)}
@@ -208,7 +216,7 @@ footer{margin-top:48px;border-top:1px solid var(--line);padding-top:14px;font-fa
   <div class="date-block">
     <span class="report-date">2026-07-03</span>
     <span class="date-window">last 72h</span>
-    <span class="date-window">updated 2026-07-04 08:01 (UTC+8) · by Walker</span>
+    <span class="date-window">updated 2026-07-04 08:10 (UTC+8) · by Walker</span>
   </div>
   <div class="date-nav">
     
@@ -332,10 +340,11 @@ footer{margin-top:48px;border-top:1px solid var(--line);padding-top:14px;font-fa
 <section class="tabpanel" id="tab-comp">
   <h2 class="dash-h" id="compTitle">Competitor Radar</h2>
   <p class="dash-note" id="compNote"></p>
+  <div class="subnav" id="compTypes"></div>
   <div id="compBody"></div>
 </section>
 
-<footerRE-TECK Market Radar · internal use only · updated 2026-07-04 08:01 (UTC+8) by Walker · generated 2026-07-04 00:01 UTC</footer>
+<footerRE-TECK Market Radar · internal use only · updated 2026-07-04 08:10 (UTC+8) by Walker · generated 2026-07-04 00:10 UTC</footer>
 </div>
 
 <script>
@@ -793,33 +802,50 @@ function renderReg(){
 }
 
 /* ---- Competitor radar ---- */
+var curCompType = 0;
+function setCompType(i){ curCompType=i; renderComp(); }
 function renderComp(){
   var cp=COMPETITORS||{};
   document.getElementById("compTitle").textContent = t("tab_comp");
   document.getElementById("compNote").textContent = dfld(cp,"note");
+  var types=cp.types||[];
+  if(curCompType>=types.length) curCompType=0;
+  document.getElementById("compTypes").innerHTML = types.map(function(ty,i){
+    return "<button class='"+(i===curCompType?"on":"")+"' onclick='setCompType("+i+")'>"+esc(dfld(ty,"name"))+"</button>";
+  }).join("");
   var bcls={Threat:"threat",Opportunity:"opp",Signal:"signal"};
   var btxt={Threat:t("t_threat"),Opportunity:t("t_opp"),Signal:t("t_signal")};
-  var h="";
-  (cp.types||[]).forEach(function(ty){
-    h += "<div class='reg-region-h'>"+esc(dfld(ty,"name"))+"</div>";
+  var h="", ty=types[curCompType];
+  if(ty){
     var regs=ty.regions||{};
     Object.keys(regs).forEach(function(rk){
       var items=regs[rk]||[]; if(!items.length) return;
-      h += "<div class='reg-grid'>";
-      items.forEach(function(it){
-        var b=bcls[it.impact]||"signal", bt=btxt[it.impact]||it.impact||"";
-        var pts=(dfld(it,"key_points")||[]).map(function(k){return "<li>"+esc(k)+"</li>";}).join("");
-        var upd=it.as_of||cp.report_date||"";
-        h += "<div class='reg'><div class='rt'><span class='rname'>"+esc(it.company)+"</span><span class='badge "+b+"'>"+esc(bt)+"</span><span class='rmeta'>"+esc(it.location||regionName(rk))+
-          (upd?" · "+esc(t("updated"))+" "+esc(upd):"")+"</span></div>"+
-          "<p>"+esc(dfld(it,"headline"))+"</p>"+(pts?"<ul style='margin:4px 0 4px 16px'>"+pts+"</ul>":"")+
-          (it.implication?"<div class='impl'><b>◆ "+esc(t("angle"))+"</b>"+esc(dfld(it,"implication"))+"</div>":"")+
-          (it.url?"<div class='srclist'><a href='"+esc(it.url)+"' target='_blank' rel='noopener noreferrer'>"+esc(t("source"))+"</a></div>":"")+"</div>";
+      /* group multiple in-window news items of the same company into one card */
+      var order=[], groups={};
+      items.forEach(function(it){ var k=it.company; if(!groups[k]){groups[k]=[]; order.push(k);} groups[k].push(it); });
+      h += "<div class='reg-region-h'>"+esc(regionName(rk))+"</div><div class='reg-grid'>";
+      order.forEach(function(k){
+        var g=groups[k].slice().sort(function(a,b){ return String(b.as_of||"").localeCompare(String(a.as_of||"")); });
+        var head=g[0];
+        var b=bcls[head.impact]||"signal", bt=btxt[head.impact]||head.impact||"";
+        var upd=head.as_of||cp.report_date||"";
+        var body=g.map(function(it,i){
+          var pts=(dfld(it,"key_points")||[]).map(function(x){return "<li>"+esc(x)+"</li>";}).join("");
+          var dchip=(g.length>1&&it.as_of)?"<span class='cdate'>"+esc(it.as_of)+"</span>":"";
+          return "<div class='cnews"+(i>0?" more":"")+"'><p>"+esc(dfld(it,"headline"))+dchip+"</p>"+
+            (pts?"<ul style='margin:4px 0 4px 16px'>"+pts+"</ul>":"")+
+            (it.url?"<div class='srclist'><a href='"+esc(it.url)+"' target='_blank' rel='noopener noreferrer'>"+esc(t("source"))+"</a></div>":"")+
+            "</div>";
+        }).join("");
+        var wi=g.filter(function(it){return it.implication;})[0];
+        h += "<div class='reg'><div class='rt'><span class='rname'>"+esc(head.company)+"</span><span class='badge "+b+"'>"+esc(bt)+"</span><span class='rmeta'>"+esc(head.location||regionName(rk))+
+          (upd?" · "+esc(t("updated"))+" "+esc(upd):"")+"</span></div>"+body+
+          (wi?"<div class='impl'><b>◆ "+esc(t("angle"))+"</b>"+esc(dfld(wi,"implication"))+"</div>":"")+"</div>";
       });
       h += "</div>";
     });
-  });
-  document.getElementById("compBody").innerHTML = h || "<p class='dash-note'>—</p>";
+  }
+  document.getElementById("compBody").innerHTML = h ? "<div class='comp-anim'>"+h+"</div>" : "<p class='dash-note'>—</p>";
 }
 
 /* Restore saved language + tab preferences, then render */
