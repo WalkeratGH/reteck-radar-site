@@ -155,8 +155,10 @@ footer{margin-top:48px;border-top:1px solid var(--line);padding-top:14px;font-fa
 .comp-anim{animation:compIn .28s ease}
 @keyframes compIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 #compTypes button{transition:box-shadow .2s ease,background .2s ease,color .2s ease}
-[data-theme="dark"] #compTypes button.on{box-shadow:0 0 12px rgba(45,212,191,.35)}
-[data-theme="dark"] #compTypes button:not(.on):hover{border-color:var(--teal);color:var(--teal)}
+[data-theme="dark"] .subnav button.on{box-shadow:0 0 12px rgba(45,212,191,.35)}
+[data-theme="dark"] .subnav button:not(.on):hover{border-color:var(--teal);color:var(--teal)}
+.subnav.sub2{margin:8px 0 4px}
+.subnav.sub2 button{font-size:11.5px;padding:4px 11px}
 .reg .cnews.more{margin-top:9px;padding-top:9px;border-top:1px dashed var(--line)}
 .reg .cdate{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);margin-left:6px;white-space:nowrap}
 .badge{font-family:'IBM Plex Mono',monospace;font-size:10px;padding:2px 8px;border-radius:999px;text-transform:uppercase;letter-spacing:.5px}
@@ -224,7 +226,7 @@ footer{margin-top:48px;border-top:1px solid var(--line);padding-top:14px;font-fa
   <div class="date-block">
     <span class="report-date">2026-07-03</span>
     <span class="date-window">last 72h</span>
-    <span class="date-window">updated 2026-07-04 09:21 (UTC+8) · by Walker</span>
+    <span class="date-window">updated 2026-07-04 09:40 (UTC+8) · by Walker</span>
   </div>
   <div class="date-nav">
     
@@ -341,6 +343,7 @@ footer{margin-top:48px;border-top:1px solid var(--line);padding-top:14px;font-fa
 <section class="tabpanel" id="tab-reg">
   <h2 class="dash-h" id="regTitle">Regulatory &amp; ESG drivers</h2>
   <p class="dash-note" id="regNote"></p>
+  <div class="subnav" id="regRegions"></div>
   <div id="regBody"></div>
 </section>
 
@@ -349,10 +352,11 @@ footer{margin-top:48px;border-top:1px solid var(--line);padding-top:14px;font-fa
   <h2 class="dash-h" id="compTitle">Competitor Radar</h2>
   <p class="dash-note" id="compNote"></p>
   <div class="subnav" id="compTypes"></div>
+  <div class="subnav sub2" id="compRegions"></div>
   <div id="compBody"></div>
 </section>
 
-<footerRE-TECK Market Radar · internal use only · updated 2026-07-04 09:21 (UTC+8) by Walker · generated 2026-07-04 01:21 UTC</footer>
+<footerRE-TECK Market Radar · internal use only · updated 2026-07-04 09:40 (UTC+8) by Walker · generated 2026-07-04 01:40 UTC</footer>
 </div>
 
 <script>
@@ -800,28 +804,36 @@ function renderPriceDetail(){
 }
 
 /* ---- Regulatory & ESG ---- */
+var curRegRegion = 0;
+function setRegRegion(i){ curRegRegion=i; renderReg(); }
 function renderReg(){
   var reg=REG||{};
   document.getElementById("regTitle").textContent = t("tab_reg");
   document.getElementById("regNote").textContent = dfld(reg,"note");
-  var regs=reg.regions||{}; var h="";
-  Object.keys(regs).forEach(function(rk){
-    var items=regs[rk]||[]; if(!items.length) return;
-    h += "<div class='reg-region-h'>"+esc(regionName(rk))+"</div><div class='reg-grid'>";
-    items.forEach(function(it){
+  var regs=reg.regions||{};
+  var keys=Object.keys(regs).filter(function(rk){ return (regs[rk]||[]).length; });
+  if(curRegRegion>=keys.length) curRegRegion=0;
+  document.getElementById("regRegions").innerHTML = keys.map(function(rk,i){
+    return "<button class='"+(i===curRegRegion?"on":"")+"' onclick='setRegRegion("+i+")'>"+esc(regionName(rk))+"</button>";
+  }).join("");
+  var h="", rk=keys[curRegRegion];
+  if(rk){
+    h += "<div class='reg-grid'>";
+    (regs[rk]||[]).forEach(function(it){
       h += "<div class='reg'><div class='rt'><span class='rname'>"+esc(dfld(it,"name"))+"</span><span class='rmeta'>"+esc(dfld(it,"type"))+(it.status?(" · "+esc(dfld(it,"status"))):"")+(it.date?(" · "+esc(it.date)):"")+"</span></div>"+
         (it.requires?"<p>"+esc(dfld(it,"requires"))+"</p>":"")+
         (it.reteck_implication?"<div class='impl'><b>◆ "+esc(t("angle"))+"</b>"+esc(dfld(it,"reteck_implication"))+"</div>":"")+
         (it.url?"<div class='srclist'><a href='"+esc(it.url)+"' target='_blank' rel='noopener noreferrer'>"+esc(t("source"))+"</a></div>":"")+"</div>";
     });
     h += "</div>";
-  });
-  document.getElementById("regBody").innerHTML = h || "<p class='dash-note'>—</p>";
+  }
+  document.getElementById("regBody").innerHTML = h ? "<div class='comp-anim'>"+h+"</div>" : "<p class='dash-note'>—</p>";
 }
 
 /* ---- Competitor radar ---- */
-var curCompType = 0;
-function setCompType(i){ curCompType=i; renderComp(); }
+var curCompType = 0, curCompRegion = 0;
+function setCompType(i){ curCompType=i; curCompRegion=0; renderComp(); }
+function setCompRegion(i){ curCompRegion=i; renderComp(); }
 function renderComp(){
   var cp=COMPETITORS||{};
   document.getElementById("compTitle").textContent = t("tab_comp");
@@ -833,35 +845,41 @@ function renderComp(){
   }).join("");
   var bcls={Threat:"threat",Opportunity:"opp",Signal:"signal"};
   var btxt={Threat:t("t_threat"),Opportunity:t("t_opp"),Signal:t("t_signal")};
-  var h="", ty=types[curCompType];
+  var ty=types[curCompType], rkeys=[];
   if(ty){
     var regs=ty.regions||{};
-    Object.keys(regs).forEach(function(rk){
-      var items=regs[rk]||[]; if(!items.length) return;
-      /* group multiple in-window news items of the same company into one card */
-      var order=[], groups={};
-      items.forEach(function(it){ var k=it.company; if(!groups[k]){groups[k]=[]; order.push(k);} groups[k].push(it); });
-      h += "<div class='reg-region-h'>"+esc(regionName(rk))+"</div><div class='reg-grid'>";
-      order.forEach(function(k){
-        var g=groups[k].slice().sort(function(a,b){ return String(b.as_of||"").localeCompare(String(a.as_of||"")); });
-        var head=g[0];
-        var b=bcls[head.impact]||"signal", bt=btxt[head.impact]||head.impact||"";
-        var upd=head.as_of||cp.report_date||"";
-        var body=g.map(function(it,i){
-          var pts=(dfld(it,"key_points")||[]).map(function(x){return "<li>"+esc(x)+"</li>";}).join("");
-          var dchip=(g.length>1&&it.as_of)?"<span class='cdate'>"+esc(it.as_of)+"</span>":"";
-          return "<div class='cnews"+(i>0?" more":"")+"'><p>"+esc(dfld(it,"headline"))+dchip+"</p>"+
-            (pts?"<ul style='margin:4px 0 4px 16px'>"+pts+"</ul>":"")+
-            (it.url?"<div class='srclist'><a href='"+esc(it.url)+"' target='_blank' rel='noopener noreferrer'>"+esc(t("source"))+"</a></div>":"")+
-            "</div>";
-        }).join("");
-        var wi=g.filter(function(it){return it.implication;})[0];
-        h += "<div class='reg'><div class='rt'><span class='rname'>"+esc(head.company)+"</span><span class='badge "+b+"'>"+esc(bt)+"</span><span class='rmeta'>"+esc(head.location||regionName(rk))+
-          (upd?" · "+esc(t("updated"))+" "+esc(upd):"")+"</span></div>"+body+
-          (wi?"<div class='impl'><b>◆ "+esc(t("angle"))+"</b>"+esc(dfld(wi,"implication"))+"</div>":"")+"</div>";
-      });
-      h += "</div>";
+    rkeys=Object.keys(regs).filter(function(rk){ return (regs[rk]||[]).length; });
+    if(curCompRegion>=rkeys.length) curCompRegion=0;
+  }
+  document.getElementById("compRegions").innerHTML = rkeys.map(function(rk,i){
+    return "<button class='"+(i===curCompRegion?"on":"")+"' onclick='setCompRegion("+i+")'>"+esc(regionName(rk))+"</button>";
+  }).join("");
+  var h="", rk=rkeys[curCompRegion];
+  if(ty&&rk){
+    var items=(ty.regions[rk])||[];
+    /* group multiple in-window news items of the same company into one card */
+    var order=[], groups={};
+    items.forEach(function(it){ var k=it.company; if(!groups[k]){groups[k]=[]; order.push(k);} groups[k].push(it); });
+    h += "<div class='reg-grid'>";
+    order.forEach(function(k){
+      var g=groups[k].slice().sort(function(a,b){ return String(b.as_of||"").localeCompare(String(a.as_of||"")); });
+      var head=g[0];
+      var b=bcls[head.impact]||"signal", bt=btxt[head.impact]||head.impact||"";
+      var upd=head.as_of||cp.report_date||"";
+      var body=g.map(function(it,i){
+        var pts=(dfld(it,"key_points")||[]).map(function(x){return "<li>"+esc(x)+"</li>";}).join("");
+        var dchip=(g.length>1&&it.as_of)?"<span class='cdate'>"+esc(it.as_of)+"</span>":"";
+        return "<div class='cnews"+(i>0?" more":"")+"'><p>"+esc(dfld(it,"headline"))+dchip+"</p>"+
+          (pts?"<ul style='margin:4px 0 4px 16px'>"+pts+"</ul>":"")+
+          (it.url?"<div class='srclist'><a href='"+esc(it.url)+"' target='_blank' rel='noopener noreferrer'>"+esc(t("source"))+"</a></div>":"")+
+          "</div>";
+      }).join("");
+      var wi=g.filter(function(it){return it.implication;})[0];
+      h += "<div class='reg'><div class='rt'><span class='rname'>"+esc(head.company)+"</span><span class='badge "+b+"'>"+esc(bt)+"</span><span class='rmeta'>"+esc(head.location||regionName(rk))+
+        (upd?" · "+esc(t("updated"))+" "+esc(upd):"")+"</span></div>"+body+
+        (wi?"<div class='impl'><b>◆ "+esc(t("angle"))+"</b>"+esc(dfld(wi,"implication"))+"</div>":"")+"</div>";
     });
+    h += "</div>";
   }
   document.getElementById("compBody").innerHTML = h ? "<div class='comp-anim'>"+h+"</div>" : "<p class='dash-note'>—</p>";
 }
