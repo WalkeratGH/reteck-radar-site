@@ -108,7 +108,9 @@ footer{margin-top:48px;border-top:1px solid var(--line);padding-top:14px;font-fa
 .tabpanel.on{display:block}
 /* Sub-tabs (within DC / Device strategy) */
 .subnav{display:flex;flex-wrap:wrap;gap:6px;margin:18px 0 4px}
-.subnav button{font-family:'IBM Plex Sans',sans-serif;font-size:12.5px;padding:6px 13px;border:1px solid var(--muted);background:transparent;color:var(--muted);cursor:pointer;border-radius:999px}
+.subnav button,.subnav a.navlink{font-family:'IBM Plex Sans',sans-serif;font-size:12.5px;padding:6px 13px;border:1px solid var(--muted);background:transparent;color:var(--muted);cursor:pointer;border-radius:999px}
+.subnav a.navlink{text-decoration:none;display:inline-block}
+.subnav a.navlink:hover{border-color:var(--teal);color:var(--teal)}
 .subnav button.on{background:var(--teal);border-color:var(--teal);color:#fff}
 .subpanel{display:none}
 .subpanel.on{display:block}
@@ -160,7 +162,7 @@ footer{margin-top:48px;border-top:1px solid var(--line);padding-top:14px;font-fa
 @keyframes compIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 #compTypes button{transition:box-shadow .2s ease,background .2s ease,color .2s ease}
 [data-theme="dark"] .subnav button.on{box-shadow:0 0 12px rgba(45,212,191,.35)}
-[data-theme="dark"] .subnav button:not(.on):hover{border-color:var(--teal);color:var(--teal)}
+[data-theme="dark"] .subnav button:not(.on):hover,[data-theme="dark"] .subnav a.navlink:hover{border-color:var(--teal);color:var(--teal)}
 .subnav.sub2{margin:8px 0 4px}
 .subnav.sub2 button{font-size:11.5px;padding:4px 11px}
 .reg .cnews.more{margin-top:9px;padding-top:9px;border-top:1px dashed var(--line)}
@@ -179,8 +181,6 @@ footer{margin-top:48px;border-top:1px solid var(--line);padding-top:14px;font-fa
 /* ===== Theme toggle button ===== */
 .theme-btn{font-family:'IBM Plex Mono',monospace;font-size:14px;line-height:1;padding:5px 10px;border:1.5px solid var(--teal);border-radius:3px;background:var(--card);color:var(--teal);cursor:pointer;box-shadow:var(--glow)}
 .theme-btn:hover{background:var(--teal-lt)}
-.sensors-btn{background:var(--teal);color:#07121d;font-weight:700;text-decoration:none;line-height:1.9;font-family:'IBM Plex Mono','Noto Sans TC','Microsoft JhengHei','PingFang TC',sans-serif}
-.sensors-btn:hover{background:var(--teal);filter:brightness(1.12)}
 /* ===== Dark theme — "HUD / Cyber-slate" ===== */
 [data-theme="dark"]{
   --ink:#CFE8F0; --paper:#0C1622; --teal:#2DD4BF; --teal-lt:#0F2436;
@@ -232,7 +232,7 @@ footer{margin-top:48px;border-top:1px solid var(--line);padding-top:14px;font-fa
   <div class="date-block">
     <span class="report-date">2026-10-15</span>
     <span class="date-window">last 72h</span>
-    <span class="date-window">updated 2026-10-16 04:52 (UTC+8) · by Walker</span>
+    <span class="date-window">updated 2026-10-16 04:54 (UTC+8) · by Walker</span>
   </div>
   <div class="date-nav">
     
@@ -279,7 +279,6 @@ footer{margin-top:48px;border-top:1px solid var(--line);padding-top:14px;font-fa
       
     </select>
     
-    <a class="theme-btn sensors-btn" href="sensors.html" title="Physical AI 感測器市場">🤚 感測器</a>
     <button class="theme-btn" id="themeToggle" onclick="toggleTheme()" aria-label="Toggle dark / light" title="Dark / Light"><span id="themeIcon">☾</span></button>
     <div class="lang-toggle" id="langToggle"></div>
   </div>
@@ -405,7 +404,7 @@ footer{margin-top:48px;border-top:1px solid var(--line);padding-top:14px;font-fa
   <div id="compBody"></div>
 </section>
 
-<footerRE-TECK Market Radar · internal use only · updated 2026-10-16 04:52 (UTC+8) by Walker · generated 2026-10-15 20:52 UTC</footer>
+<footerRE-TECK Market Radar · internal use only · updated 2026-10-16 04:54 (UTC+8) by Walker · generated 2026-10-15 20:54 UTC</footer>
 </div>
 
 <script>
@@ -504,6 +503,7 @@ var UI = {
   sub_dvlap:{en:"Laptop Share","zh-Hant":"筆電市佔","zh-Hans":"笔电市占",ja:"ノートPCシェア",de:"Laptop-Anteil",nl:"Laptop-aandeel"},
   sub_dvphone:{en:"Smartphone Share","zh-Hant":"手機市佔","zh-Hans":"手机市占",ja:"スマホシェア",de:"Smartphone-Anteil",nl:"Smartphone-aandeel"},
   sub_dvrobot:{en:"Robot Market","zh-Hant":"機器人市場","zh-Hans":"机器人市场",ja:"ロボット市場",de:"Robotermarkt",nl:"Robotmarkt"},
+  sub_dvsensors:{en:"Sensor Market","zh-Hant":"感測器市場","zh-Hans":"传感器市场",ja:"センサー市場",de:"Sensormarkt",nl:"Sensormarkt"},
   robot_vendor_title:{en:"Humanoid & general-purpose robots — vendor fleet estimates","zh-Hant":"人形/通用機器人——廠商出貨與機隊估計","zh-Hans":"人形/通用机器人——厂商出货与机队估计",ja:"ヒューマノイド/汎用ロボット——ベンダー出荷·フリート推計",de:"Humanoide & Universalroboter — Flottenschätzungen je Anbieter",nl:"Humanoïde & universele robots — vlootramingen per leverancier"},
   robot_region_title:{en:"Industrial robot installations by country","zh-Hant":"工業機器人各國年安裝量","zh-Hans":"工业机器人各国年安装量",ja:"産業用ロボット国別年間導入台数",de:"Industrieroboter-Installationen nach Land",nl:"Industriële robotinstallaties per land"},
   /* Section titles */
@@ -725,6 +725,7 @@ function renderCurrentTab(){
 }
 function buildSubnav(containerId, subs, cur, setter){
   document.getElementById(containerId).innerHTML = subs.map(function(s){
+    if(s.href) return "<a class='navlink' href='"+s.href+"'>"+esc(t(s.ui))+"</a>";
     return "<button class='"+(cur===s.k?"on":"")+"' onclick='"+setter+"(\""+s.k+"\")'>"+esc(t(s.ui))+"</button>";
   }).join("");
 }
@@ -805,7 +806,7 @@ function renderGpuroute(){
 /* ---- Device strategy ---- */
 function setDevSub(s){ curDevSub=s; renderDevstrat(); }
 function renderDevstrat(){
-  buildSubnav("devSubnav",[{k:"dvstrat",ui:"sub_dvstrat"},{k:"dvlap",ui:"sub_dvlap"},{k:"dvphone",ui:"sub_dvphone"},{k:"dvrobot",ui:"sub_dvrobot"}],curDevSub,"setDevSub");
+  buildSubnav("devSubnav",[{k:"dvstrat",ui:"sub_dvstrat"},{k:"dvlap",ui:"sub_dvlap"},{k:"dvphone",ui:"sub_dvphone"},{k:"dvrobot",ui:"sub_dvrobot"},{k:"dvsensors",ui:"sub_dvsensors",href:"sensors.html"}],curDevSub,"setDevSub");
   ["dvstrat","dvlap","dvphone","dvrobot"].forEach(function(s){ var el=document.getElementById("sub-"+s); if(el) el.classList.toggle("on", s===curDevSub); });
   document.getElementById("devstratTitle").textContent = t("tab_devstrat");
   if(curDevSub==="dvstrat") renderDvStratSub();
