@@ -1,0 +1,1664 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Physical AI 感測器市場全景 | Re-Teck Radar</title>
+<script data-goatcounter="https://reteck-radar.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<style>
+:root{
+  --bg:#0C1622; --panel:#111F30; --panel2:#0E1A29; --line:#1E3248;
+  --teal:#2DD4BF; --teal-dim:#14B8A6; --txt:#D7E3F0; --dim:#8BA3BC; --warn:#FBBF24;
+  --mono:"SFMono-Regular",Consolas,"Liberation Mono",monospace;
+  --cjk:system-ui,-apple-system,"Segoe UI","Noto Sans TC","Microsoft JhengHei","PingFang TC",sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--txt);font-family:var(--cjk);font-size:15px;line-height:1.55}
+a{color:var(--teal);text-decoration:none}
+a:hover{text-decoration:underline}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px 60px}
+header.top{position:sticky;top:0;z-index:50;background:rgba(12,22,34,.94);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+.top-in{max-width:1180px;margin:0 auto;padding:10px 16px;display:flex;flex-wrap:wrap;gap:8px 14px;align-items:baseline}
+.top-in h1{font-size:18px;margin:0;letter-spacing:.5px}
+.top-in h1 .hud{color:var(--teal)}
+.meta{color:var(--dim);font-size:12px}
+.meta b{color:var(--txt)}
+nav.chips{max-width:1180px;margin:0 auto;padding:0 16px 10px;display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:1px solid var(--line);background:var(--panel2);color:var(--dim);padding:4px 11px;border-radius:999px;cursor:pointer;font-size:13px;line-height:1.6;font-family:var(--cjk)}
+.chip:hover{border-color:var(--teal-dim);color:var(--txt)}
+.chip.on{background:rgba(45,212,191,.14);border-color:var(--teal);color:var(--teal);box-shadow:0 0 8px rgba(45,212,191,.25)}
+.chip.star{border-color:#7C5CFC}
+.chip.star.on{background:rgba(124,92,252,.16);border-color:#9d85ff;color:#c9bbff;box-shadow:0 0 8px rgba(124,92,252,.3)}
+.view{display:none;animation:fade .25s ease}
+.view.on{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+h2.sec{font-size:20px;margin:26px 0 4px;color:var(--teal);letter-spacing:.5px}
+h2.sec .tag{color:var(--dim);font-size:13px;font-weight:400;margin-left:10px}
+h3.sub{font-size:15px;margin:22px 0 8px;color:var(--txt);border-left:3px solid var(--teal);padding-left:9px}
+p.intro{color:var(--dim);margin:6px 0 14px;max-width:880px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:4px 0;margin:8px 0 18px;overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:760px;font-size:13.5px}
+th{color:var(--dim);font-weight:600;text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);white-space:nowrap;font-size:12px}
+td{padding:9px 12px;border-bottom:1px solid rgba(30,50,72,.55);vertical-align:top}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(45,212,191,.04)}
+td.photo{width:96px}
+td.photo img{width:88px;height:62px;object-fit:contain;background:#fff;border-radius:6px;display:block}
+td.photo .noimg{width:88px;height:62px;border:1px dashed var(--line);border-radius:6px;display:flex;align-items:center;justify-content:center;color:var(--dim);font-size:11px}
+td .hq{color:var(--dim);font-size:12px;display:block}
+td.num{font-family:var(--mono);white-space:nowrap}
+.warnmark{color:var(--warn)}
+ul.trends{margin:4px 0 20px;padding-left:22px;color:var(--txt)}
+ul.trends li{margin:5px 0}
+.kcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin:14px 0 20px}
+.kcard{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--teal);border-radius:8px;padding:12px 14px;font-size:13.5px}
+.kcard b{color:var(--teal)}
+.newsitem{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:11px 14px;margin:8px 0}
+.newsitem .d{color:var(--teal);font-family:var(--mono);font-size:12px;margin-right:8px}
+.newsitem .co{font-weight:600}
+.newsitem .angle{display:block;color:var(--dim);font-size:13px;margin-top:4px;border-left:2px solid var(--teal-dim);padding-left:8px}
+.note{color:var(--dim);font-size:12.5px;margin:6px 0}
+.backbar{margin:14px 0 2px;font-size:13px}
+.spot-banner{background:linear-gradient(135deg,rgba(124,92,252,.15),rgba(45,212,191,.1));border:1px solid #3b2d73;border-radius:10px;padding:14px 16px;margin:14px 0}
+footer{color:var(--dim);font-size:12px;border-top:1px solid var(--line);margin-top:40px;padding-top:14px}
+@media (max-width:700px){
+  table{min-width:640px}
+  .top-in h1{font-size:16px}
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="top-in">
+    <h1><span class="hud">◤</span> Physical AI 感測器市場全景 <span class="hud">◢</span></h1>
+    <span class="meta">更新 <b>2026-10-15</b> ・ 基礎資料 2026-09-17 ・ <a href="index.html">← 回每週 Radar</a></span>
+  </div>
+  <nav class="chips" id="chips">
+    <button class="chip" data-v="ov">總覽與市場規模</button>
+    <button class="chip star" data-v="spot">★ 機器人觸覺×靈巧手</button>
+    <button class="chip" data-v="sight">👁 1 視覺</button><button class="chip" data-v="hearing">👂 2 聽覺</button><button class="chip" data-v="smell">👃 3 嗅覺</button><button class="chip" data-v="taste">👅 4 味覺</button><button class="chip" data-v="touch">🤚 5 觸覺</button><button class="chip" data-v="temp">🌡 6 溫度感</button><button class="chip" data-v="motion">🌀 7 平衡／動作感</button><button class="chip" data-v="space">📡 8 空間位置感</button><button class="chip" data-v="electric">⚡ 9 電氣感知</button><button class="chip" data-v="id">🏷 10 身分識別</button>
+    <button class="chip" data-v="picks">ITAD 感官組合</button>
+    <button class="chip" data-v="notes">資料說明</button>
+  </nav>
+</header>
+<div class="wrap">
+
+<!-- ===================== 總覽 ===================== -->
+<section class="view" id="v-ov">
+  <h2 class="sec">重點觀察</h2>
+  <div class="kcards">
+    <div class="kcard"><b>AI 正移進感測器。</b>Sony IMX500、LUCID Triton Smart、FLIR Prism、Bosch BMI5／BME690 都能在感測器端直接推論,只回傳結果,省頻寬與延遲。</div>
+    <div class="kcard"><b>高階感測快速平價化。</b>固態光達從數千美元降到數百美元(禾賽說法);dToF 陣列與熱電堆讓 3D/熱視覺進入一般設備。</div>
+    <div class="kcard"><b>人形機器人是最大推力。</b>觸覺皮膚(帕西尼、他山、XELA)、半球光達(速騰、禾賽)、廣角深度相機(RealSense、Orbbec)皆以人形為主要新市場。</div>
+    <div class="kcard"><b>產業整併頻繁。</b>RealSense 獨立、Ouster 併 StereoLabs、Honeywell 併 Li-ion Tamer、u-blox 私有化、Septentrio 入 Hexagon、Skyworks×Qorvo 合併中——選供應商要看穩定性。</div>
+    <div class="kcard"><b>大市場在「看」與「認」。</b>CMOS 影像(~232 億)、機器視覺(158–226 億)、RFID(156–171 億)最大;AI 感測器(~49%)、人形力感測(40%+)、LiDAR(15–31%)成長最快。全球感測器總市場約 2,400–2,700 億美元(2025)。</div>
+  </div>
+  <h2 class="sec">大環境市場規模 <span class="tag">感測器、Physical AI、人形機器人與 ITAD(⚠ = 二線機構或高推估)</span></h2>
+  <div class="panel"><table>
+    <tr><th>細分市場</th><th>基準年規模</th><th>預測規模</th><th>CAGR</th><th>研究機構</th><th>來源</th></tr>
+    
+  </table></div>
+  <p class="note">不同研究機構的市場規模常相差 2–3 倍(定義不同:元件 vs 含軟體服務、是否含車用/手機)。本頁盡量並列兩家機構數字呈現區間。</p>
+</section>
+
+<!-- ===================== 機器人觸覺×靈巧手專區 ===================== -->
+<section class="view" id="v-spot">
+  <div class="spot-banner">
+    <b style="color:#c9bbff">★ 專區:機器人觸覺、體感與手指靈巧度</b><br>
+    <span class="note">人形機器人把觸覺皮膚、六軸力/扭矩、關節編碼器與 IMU 推成感測器業成長最快的賽道;靈巧手是這些感測密度最高的載體——也是未來最高價值的機器人回收料件。更新:2026-10-15</span>
+  </div>
+  
+  <h2 class="sec">靈巧手 Dexterous Hands <span class="tag">含觸覺整合</span></h2>
+  <div class="panel"><table>
+    <tr><th>廠商</th><th>總部</th><th>產品／型號</th><th>關鍵規格</th><th>典型應用</th><th>來源</th></tr>
+    
+    <tr><td><b>Unitree 宇樹科技</b></td><td>中國</td><td>Dex5-S</td><td>22 自由度(全主動)、1:1 人手尺寸(102×187×26mm)、620g、單手負載 1kg(最大 2kg)、1kHz 控制(Ethernet/USB);分標準與觸覺兩種配置(前代 Dex5-1 最多 94 點觸覺);售價 ¥39,900(約 US$6,500)起,另有 Pro 版</td><td>人形機器人(G1/H2 等)末端執行器、具身智能資料採集與開發</td><td><a href="https://www.aibase.com/news/31252" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+    <tr><td><b>Boston Dynamics</b></td><td>美國</td><td>Atlas 四指靈巧手(2026-10 發表)</td><td>13 自由度(拇指 4、其餘各指 3),刻意捨去小指以降低成本、體積與故障點;指尖與掌心內建壓力式觸覺感測;為 sim-to-real 強化學習訓練設計,支援手內重定向、捏取/三點抓取、滑移恢復與工具抓握</td><td>Atlas 人形機器人工業操作、工具使用(電鑽/焊槍等)</td><td><a href="https://www.therobotreport.com/boston-dynamics-drops-pinkie-on-new-humanoid-hand/" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+    <tr><td><b>Shadow Robot</b></td><td>英國</td><td>DEX-EE</td><td>3 指腱繩驅動、12 自由度,與 Google DeepMind 合作開發、以高耐用強化學習為目標;模組化可更換觸覺模組:近節 22 + 中節 14 個感測單元,每單元為磁鐵+3 軸霍爾效應感測(法向+剪切力+溫度,12-bit、100Hz),另有指尖高密度光學觸覺</td><td>機器學習/強化學習靈巧操作研究</td><td><a href="https://shadowrobot.com/wp-content/uploads/2026/05/Shadow-DEX-EE-Series-Technical-Specifications.pdf" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+    <tr><td><b>Wonik Robotics</b></td><td>南韓</td><td>Allegro Hand V5 / V5 Plus / V5 Sense</td><td>V5 為 3 指 9 自由度,V5 Plus 為 4 指 16 自由度;指尖搭載 360° 全向氣壓式觸覺感測器,V5 Sense 版配 16 點壓力分布式觸覺;約 1.0kg、抓握力約 15kg;參考價約 US$11,000 起</td><td>機器人抓取研究、機器學習操作訓練(Allegro 系列為學界長期標準平台)</td><td><a href="https://www.mybotshop.de/Allegro-Hand-V5-Plus-w-Fingertip-Sensor_1" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+    <tr><td><b>Inspire Robots 因時機器人</b></td><td>中國</td><td>RH56 系列(RH56F1/H1/E2/DFX 等)</td><td>5 指 6 自由度 12 關節、約 470–620g;觸覺版可量測最大 30N 接觸力(精度 ±5%FS);拇指握力 15–30N(依型號)、RS485/CAN FD、1kHz 通訊;E2 等型號直接相容 Unitree G1/H2 人形平台</td><td>人形機器人量產末端執行器(多家人形廠採用)、科研</td><td><a href="https://www.knoxlabs.com/products/inspire-robots-rh56e2-dexterous-hand" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+    <tr><td><b>PSYONIC</b></td><td>美國</td><td>Ability Hand(Robotics Edition)</td><td>6 自由度(6 顆 BLDC,支援扭矩/速度/位置控制)、30 點力感測電阻觸覺(每指 6 點)可串流 touch map;power grasp 78N、約 470g、I2C/BLE/UART/RS-485;源自義肢產品線</td><td>人形機器人與義肢雙用途、contact-rich 操作策略學習(NASA、Apptronik 等研究採用)</td><td><a href="https://www.knoxlabs.com/products/psyonic-ability-hand-robotics-edition" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+    <tr><td><b>Clone Robotics</b></td><td>波蘭</td><td>Clone Hand</td><td>仿人肌肉骨骼結構、27 自由度;專有液壓人工肌肉(McKibben 式)+比例力閥驅動,碳纖維骨骼與人工韌帶;可握持約 15 磅(約 6.8kg);無陣列式觸覺感測公開規格,精細動作仍在開發中</td><td>仿生人形(Protoclone)研究、遙操作示範</td><td><a href="https://wevolver.com/article/could-this-lifelike-robotic-hand-be-the-start-of-a-humanoid-future" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+    <tr><td><b>PaXini 帕西尼感知</b></td><td>中國</td><td>DexH13(GEN2)</td><td>4 指 16 自由度(13 主動+3 被動,拇指獨立 4 主動);整手整合 1,140 個 ITPU 多維觸覺單元(3,420 通道、最高 15 維感知:材質/溫度/紋理等)、8MP 手眼 RGB 相機;負載約 5kg、約 0.8–1.0kg;通路報價約 US$14,000–30,000</td><td>具身智能觸覺資料採集、精細抓取與材質辨識</td><td><a href="https://aifitlab.com/products/paxini-tech-dexh13-dexterous-hand" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+    <tr><td><b>LinkerBot 靈心巧手</b></td><td>中國</td><td>LinkerHand L30(旗艦腱繩款)</td><td>5 指 17 自由度/21 關節(含 1 腕部自由度)、腱繩驅動+高解析編碼器與張力控制;全系列涵蓋 11–42 自由度、連桿/直驅/腱繩三條技術路線(CES 2026 展出);搭配 Linker Open TeleDex 可同步採集視覺+觸覺+本體感知三模態資料</td><td>具身智能大模型訓練資料採集、人形機器人末端</td><td><a href="https://a.storyblok.com/f/298593/x/b0da4cc0ec/linker-hand-l30-20251126-1.pdf" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+    <tr><td><b>OYMotion 傲意科技</b></td><td>中國</td><td>ROHand(ROH-AP001)</td><td>11 關節、6 主動自由度;每指內建力感測器(量程 0.1–25N、150Hz 更新)支援即時力控;指尖力 ≥4.41N、拇指 ≥9.8N;約 640g(含腕)、UART/RS485/CAN;參考價約 US$9,750 起</td><td>人形機器人末端與智能義肢(義肢技術移植)</td><td><a href="https://www.worldrobotconference.com/profile/robot/download/2025/07/18/20250718182544000661_20250718182544A084.pdf" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+  </table></div>
+  <h2 class="sec">觸覺／力感測最新動態</h2>
+  
+  <div class="newsitem"><span class="d">2026-10</span><span class="co">Boston Dynamics</span> — 為 Atlas 發表 13 自由度四指新手,指尖與掌心內建壓力式觸覺感測,刻意捨去小指以減少致動器數量與故障點,並為 sim-to-real 強化學習而設計。
+    <span class="angle">◆ Re-Teck 觀點:頭部人形廠自研手部且觸覺元件與致動器高度一體化,未來報廢手部的拆解回收難度升高,但單手內含的馬達、感測器與稀貴金屬密度也更高。</span>
+    <span class="note"><a href="https://www.therobotreport.com/boston-dynamics-drops-pinkie-on-new-humanoid-hand/" target="_blank" rel="noopener">來源 ↗</a></span>
+  </div>
+  
+  <div class="newsitem"><span class="d">2026-10</span><span class="co">Vishay Precision Group (VPG)</span> — 宣布於 RoboBusiness 2026(10/20–21,Santa Clara)展示人形機器人客製應變計式感測方案:指尖微型觸覺力感測、多軸力感測、關節扭矩感測與力回授迴路;並稱 Q1 已向人形廠出貨約 US$60 萬、Q2 預期倍增。
+    <span class="angle">◆ Re-Teck 觀點:傳統應變計大廠正式切入人形供應鏈,顯示力/扭矩感測從研究採購走向量產採購;回收端可預先布局應變計與多軸感測模組的檢測再利用與殘值評估。</span>
+    <span class="note"><a href="https://www.therobotreport.com/precision-in-motion-vishay-precision-group-inc-vpg-to-showcase-custom-sensing-capabilities-for-humanoid-robotics-at-robobusiness-2026/" target="_blank" rel="noopener">來源 ↗</a></span>
+  </div>
+  
+  <div class="newsitem"><span class="d">2026-09</span><span class="co">Unitree 宇樹科技</span> — 9/21 發表 22 自由度靈巧手 Dex5-S(標準/觸覺雙配置,另有 Pro 版),中國售價 ¥39,900(約 US$6,500)起,較前代再降價並增加小指滾轉軸。
+    <span class="angle">◆ Re-Teck 觀點:靈巧手單價跌破萬美元將加速出貨與世代汰換,中期將形成含多點觸覺陣列與微型馬達的新型電子廢料料源。</span>
+    <span class="note"><a href="https://www.aibase.com/news/31252" target="_blank" rel="noopener">來源 ↗</a></span>
+  </div>
+  
+  <div class="newsitem"><span class="d">2026-09</span><span class="co">PaXini 帕西尼感知</span> — 9/20 在北京證監局完成 IPO 輔導備案(國泰海通輔導)搶跑「觸覺第一股」,並完成數億元 B++ 輪,累計融資逾 ¥40 億;比亞迪為最大外部股東,觸覺晶片年出貨已破 100 萬顆。
+    <span class="angle">◆ Re-Teck 觀點:觸覺感測龍頭進入資本化與量產放大階段,製程廢料、不良品與產線汰換設備的回收處理是 Re-Teck 可切入的上游服務。</span>
+    <span class="note"><a href="https://www.huxiu.com/article/4894453.html" target="_blank" rel="noopener">來源 ↗</a></span>
+  </div>
+  
+  <div class="newsitem"><span class="d">2026-09</span><span class="co">Tashan 他山科技</span> — 9 月完成股份制改造緊追上市步伐(上半年已完成三輪融資),並獲 NVIDIA 列為 Isaac Sim 全球首個觸覺模擬合作夥伴。
+    <span class="angle">◆ Re-Teck 觀點:SNN 觸覺晶片路線獲 NVIDIA 生態背書後出貨可望放量,未來電子廢料流中將出現專用觸覺 ASIC,兼具貴金屬回收與資料安全銷毀需求。</span>
+    <span class="note"><a href="https://www.huxiu.com/article/4894453.html" target="_blank" rel="noopener">來源 ↗</a></span>
+  </div>
+  
+  <div class="newsitem"><span class="d">2026-09</span><span class="co">產業趨勢(數智前線/36氪)</span> — 靈巧手的觸覺方案配置率由 2025 年初約 20% 升至 2025 Q4 約 60%,觸覺賽道億元級融資成常態;帕西尼感測器售價自千元以上降至 ¥199 起,華威科出貨量年增至約 5 萬套。
+    <span class="angle">◆ Re-Teck 觀點:觸覺感測正快速成為靈巧手標配且單價急跌,意味每隻報廢機器手都將內含複合材料觸覺陣列,回收分選流程需及早納入此類元件。</span>
+    <span class="note"><a href="https://eu.36kr.com/zh/p/3976189284594177" target="_blank" rel="noopener">來源 ↗</a></span>
+  </div>
+  
+  <div class="newsitem"><span class="d">2026-09</span><span class="co">千覺機器人</span> — 9 月完成兩輪合計數億元戰略融資,由藍馳創投領投,中金資本、靖亞資本跟投,視觸覺感測新創持續獲資本加碼。
+    <span class="angle">◆ Re-Teck 觀點:觸覺感測供應商版圖快速擴張,Re-Teck 的供應鏈夥伴與潛在回收客源名單應同步更新追蹤。</span>
+    <span class="note"><a href="https://www.huxiu.com/article/4894453.html" target="_blank" rel="noopener">來源 ↗</a></span>
+  </div>
+  
+  
+  <h2 class="sec">機器人觸覺市場數據</h2>
+  <div class="panel"><table>
+    <tr><th>細分市場</th><th>基準年規模</th><th>預測規模</th><th>CAGR</th><th>研究機構</th><th>來源</th></tr>
+    
+    <tr><td>觸覺感測器(整體市場)</td><td class="num">US$19.04B (2025)</td><td class="num">US$56.24B (2034)</td><td class="num">12.79% (2026–2034)</td><td>The Insight Partners</td><td><a href="https://www.theinsightpartners.com/reports/tactile-sensors-market" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+    <tr><td>機器人用軟性(flexible)觸覺感測器</td><td class="num">US$266M (2025)</td><td class="num">US$795M (2034)</td><td class="num">17.1%(報告標示;以基期/終值推算約 13%)</td><td>Intel Market Research</td><td><a href="https://www.intelmarketresearch.com/flexible-tactile-sensors-for-robots-market-27489" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+    <tr><td>機器人系統用扭矩感測器(六軸力/扭矩占約 45%)</td><td class="num">US$2.70B (2026)</td><td class="num">US$6.88B (2035)</td><td class="num">11.0% (2026–2035)</td><td>Roots Analysis(2026-07 更新)</td><td><a href="https://www.rootsanalysis.com/torque-sensors-for-robotic-systems-market" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+  </table></div>
+  
+  
+  <h2 class="sec">基礎廠商表 <span class="tag">六軸力/扭矩・觸覺皮膚(第 5 章)、IMU(第 7 章)</span></h2>
+  <p class="intro">完整的六軸力/扭矩感測器與觸覺皮膚廠商表在「🤚 5 觸覺」分頁;IMU/振動在「🌀 7 平衡/動作感」分頁。</p>
+</section>
+
+<!-- ===================== 各感官分類 ===================== -->
+
+<section class="view" id="v-sight">
+  <h2 class="sec">👁 1. 視覺 Sight <span class="tag">AI 的眼睛</span></h2>
+  <p class="intro">視覺是資訊量最大的感官。工業上會把「看得懂是什麼」（RGB 相機）、「知道在哪裡」（深度相機、LiDAR、ToF）和「看得到溫度」（熱像儀）分開選型，再做融合。</p>
+  
+  <h3 class="sub">1-1 工業 RGB／機器視覺相機、智慧相機</h3>
+  <div class="panel"><table>
+    <tr><th>產品照片</th><th>廠商</th><th>代表產品／型號</th><th>關鍵規格／特色</th><th>典型應用</th><th>官網／來源</th></tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.vision-systems.com/cameras-accessories/article/55249587/basler-launches-new-addition-to-ace-2-camera-line" target="_blank" rel="noopener"><img src="sensors_img/452491d8508515791a926f619ccc3513bd9f781c.jpg" loading="lazy" alt="Basler"></a></td>
+      <td><b>Basler</b><span class="hq">德國</span></td>
+      <td>ace 2 R（2024/12）、ace 2 GMSL</td><td>25 MP 全域快門、21 fps，5GigE／GigE／USB3</td><td>工廠自動化、物流、機器人導引</td>
+      <td><a href="https://www.vision-systems.com/cameras-accessories/article/55249587/basler-launches-new-addition-to-ace-2-camera-line" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.teledynevisionsolutions.com/company/news/iis/teledyne-expands-blackfly-s-gige-portfolio-with-5-mp-rolling-shutter-camera/" target="_blank" rel="noopener"><img src="sensors_img/622c71136eb67502dde688ba35bf63a47026f506.jpg" loading="lazy" alt="Teledyne Vision Solutions（原 FLIR IIS）"></a></td>
+      <td><b>Teledyne Vision Solutions（原 FLIR IIS）</b><span class="hq">美國</span></td>
+      <td>Blackfly S GigE（新 5 MP 捲簾快門）、Forge</td><td>小型 GigE／USB3 相機產品線</td><td>機器人視覺、檢測</td>
+      <td><a href="https://www.teledynevisionsolutions.com/company/news/iis/teledyne-expands-blackfly-s-gige-portfolio-with-5-mp-rolling-shutter-camera/" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://thinklucid.com/lucid-launches-triton-smart-camera-with-on-sensor-ai-for-edge-inference/" target="_blank" rel="noopener"><img src="sensors_img/aa0640ce266922f4bbdddd82e92f6538928b3bbc.jpg" loading="lazy" alt="LUCID Vision Labs"></a></td>
+      <td><b>LUCID Vision Labs</b><span class="hq">加拿大</span></td>
+      <td>Triton Smart（2025/09）、Triton2 2.5GigE</td><td>採 Sony IMX501，AI 直接在感測器上推論，免主機 PC</td><td>邊緣 AI 檢測</td>
+      <td><a href="https://thinklucid.com/lucid-launches-triton-smart-camera-with-on-sensor-ai-for-edge-inference/" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.prnewswire.com/news-releases/cognex-introduces-onevision-a-breakthrough-cloud-platform-for-ai-powered-machine-vision-302471487.html" target="_blank" rel="noopener"><img src="sensors_img/3c449ea78b651b0a1829a3242f9dcbdb2fbb6b3b.jpg" loading="lazy" alt="Cognex 康耐視"></a></td>
+      <td><b>Cognex 康耐視</b><span class="hq">美國</span></td>
+      <td>In-Sight 3800／8900、In-Sight L38 3D；OneVision 雲端 AI 平台（2025/06）</td><td>雲端建立與訓練 AI 視覺應用，多廠區部署</td><td>多廠區 AI 瑕疵檢測</td>
+      <td><a href="https://www.prnewswire.com/news-releases/cognex-introduces-onevision-a-breakthrough-cloud-platform-for-ai-powered-machine-vision-302471487.html" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://control.com/news/keyence-releases-vs-series-vision-system-with-integrated-artificial-intelligence-for-vision-guided-robotics/" target="_blank" rel="noopener"><img src="sensors_img/0fe2829183668c3bc3083b90cf37d8fedbb7ab57.jpg" loading="lazy" alt="Keyence 基恩斯"></a></td>
+      <td><b>Keyence 基恩斯</b><span class="hq">日本</span></td>
+      <td>VS 系列智慧相機（2024/06）：VS-L／VS-S／VS-C</td><td>內建 AI（ShapeTrax 3A）、自動對焦與自動視野</td><td>視覺導引取放、檢測</td>
+      <td><a href="https://control.com/news/keyence-releases-vs-series-vision-system-with-integrated-artificial-intelligence-for-vision-guided-robotics/" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://themachinemaker.com/news/hikrobot-india-unveils-advanced-machine-vision-and-robotics-solutions-at-automation-expo-2025/" target="_blank" rel="noopener"><img src="sensors_img/d66a764cd4874231deda655e4c3a0a81cdc70a25.jpg" loading="lazy" alt="Hikrobot 海康機器人"></a></td>
+      <td><b>Hikrobot 海康機器人</b><span class="hq">中國</span></td>
+      <td>SC1000／SC3000 智慧相機、ID3000 讀碼器、3D 雷射輪廓感測器</td><td>AI 讀碼（IP67）；微米級雷射輪廓量測</td><td>電子、電池、包裹量方稱重（DWS）</td>
+      <td><a href="https://themachinemaker.com/news/hikrobot-india-unveils-advanced-machine-vision-and-robotics-solutions-at-automation-expo-2025/" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.sony-semicon.com/en/info/2025/2025092901.html" target="_blank" rel="noopener"><img src="sensors_img/60bda9c5b33e6be93272b30979cb4d2a5bba7733.jpg" loading="lazy" alt="Sony Semiconductor（影像感測晶片）"></a></td>
+      <td><b>Sony Semiconductor（影像感測晶片）</b><span class="hq">日本</span></td>
+      <td>IMX927（2025/11 送樣）、IMX925／IMX947</td><td>105 MP 全域快門、100 fps</td><td>上述多數工業相機的核心晶片</td>
+      <td><a href="https://www.sony-semicon.com/en/info/2025/2025092901.html" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+  </table></div>
+  
+  <h3 class="sub">1-2 雙目／深度相機</h3>
+  <div class="panel"><table>
+    <tr><th>產品照片</th><th>廠商</th><th>代表產品／型號</th><th>關鍵規格／特色</th><th>典型應用</th><th>官網／來源</th></tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.therobotreport.com/realsense-deepens-nvidia-ties-with-new-d555-depth-camera/" target="_blank" rel="noopener"><img src="sensors_img/2460a62f255c28f4e112675f47c39ef6635472c5.jpg" loading="lazy" alt="RealSense（2025/07 自 Intel 獨立）"></a></td>
+      <td><b>RealSense（2025/07 自 Intel 獨立）</b><span class="hq">美國</span></td>
+      <td>D555（2025）；D585 Pro（預計 2027 Q1 出貨）；D405／D415／D435／D455</td><td>D555：PoE、全域快門、內建 IMU、支援 ROS 2 與 NVIDIA Holoscan</td><td>AMR、人形機器人</td>
+      <td><a href="https://www.therobotreport.com/realsense-deepens-nvidia-ties-with-new-d555-depth-camera/" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.therobotreport.com/orbbec-releases-two-new-gemini-stereo-cameras-for-robotics/" target="_blank" rel="noopener"><img src="sensors_img/94c6c92d6b07f0071b47c196bb6e44254e45f064.jpg" loading="lazy" alt="Orbbec 奧比中光"></a></td>
+      <td><b>Orbbec 奧比中光</b><span class="hq">中國</span></td>
+      <td>Gemini 435Le、Gemini 305／345Lg（CES 2026）、Gemini 335</td><td>305：腕部相機，15 cm 處次毫米精度；345Lg：IP67、全暗到 100 klux</td><td>機械手臂、戶外 AMR</td>
+      <td><a href="https://www.therobotreport.com/orbbec-releases-two-new-gemini-stereo-cameras-for-robotics/" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.stereolabs.com/blog/new-product-launch-zed-x-hdr" target="_blank" rel="noopener"><img src="sensors_img/94fa356f342138c950b071fc1615df79f37b2dda.jpg" loading="lazy" alt="StereoLabs（2026/02 被 Ouster 收購）"></a></td>
+      <td><b>StereoLabs（2026/02 被 Ouster 收購）</b><span class="hq">法國／美國</span></td>
+      <td>ZED X HDR、ZED X One HDR、ZED X Max HDR、ZED X Mini</td><td>120 dB HDR、IP67、GMSL2，深度可達 23 m</td><td>戶外與工業機器人</td>
+      <td><a href="https://www.stereolabs.com/blog/new-product-launch-zed-x-hdr" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://linuxgizmos.com/oak-4-d-and-oak-4-s-standalone-edge-vision-cameras-with-poe-and-48mp-imaging/" target="_blank" rel="noopener"><img src="sensors_img/9506f0b771de047ba7fb658c90338a71c5796171.jpg" loading="lazy" alt="Luxonis"></a></td>
+      <td><b>Luxonis</b><span class="hq">美國</span></td>
+      <td>OAK 4 D、OAK 4 S（2025/12 出貨）</td><td>Qualcomm RVC4 平台 48 TOPS、48 MP RGB + 雙目、PoE</td><td>獨立運作的邊緣 AI 感知</td>
+      <td><a href="https://linuxgizmos.com/oak-4-d-and-oak-4-s-standalone-edge-vision-cameras-with-poe-and-48mp-imaging/" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://thinklucid.com/lucid-launches-helios2-wide-chroma-a-factory-calibrated-ip67-rgb-d-camera/" target="_blank" rel="noopener"><img src="sensors_img/62b4d44a07a977a3e38e04972ac3c922fcc280c2.jpg" loading="lazy" alt="LUCID Vision Labs"></a></td>
+      <td><b>LUCID Vision Labs</b><span class="hq">加拿大</span></td>
+      <td>Helios2 Wide Chroma（2026/01）</td><td>ToF 深度 + 12.2 MP 彩色，出廠校正、IP67</td><td>料箱揀取、物料搬運</td>
+      <td><a href="https://thinklucid.com/lucid-launches-helios2-wide-chroma-a-factory-calibrated-ip67-rgb-d-camera/" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+  </table></div>
+  
+  <h3 class="sub">1-3 LiDAR 光達（機器人、工業、3D 空間）</h3>
+  <div class="panel"><table>
+    <tr><th>產品照片</th><th>廠商</th><th>代表產品／型號</th><th>關鍵規格／特色</th><th>典型應用</th><th>官網／來源</th></tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.therobotreport.com/ouster-releases-rev8-os-family-native-color-lidar-sensors/" target="_blank" rel="noopener"><img src="sensors_img/689c44976be5716dcf8fd366d6f268bcbb749e7a.jpg" loading="lazy" alt="Ouster"></a></td>
+      <td><b>Ouster</b><span class="hq">美國</span></td>
+      <td>REV8 OS 系列（2026/05）：OS0、OS1、OSDome、OS1 Max</td><td>號稱首款「原生彩色」光達；每秒 1,040 萬點；OS1 Max 256 線、200 m</td><td>Physical AI、重工業、智慧基礎設施</td>
+      <td><a href="https://www.therobotreport.com/ouster-releases-rev8-os-family-native-color-lidar-sensors/" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.hesaitech.com/product/jt128/" target="_blank" rel="noopener"><img src="sensors_img/ae2f766c3f39e8a742b25e60869ba3be96bf6e5b.jpg" loading="lazy" alt="Hesai 禾賽"></a></td>
+      <td><b>Hesai 禾賽</b><span class="hq">中國</span></td>
+      <td>JT128／JT64P／JT32／JT16（CES 2025）</td><td>360°×189° 半球視野、265 g、IPX7</td><td>服務／清潔機器人、空間 3D 掃描</td>
+      <td><a href="https://www.hesaitech.com/product/jt128/" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.robosense.ai/en/IncrementalComponents/E1R" target="_blank" rel="noopener"><img src="sensors_img/acdb8e70e2a00e621cd318f114003a1a4b3533a5.jpg" loading="lazy" alt="RoboSense 速騰聚創"></a></td>
+      <td><b>RoboSense 速騰聚創</b><span class="hq">中國</span></td>
+      <td>Airy（半球）、Fairy、E1R（固態）</td><td>E1R：數位 SPAD 晶片、無運動件、120°×90°；2025 年機器人光達出貨 30.3 萬台</td><td>人形機器人、四足機器人</td>
+      <td><a href="https://www.robosense.ai/en/IncrementalComponents/E1R" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.livoxtech.com/mid-360s" target="_blank" rel="noopener"><img src="sensors_img/8d1fdc5bb260215835a7a150f4eb51ab120205ee.jpg" loading="lazy" alt="Livox 覽沃（大疆體系）"></a></td>
+      <td><b>Livox 覽沃（大疆體系）</b><span class="hq">中國</span></td>
+      <td>Mid-360S</td><td>360°×59°、10% 反射率 40 m、最近 0.1 m</td><td>AMR 與足式機器人 SLAM</td>
+      <td><a href="https://www.livoxtech.com/mid-360s" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.worldcargonews.com/ict-automation/2025/06/sick-launches-safety-certified-3d-lidar-sensor/" target="_blank" rel="noopener"><img src="sensors_img/ad7bb93662d539910122e5cb284bf5bd7bfc8eb7.jpg" loading="lazy" alt="SICK 西克"></a></td>
+      <td><b>SICK 西克</b><span class="hq">德國</span></td>
+      <td>multiScan100-S（2025/06）、picoScan</td><td>安全等級 3D 光達（PL b）、16 層、IP69K</td><td>AGV 防撞、港口起重機</td>
+      <td><a href="https://www.worldcargonews.com/ict-automation/2025/06/sick-launches-safety-certified-3d-lidar-sensor/" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.seyond.com/seyond-showcases-award-winning-hummingbird-d1-and-robin-w-lidar-at-modex-2026/" target="_blank" rel="noopener"><img src="sensors_img/a82bf7d54310f59858281335b6c8faab2ee86a16.jpg" loading="lazy" alt="Seyond 圖達通"></a></td>
+      <td><b>Seyond 圖達通</b><span class="hq">美國</span></td>
+      <td>Hummingbird D1（固態 0.01–50 m）、Robin W（超廣角）</td><td>近距對接與倉庫廣角導航</td><td>倉庫 AMR／AGV</td>
+      <td><a href="https://www.seyond.com/seyond-showcases-award-winning-hummingbird-d1-and-robin-w-lidar-at-modex-2026/" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+  </table></div>
+  
+  <h3 class="sub">1-4 ToF 飛行時間感測器</h3>
+  <div class="panel"><table>
+    <tr><th>產品照片</th><th>廠商</th><th>代表產品／型號</th><th>關鍵規格／特色</th><th>典型應用</th><th>官網／來源</th></tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.sony-semicon.com/en/products/is/industry/tof.html" target="_blank" rel="noopener"><img src="sensors_img/4abf3a28470854d53fbf1b04361ffc6a79a82707.jpg" loading="lazy" alt="Sony Semiconductor"></a></td>
+      <td><b>Sony Semiconductor</b><span class="hq">日本</span></td>
+      <td>DepthSense IMX556／IMX570（iToF）、IMX560（SPAD dToF）</td><td>IMX570：VGA、5 µm 像素；IMX560：約 10 萬 SPAD 像素</td><td>ToF 相機核心晶片</td>
+      <td><a href="https://www.sony-semicon.com/en/products/is/industry/tof.html" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://pmdtec.com/en/company/news/infineon-and-pmd-present-hybrid-time-of-flight-htof-advanced-technology-for-next-generation-smart-robots/" target="_blank" rel="noopener"><img src="sensors_img/40e2a27d3802f26a6bd9c70625b304d32d1123b1.jpg" loading="lazy" alt="Infineon 英飛凌 + pmd"></a></td>
+      <td><b>Infineon 英飛凌 + pmd</b><span class="hq">德國</span></td>
+      <td>REAL3 IRS2976C（VGA、約 10 m）、REAL3 Hybrid ToF</td><td>混合 iToF + dToF 模組可取代旋轉雷射掃描器</td><td>掃地機器人、服務機器人</td>
+      <td><a href="https://pmdtec.com/en/company/news/infineon-and-pmd-present-hybrid-time-of-flight-htof-advanced-technology-for-next-generation-smart-robots/" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.edge-ai-vision.com/2026/06/stmicroelectronics-unveils-new-compact-direct-time-of-flight-3d-lidar-module/" target="_blank" rel="noopener"><img src="sensors_img/6220ce78f5e49b9a9606f0f11890dbac918d804b.jpg" loading="lazy" alt="STMicroelectronics 意法半導體"></a></td>
+      <td><b>STMicroelectronics 意法半導體</b><span class="hq">瑞士／法國</span></td>
+      <td>VL53L9（2026/06 發表）、VL53L8CX</td><td>54×42 區（2,268 區）、5 cm–9 m、100 fps、免校正</td><td>避障、SLAM、人數計算</td>
+      <td><a href="https://www.edge-ai-vision.com/2026/06/stmicroelectronics-unveils-new-compact-direct-time-of-flight-3d-lidar-module/" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://ams-osram.com/news/press-releases/new-high-resolution-dtof" target="_blank" rel="noopener"><img src="sensors_img/033ed2f862aefe1b1ede9215db79f8e2ebaa36b6.jpg" loading="lazy" alt="ams OSRAM"></a></td>
+      <td><b>ams OSRAM</b><span class="hq">奧地利</span></td>
+      <td>TMF8829（2025 Q4 供貨）</td><td>48×32 區、最遠 11 m、80° 視角、5.7×2.9 mm</td><td>機器人防撞、佔用偵測</td>
+      <td><a href="https://ams-osram.com/news/press-releases/new-high-resolution-dtof" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.therobotreport.com/analog-devices-launches-affordable-itof-3d-camera-for-robotics-applications/" target="_blank" rel="noopener"><img src="sensors_img/ffe63f5dcf1d969b4ee5532383e97892664adf16.jpg" loading="lazy" alt="Analog Devices 亞德諾"></a></td>
+      <td><b>Analog Devices 亞德諾</b><span class="hq">美國</span></td>
+      <td>ADTF3175 模組 + ADSD3500 深度處理器</td><td>1 MP iToF、0.4–4 m 精度 ±3 mm</td><td>工業自動化、物流</td>
+      <td><a href="https://www.therobotreport.com/analog-devices-launches-affordable-itof-3d-camera-for-robotics-applications/" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+  </table></div>
+  
+  <h3 class="sub">1-5 熱像儀</h3>
+  <div class="panel"><table>
+    <tr><th>產品照片</th><th>廠商</th><th>代表產品／型號</th><th>關鍵規格／特色</th><th>典型應用</th><th>官網／來源</th></tr>
+    
+    <tr>
+      <td class="photo"><a href="https://oem.flir.com/about/news/teledyne-flir-oem-launches-boson-iq-thermal-imaging-development-kit-at-dsei-uk-20252/" target="_blank" rel="noopener"><img src="sensors_img/72475fd558c36692228e259355b02f89f1dd22ae.jpg" loading="lazy" alt="Teledyne FLIR"></a></td>
+      <td><b>Teledyne FLIR</b><span class="hq">美國</span></td>
+      <td>Boson+ IQ 開發套件（2025/09）、A40／A50／A70 自動化熱像儀</td><td>Boson+ IQ：Qualcomm 50 TOPS、2.5 W 內建 AI 偵測；A70：640×480、GigE Vision</td><td>自主機器人／無人機、製程監控</td>
+      <td><a href="https://oem.flir.com/about/news/teledyne-flir-oem-launches-boson-iq-thermal-imaging-development-kit-at-dsei-uk-20252/" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.roboticstomorrow.com/article/2026/04/how-thermal-imaging-modules-are-transforming-industrial-robots-for-safer-247-operations/26325" target="_blank" rel="noopener"><img src="sensors_img/8b0fc0d28f9bc6eddccb43e8e1169308edccf694.jpg" loading="lazy" alt="InfiRay／Raytron 艾睿光電"></a></td>
+      <td><b>InfiRay／Raytron 艾睿光電</b><span class="hq">中國</span></td>
+      <td>WN2／WN2T 模組、TC2-C、ECOT（MWC 2026）</td><td>ECOT：10.5×10.5×5.8 mm 非製冷長波紅外模組</td><td>巡檢機器人、AMR 火災監看</td>
+      <td><a href="https://www.roboticstomorrow.com/article/2026/04/how-thermal-imaging-modules-are-transforming-industrial-robots-for-safer-247-operations/26325" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.prnewswire.com/news-releases/hikmicro-world-leader-in-smart-thermal-imaging-marks-10th-anniversary-with-launch-of-trailblazing-ai-powered-superscene-mode-302745858.html" target="_blank" rel="noopener"><img src="sensors_img/6bebc7ada9e1b44e68fe2e91950a5f9ae7d77481.jpg" loading="lazy" alt="HIKMICRO 海康微影"></a></td>
+      <td><b>HIKMICRO 海康微影</b><span class="hq">中國</span></td>
+      <td>Eco／B／Pocket 系列（AI SuperScene，2026/04）</td><td>裝置端 AI 標示異常</td><td>手持工業檢測、OEM 機芯</td>
+      <td><a href="https://www.prnewswire.com/news-releases/hikmicro-world-leader-in-smart-thermal-imaging-marks-10th-anniversary-with-launch-of-trailblazing-ai-powered-superscene-mode-302745858.html" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.top-electronics.com/en/news/eagle-core-advanced-thermal-camera-module-seek-thermal" target="_blank" rel="noopener"><img src="sensors_img/7c306933af0b72ed2231442a607990d4fbab2e5a.jpg" loading="lazy" alt="Seek Thermal"></a></td>
+      <td><b>Seek Thermal</b><span class="hq">美國</span></td>
+      <td>EAGLE Core 600／300（2025/05）</td><td>640×480、12 µm、60 Hz、功耗 < 1 W</td><td>機器人、無人機、OEM</td>
+      <td><a href="https://www.top-electronics.com/en/news/eagle-core-advanced-thermal-camera-module-seek-thermal" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://newsroom.axis.com/en-us/news/thermal-cameras-reliable-detection" target="_blank" rel="noopener"><img src="sensors_img/8ccb261ecf15fb4677c36e4b7c760dde846a5171.jpg" loading="lazy" alt="Axis Communications 安訊士"></a></td>
+      <td><b>Axis Communications 安訊士</b><span class="hq">瑞典</span></td>
+      <td>Q1972-E、Q2111-E／Q2112-E、Q2101-TE</td><td>高靈敏熱像、IP66/67、邊緣分析</td><td>廠區周界與設施監控</td>
+      <td><a href="https://newsroom.axis.com/en-us/news/thermal-cameras-reliable-detection" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+  </table></div>
+  
+  
+  <h3 class="sub">1-M 市場規模</h3>
+  <div class="panel"><table>
+    <tr><th>細分市場</th><th>基準年規模</th><th>預測規模</th><th>CAGR</th><th>研究機構</th><th>來源</th></tr>
+    
+    <tr><td>機器視覺（整體）</td><td class="num">158 億（2025）</td><td class="num">236 億（2030）</td><td class="num">8.3%</td><td>MarketsandMarkets</td><td><a href="https://www.prnewswire.com/news-releases/machine-vision-market-worth-23-63-billion-in-2030---exclusive-report-by-marketsandmarkets-302460055.html" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+    <tr><td>機器視覺（含軟體、服務）</td><td class="num">226 億（2025）</td><td class="num">610 億（2033）</td><td class="num">13.4%</td><td>Grand View Research</td><td><a href="https://www.grandviewresearch.com/industry-analysis/machine-vision-market" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+    <tr><td>3D 機器視覺系統</td><td class="num">50 億（2025）</td><td class="num">106 億（2032）</td><td class="num">11.5%</td><td>MarketsandMarkets</td><td><a href="https://www.marketsandmarkets.com/Market-Reports/3d-machine-vision-market-4125387.html" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+    <tr><td>3D 相機（僅硬體）</td><td class="num">15.9 億（2025）</td><td class="num">34.9 億（2030）</td><td class="num">17.0%</td><td>MarketsandMarkets</td><td><a href="https://www.prnewswire.com/news-releases/3d-camera-market-worth-3-49-billion-by-2030---exclusive-report-by-marketsandmarkets-302477174.html" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+    <tr><td>LiDAR（全部，含車用）</td><td class="num">32.7 億（2025）</td><td class="num">127.9 億（2030）</td><td class="num">31.3%</td><td>MarketsandMarkets</td><td><a href="https://www.marketsandmarkets.com/PressReleases/lidar.asp" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+    <tr><td>LiDAR（僅車用）</td><td class="num">約 12 億（2025）</td><td class="num">36 億（2030）</td><td class="num">24%</td><td>Yole Group</td><td><a href="https://optics.org/news/16/7/2" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+    <tr><td>機器人光達出貨量（非金額）</td><td class="num">禾賽 23.9 萬台、速騰 30.3 萬台（2025）</td><td class="num">—</td><td class="num">年增 5～11 倍</td><td>禾賽、速騰 2025 年財報</td><td><a href="https://investor.hesaitech.com/news-releases/news-release-details/hesai-group-reports-fourth-quarter-and-full-year-2025-unaudited" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+    <tr><td>ToF 感測器</td><td class="num">66.8 億（2025）</td><td class="num">205 億（2031）</td><td class="num">20.6%</td><td>Mordor Intelligence</td><td><a href="https://www.mordorintelligence.com/industry-reports/time-of-flight-sensor-market" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+    <tr><td>ToF 感測器</td><td class="num">58 億（2025）</td><td class="num">181 億（2034）</td><td class="num">12.8%</td><td>IMARC</td><td><a href="https://www.imarcgroup.com/time-of-flight-sensor-market" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+    <tr><td>非製冷紅外熱像</td><td class="num">47.5 億（2025）</td><td class="num">76.3 億（2031）</td><td class="num">8.2%</td><td>Mordor Intelligence</td><td><a href="https://www.mordorintelligence.com/industry-reports/uncooled-infrared-imaging-market" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+    <tr><td>紅外感測與成像（全部）</td><td class="num">86.1 億（2025）</td><td class="num">127.9 億（2032）</td><td class="num">5.8%</td><td>MarketsandMarkets</td><td><a href="https://www.marketsandmarkets.com/Market-Reports/infrared-IR-sensing-imaging-market-593.html" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+    <tr><td>CMOS 影像感測器</td><td class="num">232 億（2024）</td><td class="num">301 億（2030）</td><td class="num">4.4%</td><td>Yole Group</td><td><a href="https://www.edge-ai-vision.com/2025/07/cmos-image-sensor-market-to-reach-more-than-30b-by-2030-driven-by-mobile-automotive-and-security-applications/" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+  </table></div>
+  
+  
+  <h3 class="sub">技術趨勢</h3>
+  <ul class="trends"><li>AI 正移到感測器本身（Sony IMX500/501、LUCID Triton Smart、FLIR Prism），相機不再只是傳影像，而是直接輸出判讀結果。</li><li>光達走向數位化與固態化，禾賽稱固態光達價格已從 5,000–10,000 美元降到 400–500 美元；小型半球光達大量裝進人形與四足機器人。</li><li>產業整併：RealSense 2025/07 自 Intel 獨立；Ouster 2026/02 收購 StereoLabs；MicroVision 2026/01 收購 Luminar 光達資產。</li></ul>
+  
+</section>
+
+<section class="view" id="v-hearing">
+  <h2 class="sec">👂 2. 聽覺 Hearing <span class="tag">AI 的耳朵</span></h2>
+  <p class="intro">工業上的「聽」不只是聽人說話，更重要的是聽機器健康狀態：軸承異音、壓縮空氣洩漏、局部放電，以及用超音波測距避障。</p>
+  
+  <h3 class="sub">2-1 MEMS 麥克風與麥克風陣列</h3>
+  <div class="panel"><table>
+    <tr><th>產品照片</th><th>廠商</th><th>代表產品／型號</th><th>關鍵規格／特色</th><th>典型應用</th><th>官網／來源</th></tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.wevolver.com/article/hearing-beyond-human-limits-infineons-xensiv-mems-microphones-fuel-next-gen-ai" target="_blank" rel="noopener"><img src="sensors_img/fbaceee6d15630f822b79f397fb4a9c794ab7467.jpg" loading="lazy" alt="Infineon 英飛凌"></a></td>
+      <td><b>Infineon 英飛凌</b><span class="hq">德國</span></td>
+      <td>XENSIV IM73D122、IM72D128</td><td>密封雙振膜、SNR 最高 75 dB、麥克風本體 IP57</td><td>語音 AI、工業 IoT、聲音事件偵測</td>
+      <td><a href="https://www.wevolver.com/article/hearing-beyond-human-limits-infineons-xensiv-mems-microphones-fuel-next-gen-ai" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.invensense.tdk.com/en-us/news-media/press/tdk-low-power-t5838-mems-microphones-emerge-preferred-choice-edge-ai-applications" target="_blank" rel="noopener"><img src="sensors_img/680c4fffc5ae32b93fa2d6e82894fe6c2436b0b8.jpg" loading="lazy" alt="TDK InvenSense"></a></td>
+      <td><b>TDK InvenSense</b><span class="hq">日本／美國</span></td>
+      <td>SmartSound T5838（PDM）、T5848（I²S）</td><td>低功耗、聲音喚醒（Acoustic Activity Detection）</td><td>常時開啟的邊緣 AI 音訊</td>
+      <td><a href="https://www.invensense.tdk.com/en-us/news-media/press/tdk-low-power-t5838-mems-microphones-emerge-preferred-choice-edge-ai-applications" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.st.com/en/mems-and-sensors/imp23absu.html" target="_blank" rel="noopener"><img src="sensors_img/33f8d5a1fbc664439a1ab847cabe8755c7cf72bf.jpg" loading="lazy" alt="STMicroelectronics"></a></td>
+      <td><b>STMicroelectronics</b><span class="hq">瑞士／法國</span></td>
+      <td>IMP23ABSU</td><td>類比麥克風、可收超音波頻段，官方有預測保養應用說明</td><td>機台聲學監測</td>
+      <td><a href="https://www.st.com/en/mems-and-sensors/imp23absu.html" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://longbridge.com/en/topics/32113688" target="_blank" rel="noopener"><img src="sensors_img/ebf0b1a38fee23dd5e3a32868cab7655f0017802.jpg" loading="lazy" alt="Goertek 歌爾微電子"></a></td>
+      <td><b>Goertek 歌爾微電子</b><span class="hq">中國</span></td>
+      <td>SD18OB261-060 等</td><td>2024 年全球聲學感測器市佔約 43%</td><td>消費電子、機器人語音輸入</td>
+      <td><a href="https://longbridge.com/en/topics/32113688" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.syntiant.com/news/syntiant-completes-acquisition-of-knowles-consumer-mems-microphone-division" target="_blank" rel="noopener"><img src="sensors_img/96eea5c30e5ee2d95bae5f506804f1459253d9a1.jpg" loading="lazy" alt="Syntiant（收購 Knowles 消費級 MEMS 麥克風）"></a></td>
+      <td><b>Syntiant（收購 Knowles 消費級 MEMS 麥克風）</b><span class="hq">美國</span></td>
+      <td>SiSonic 系列</td><td>2024/12 完成收購（1.5 億美元）</td><td>耳機、IoT、手機</td>
+      <td><a href="https://www.syntiant.com/news/syntiant-completes-acquisition-of-knowles-consumer-mems-microphone-division" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://wiki.seeedstudio.com/respeaker_xvf3800_introduction/" target="_blank" rel="noopener"><img src="sensors_img/1a0b604e98b52008d051bf289483fddd8dfca91f.jpg" loading="lazy" alt="XMOS／Seeed；miniDSP"></a></td>
+      <td><b>XMOS／Seeed；miniDSP</b><span class="hq">英國；香港</span></td>
+      <td>reSpeaker XVF3800 四麥陣列；UMA-16 v2 十六通道陣列</td><td>360° 遠場收音與降噪；UMA-16 可自製聲學相機</td><td>機器人語音介面、聲源定位</td>
+      <td><a href="https://wiki.seeedstudio.com/respeaker_xvf3800_introduction/" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+  </table></div>
+  
+  <h3 class="sub">2-2 聲學成像與超音波狀態監測</h3>
+  <div class="panel"><table>
+    <tr><th>產品照片</th><th>廠商</th><th>代表產品／型號</th><th>關鍵規格／特色</th><th>典型應用</th><th>官網／來源</th></tr>
+    
+    <tr>
+      <td class="photo"><a href="https://mm.digikey.com/Volume0/opasdata/d220001/medias/docus/6465/EOL_ii900SERIES.pdf" target="_blank" rel="noopener"><img src="sensors_img/ecbba6716665d3f5e7c67dfc016e71b4691284d3.jpg" loading="lazy" alt="Fluke 福祿克"></a></td>
+      <td><b>Fluke 福祿克</b><span class="hq">美國</span></td>
+      <td>ii915（2–100 kHz）、ii905</td><td>LeakQ 洩漏量化、PDQ 局部放電、MecQ 機械故障；舊款 ii900/ii910 已於 2024/11 停產</td><td>壓縮空氣／氣體洩漏、電氣局部放電、軸承</td>
+      <td><a href="https://mm.digikey.com/Volume0/opasdata/d220001/medias/docus/6465/EOL_ii900SERIES.pdf" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.uesystems.com/products/acoustic-cameras-overview/" target="_blank" rel="noopener"><img src="sensors_img/af482c06b385c5d52bda81594898e42d80d09f89.jpg" loading="lazy" alt="UE Systems"></a></td>
+      <td><b>UE Systems</b><span class="hq">美國</span></td>
+      <td>Si2-Pro、Si2x-Pro（防爆）、Si2-PD；Ultraprobe 15,000</td><td>一台相機兼顧洩漏、局部放電、軸承</td><td>設備可靠度計畫</td>
+      <td><a href="https://www.uesystems.com/products/acoustic-cameras-overview/" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://distran.swiss/en/ultra-pro-max/" target="_blank" rel="noopener"><img src="sensors_img/1fae0adec0b24472037e8dc2c3d1868366fda4ce.jpg" loading="lazy" alt="Distran"></a></td>
+      <td><b>Distran</b><span class="hq">瑞士</span></td>
+      <td>Ultra Pro Max、Ultra Pro Lite</td><td>30 cm 處可偵測 0.15 L/h 洩漏、180° 聲學視野、ATEX</td><td>高噪音工廠氣體洩漏</td>
+      <td><a href="https://distran.swiss/en/ultra-pro-max/" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+  </table></div>
+  
+  <h3 class="sub">2-3 超音波測距</h3>
+  <div class="panel"><table>
+    <tr><th>產品照片</th><th>廠商</th><th>代表產品／型號</th><th>關鍵規格／特色</th><th>典型應用</th><th>官網／來源</th></tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.invensense.tdk.com/en-us/ultrasonic-time-flight" target="_blank" rel="noopener"><img src="sensors_img/f002ef1497104a3ee66e580ad628f464a835d351.jpg" loading="lazy" alt="TDK InvenSense（Chirp）"></a></td>
+      <td><b>TDK InvenSense（Chirp）</b><span class="hq">日本／美國</span></td>
+      <td>ICU-10201／ICU-20201／ICU-30201、CH101／CH201</td><td>MEMS 超音波 ToF 晶片、內建 DSP、視角最大 180°（ICU-30201 頁面標示停產，設計前需向 TDK 確認）</td><td>機器人避障、人員偵測</td>
+      <td><a href="https://www.invensense.tdk.com/en-us/ultrasonic-time-flight" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://maxbotix.com/products/mb7389" target="_blank" rel="noopener"><img src="sensors_img/f65f090df5ef6f1229c992b50995a7ecac5a362f.jpg" loading="lazy" alt="MaxBotix"></a></td>
+      <td><b>MaxBotix</b><span class="hq">美國</span></td>
+      <td>MB7389 HRXL-MaxSonar-WRMT</td><td>IP67 戶外超音波測距</td><td>AGV 測距、液位</td>
+      <td><a href="https://maxbotix.com/products/mb7389" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.murata.com/en-us/products/productdetail?partno=MA40H1S-R" target="_blank" rel="noopener"><img src="sensors_img/a3a4fa09475a77ce5cf8007ade66d4a6d6136ab5.jpg" loading="lazy" alt="Murata 村田"></a></td>
+      <td><b>Murata 村田</b><span class="hq">日本</span></td>
+      <td>MA40H1S-R、MA58MF14-7N 換能器</td><td>40／58 kHz 超音波換能器</td><td>OEM 測距模組</td>
+      <td><a href="https://www.murata.com/en-us/products/productdetail?partno=MA40H1S-R" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.pepperl-fuchs.com/global/en/42882.htm" target="_blank" rel="noopener"><img src="sensors_img/d745032d4c8a2b660ba9856b79ff5bc3021be69c.jpg" loading="lazy" alt="Pepperl+Fuchs 倍加福"></a></td>
+      <td><b>Pepperl+Fuchs 倍加福</b><span class="hq">德國</span></td>
+      <td>UC18GS（IO-Link）</td><td>工業級超音波感測器</td><td>工廠自動化、液位</td>
+      <td><a href="https://www.pepperl-fuchs.com/global/en/42882.htm" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://en.wikipedia.org/wiki/Sonair_(technology_firm)" target="_blank" rel="noopener"><img src="sensors_img/c6a9fe1e629ee60d6235b19177afcaaa4046c407.jpg" loading="lazy" alt="Sonair（新創）"></a></td>
+      <td><b>Sonair（新創）</b><span class="hq">挪威</span></td>
+      <td>ADAR 3D 超音波感測器</td><td>在粉塵、黑暗、玻璃等相機難處理的環境做 3D 感知</td><td>AMR 安全避障</td>
+      <td><a href="https://en.wikipedia.org/wiki/Sonair_(technology_firm)" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+  </table></div>
+  
+  
+  <h3 class="sub">2-M 市場規模</h3>
+  <div class="panel"><table>
+    <tr><th>細分市場</th><th>基準年規模</th><th>預測規模</th><th>CAGR</th><th>研究機構</th><th>來源</th></tr>
+    
+    <tr><td>MEMS 麥克風</td><td class="num">24 億（2025）</td><td class="num">33.8 億（2031）</td><td class="num">5.9%</td><td>Mordor Intelligence</td><td><a href="https://www.mordorintelligence.com/industry-reports/mems-microphones-market" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+    <tr><td>麥克風（全部，MEMS 為最大宗）</td><td class="num">28.8 億（2025）</td><td class="num">39.8 億（2030）</td><td class="num">6.7%</td><td>MarketsandMarkets</td><td><a href="https://www.marketsandmarkets.com/Market-Reports/microphones-market-104067266.html" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+    <tr><td>超音波感測器</td><td class="num">49 億（2024）</td><td class="num">75 億（2030）</td><td class="num">7.7%</td><td>Grand View Research</td><td><a href="https://www.grandviewresearch.com/industry-analysis/ultrasound-sensors-market" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+    <tr><td>超音波感測器</td><td class="num">79.2 億（2026 估）</td><td class="num">154.8 億（2033）</td><td class="num">10.0%</td><td>Coherent Market Insights</td><td><a href="https://www.coherentmarketinsights.com/market-insight/ultrasonic-sensors-market-5683" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+    <tr><td>聲學相機</td><td class="num">2.6 億（2025）</td><td class="num">5.6 億（2034）</td><td class="num">8.9%</td><td>IMARC</td><td><a href="https://www.imarcgroup.com/acoustic-camera-market" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+  </table></div>
+  
+  
+  <h3 class="sub">技術趨勢</h3>
+  <ul class="trends"><li>麥克風加入晶片端喚醒與聲音事件偵測，適合常時開啟的邊緣 AI。</li><li>聲學成像儀直接在裝置上給診斷結果（洩漏量、局部放電、機械故障），不再只是「看到聲音」。</li></ul>
+  
+</section>
+
+<section class="view" id="v-smell">
+  <h2 class="sec">👃 3. 嗅覺 Smell <span class="tag">AI 的鼻子</span></h2>
+  <p class="intro">嗅覺感測器是工廠安全最有價值的一環，尤其在電池處理區：在看到煙或火之前，就從電解液揮發氣體、H₂、CO 的變化判斷電池異常。</p>
+  
+  <h3 class="sub">3-1 氣體／VOC／空氣品質感測器</h3>
+  <div class="panel"><table>
+    <tr><th>產品照片</th><th>廠商</th><th>代表產品／型號</th><th>關鍵規格／特色</th><th>典型應用</th><th>官網／來源</th></tr>
+    
+    <tr>
+      <td class="photo"><a href="https://sensirion.com/resource/datasheet/SEN6x" target="_blank" rel="noopener"><img src="sensors_img/9a894faee3d68ffa3e88397b5d2a8deeb05f5ea9.jpg" loading="lazy" alt="Sensirion 盛思銳"></a></td>
+      <td><b>Sensirion 盛思銳</b><span class="hq">瑞士</span></td>
+      <td>SEN6x 模組（SEN62／63C／65／66／68／69C）、STCC4 微型 CO₂、SGP41</td><td>SEN69C 一顆可輸出 9 種訊號：PM、溫濕度、VOC、NOx、甲醛、CO₂</td><td>室內空品、HVAC、清淨機</td>
+      <td><a href="https://sensirion.com/resource/datasheet/SEN6x" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.bosch-sensortec.com/en/news/bosch-unveils-robust-power-efficient-4-in-1-mems-air-quality-sensor-for-indoors.html" target="_blank" rel="noopener"><img src="sensors_img/fbc7cf0c3e5a8432d713042a6cfe1646a0cd380d.jpg" loading="lazy" alt="Bosch Sensortec 博世"></a></td>
+      <td><b>Bosch Sensortec 博世</b><span class="hq">德國</span></td>
+      <td>BME690（2025，BME688 後繼）、BME688</td><td>四合一（氣體/VOC、濕度、溫度、氣壓）3×3 mm；可用 BME AI-Studio 訓練自訂氣體分類器</td><td>智慧家居、食品新鮮度、穿戴</td>
+      <td><a href="https://www.bosch-sensortec.com/en/news/bosch-unveils-robust-power-efficient-4-in-1-mems-air-quality-sensor-for-indoors.html" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.sciosense.com/sciosense-today-introduced-the-ens161/" target="_blank" rel="noopener"><img src="sensors_img/5bb3019797f5d7957fba6d6e323fbe84dcf0fca8.jpg" loading="lazy" alt="ScioSense"></a></td>
+      <td><b>ScioSense</b><span class="hq">荷蘭</span></td>
+      <td>ENS161、ENS160</td><td>數位金屬氧化物多氣體感測，晶片端輸出 TVOC、eCO₂、AQI</td><td>建築與消費空品</td>
+      <td><a href="https://www.sciosense.com/sciosense-today-introduced-the-ens161/" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.figarosensor.com/" target="_blank" rel="noopener"><img src="sensors_img/a6a4f90568d385b8731e6393e85d048f0106c580.jpg" loading="lazy" alt="Figaro 費加羅"></a></td>
+      <td><b>Figaro 費加羅</b><span class="hq">日本</span></td>
+      <td>TGS8410（甲烷）、TGS5141（CO）、FCM2630（冷媒）、TGS2616／TGS6812（H₂）</td><td>金屬氧化物、電化學、NDIR；冷媒與氫氣偵測強項</td><td>瓦斯警報、冷媒洩漏、電池安全</td>
+      <td><a href="https://www.figarosensor.com/" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://investors.ametek.com/news-releases/news-release-details/ametek-acquires-alphasense" target="_blank" rel="noopener"><img src="sensors_img/e9d7e9acff95e79627bd19600ac5b5382deca5cb.jpg" loading="lazy" alt="Alphasense（AMETEK 旗下）"></a></td>
+      <td><b>Alphasense（AMETEK 旗下）</b><span class="hq">英國</span></td>
+      <td>A-／B-系列電化學感測器、PID-AH VOC、OPC-R2 粒子計數</td><td>ppb 等級 NO₂、O₃、SO₂、CO</td><td>戶外空品網路、工安</td>
+      <td><a href="https://investors.ametek.com/news-releases/news-release-details/ametek-acquires-alphasense" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.winsentech.com/Electrochemical_CO_Sensor_ZE07-CO.html" target="_blank" rel="noopener"><img src="sensors_img/42c090f8e1d7986a1eb5d9d0d92ba2c911d2416e.jpg" loading="lazy" alt="Winsen 煒盛"></a></td>
+      <td><b>Winsen 煒盛</b><span class="hq">中國</span></td>
+      <td>ZE07 電化學模組、MQ 系列、MEMS 氣體感測器</td><td>價格低、型號齊全</td><td>創客、消費與大量 OEM</td>
+      <td><a href="https://www.winsentech.com/Electrochemical_CO_Sensor_ZE07-CO.html" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.draeger.com/en-us_us/Products/X-am-8000" target="_blank" rel="noopener"><img src="sensors_img/141e436091fc04cc9890525a16dc5c0701a6a91e.jpg" loading="lazy" alt="Honeywell／Dräger 德爾格"></a></td>
+      <td><b>Honeywell／Dräger 德爾格</b><span class="hq">美國／德國</span></td>
+      <td>Sensepoint XRL、Searchline Excel Edge；X-am 8000、Polytron 8000</td><td>防爆認證固定式與攜帶式氣體偵測</td><td>石化、化工、人員安全</td>
+      <td><a href="https://www.draeger.com/en-us_us/Products/X-am-8000" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+  </table></div>
+  
+  <h3 class="sub">3-2 電子鼻與數位嗅覺</h3>
+  <div class="panel"><table>
+    <tr><th>產品照片</th><th>廠商</th><th>代表產品／型號</th><th>關鍵規格／特色</th><th>典型應用</th><th>官網／來源</th></tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.alpha-mos.com/smell-analysis-heracles-electronic-nose" target="_blank" rel="noopener"><img src="sensors_img/ec2af777bb1dd4384dcdd3d6201173d058c09ebe.jpg" loading="lazy" alt="Alpha MOS"></a></td>
+      <td><b>Alpha MOS</b><span class="hq">法國</span></td>
+      <td>HERACLES 電子鼻（快速氣相層析）</td><td>實驗室氣味指紋分析</td><td>食品飲料、製藥品管</td>
+      <td><a href="https://www.alpha-mos.com/smell-analysis-heracles-electronic-nose" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://aryballe.com/" target="_blank" rel="noopener"><img src="sensors_img/06a15e05778c942efe3bbe49065263b3d281214e.jpg" loading="lazy" alt="Aryballe"></a></td>
+      <td><b>Aryballe</b><span class="hq">法國</span></td>
+      <td>NeOse Advance、Core Sensor Module</td><td>矽光子 + 胜肽塗層感測 + AI 分析（新聞頁 2023 後未更新，合作前請確認營運狀態）</td><td>食品、車艙異味、化妝品</td>
+      <td><a href="https://aryballe.com/" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.businesswire.com/news/home/20260204293785/en/Osmo-Digital-Scent-Design-Company-Announces-$70M-in-Series-B-Funding-and-Executive-Leadership-Team-to-Scale-AI-Powered-Olfaction-Technology" target="_blank" rel="noopener"><img src="sensors_img/515b802993255934318dac5e55608062ab5d2a7d.jpg" loading="lazy" alt="Osmo"></a></td>
+      <td><b>Osmo</b><span class="hq">美國</span></td>
+      <td>Olfactory Intelligence 平台</td><td>AI 氣味地圖模型；2026/02 完成 7,000 萬美元 B 輪（偏香氛設計，非工業感測器）</td><td>香氛設計、氣味數位化</td>
+      <td><a href="https://www.businesswire.com/news/home/20260204293785/en/Osmo-Digital-Scent-Design-Company-Announces-$70M-in-Series-B-Funding-and-Executive-Leadership-Team-to-Scale-AI-Powered-Olfaction-Technology" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+  </table></div>
+  
+  <h3 class="sub">3-3 鋰電池排氣／熱失控早期偵測（與 ITAD 電池處理區高度相關）</h3>
+  <div class="panel"><table>
+    <tr><th>產品照片</th><th>廠商</th><th>代表產品／型號</th><th>關鍵規格／特色</th><th>典型應用</th><th>官網／來源</th></tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.honeywell.com/us/en/press/2025/07/honeywell-makes-strategic-tuck-in-acquisition-of-li-ion-tamer" target="_blank" rel="noopener"><img src="sensors_img/eca06a134799c1551b57010ae05ed476a682fcdc.jpg" loading="lazy" alt="Honeywell（Li-ion Tamer）"></a></td>
+      <td><b>Honeywell（Li-ion Tamer）</b><span class="hq">美國</span></td>
+      <td>Li-ion Tamer 排氣監測器</td><td>偵測電解液蒸氣，最多提前 30 分鐘預警熱失控；2025/07 自 Nexceris 收購</td><td>儲能櫃（BESS）、機房 UPS、電池暫存區</td>
+      <td><a href="https://www.honeywell.com/us/en/press/2025/07/honeywell-makes-strategic-tuck-in-acquisition-of-li-ion-tamer" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://xtralis.com/release/1225/honeywell-announces-next-generation-xtralis-vesda-e-vep-next-generation-life-safety-offerings" target="_blank" rel="noopener"><img src="sensors_img/5cb7b69f7141fc9e31ff424862a866544257c008.jpg" loading="lazy" alt="Honeywell（Xtralis）"></a></td>
+      <td><b>Honeywell（Xtralis）</b><span class="hq">美國／澳洲</span></td>
+      <td>VESDA-E VEP／VEU／VES 吸氣式極早期煙霧偵測</td><td>VEP 靈敏度為舊款 VLP 的 1.5 倍、抗粉塵 6 倍</td><td>電池室、資料中心、無塵室</td>
+      <td><a href="https://xtralis.com/release/1225/honeywell-announces-next-generation-xtralis-vesda-e-vep-next-generation-life-safety-offerings" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://amphenol-sensors.com/en/product-spotlights/3498-thermal-runaway-sensor" target="_blank" rel="noopener"><img src="sensors_img/73fd68b310420361707a870d442d3ab16184114b.jpg" loading="lazy" alt="Amphenol SGX Sensortech"></a></td>
+      <td><b>Amphenol SGX Sensortech</b><span class="hq">英國／美國</span></td>
+      <td>REDTR 熱失控感測器、BLD01／BLD2 電池洩漏感測器</td><td>REDTR 同時量 H₂、CO₂、壓力、溫濕度，數秒內偵測電芯排氣</td><td>電動車電池包、工業電池</td>
+      <td><a href="https://amphenol-sensors.com/en/product-spotlights/3498-thermal-runaway-sensor" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.figarosensor.com/" target="_blank" rel="noopener"><img src="sensors_img/2b6cd1def852e2e05a77f1499d982b5a77d43f3e.jpg" loading="lazy" alt="Figaro"></a></td>
+      <td><b>Figaro</b><span class="hq">日本</span></td>
+      <td>TGS2616／TGS6812 氫氣感測器</td><td>選擇性 H₂ 偵測</td><td>電池室、燃料電池</td>
+      <td><a href="https://www.figarosensor.com/" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+  </table></div>
+  
+  
+  <h3 class="sub">3-M 市場規模</h3>
+  <div class="panel"><table>
+    <tr><th>細分市場</th><th>基準年規模</th><th>預測規模</th><th>CAGR</th><th>研究機構</th><th>來源</th></tr>
+    
+    <tr><td>氣體感測器（元件）</td><td class="num">17.8 億（2025）</td><td class="num">32 億（2033）</td><td class="num">7.6%</td><td>MarketsandMarkets</td><td><a href="https://www.marketsandmarkets.com/Market-Reports/gas-sensor-market-245141093.html" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+    <tr><td>氣體感測器（較廣口徑）</td><td class="num">33 億（2025）</td><td class="num">64 億（2033）</td><td class="num">8.8%</td><td>Grand View Research</td><td><a href="https://www.grandviewresearch.com/industry-analysis/gas-sensors-market" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+    <tr><td>電子鼻</td><td class="num">1.46 億（2025）</td><td class="num">2.93 億（2031）</td><td class="num">12.3%</td><td>Mordor Intelligence</td><td><a href="https://www.mordorintelligence.com/industry-reports/electronic-nose-market" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+    <tr><td>電子鼻</td><td class="num">0.28 億（2025）</td><td class="num">0.6 億（2034）</td><td class="num">8.5%</td><td>IMARC</td><td><a href="https://www.imarcgroup.com/electronic-nose-market" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+    <tr><td>數位氣味技術（含電子鼻）</td><td class="num">12.9 億（2025）</td><td class="num">31.3 億（2034）</td><td class="num">10.3%</td><td>Fortune Business Insights</td><td><a href="https://www.fortunebusinessinsights.com/digital-scent-technology-market-111576" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+    <tr><td>鋰電池熱失控感測器 ⚠低可信度</td><td class="num">1.45 億（2024）</td><td class="num">5.14 億（2034）</td><td class="num">13.5%</td><td>Zion Market Research</td><td><a href="https://www.zionmarketresearch.com/report/li-battery-thermal-runaway-sensor-market" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+    <tr><td>鋰電池熱失控感測模組 ⚠低可信度</td><td class="num">約 3 億（2025）</td><td class="num">約 44 億（2035）</td><td class="num">30.8%</td><td>Future Market Insights</td><td><a href="https://www.futuremarketinsights.com/reports/lithium-battery-thermal-runaway-sensor-modules-market" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+    <tr><td>吸氣式煙霧偵測器</td><td class="num">9.8 億（2026 估）</td><td class="num">15.1 億（2033）</td><td class="num">6.4%</td><td>Coherent Market Insights</td><td><a href="https://www.coherentmarketinsights.com/industry-reports/aspirating-smoke-detector-market" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+  </table></div>
+  
+  
+  <h3 class="sub">技術趨勢</h3>
+  <ul class="trends"><li>氣體分類移到感測器端：Bosch BME690 可跑自訓練 AI 分類器，ScioSense ENS161 晶片端運算。</li><li>電池安全從「偵測熱與煙」轉向更早的「偵測排氣」；Honeywell 現在同時擁有 Li-ion Tamer 與 VESDA 兩條產品線。</li></ul>
+  
+</section>
+
+<section class="view" id="v-taste">
+  <h2 class="sec">👅 4. 味覺 Taste <span class="tag">液體分析</span></h2>
+  <p class="intro">機器的「味覺」主要是液體成分分析：酸鹼度、導電度、離子濃度、溶氧。電子舌仍多為實驗室設備，工業現場以數位化製程感測器為主。</p>
+  
+  <h3 class="sub">4-1 電子舌</h3>
+  <div class="panel"><table>
+    <tr><th>產品照片</th><th>廠商</th><th>代表產品／型號</th><th>關鍵規格／特色</th><th>典型應用</th><th>官網／來源</th></tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.insentjp.com/" target="_blank" rel="noopener"><img src="sensors_img/dfc37552d305a713d581366bb7fc1c0e3e9586b5.jpg" loading="lazy" alt="Insent（Intelligent Sensor Technology）"></a></td>
+      <td><b>Insent（Intelligent Sensor Technology）</b><span class="hq">日本</span></td>
+      <td>TS-5000Z 味覺感測系統</td><td>脂質膜感測器，量測苦、酸、鮮、鹹、澀、甜與後味；一次最多 14 個樣品</td><td>飲料、食品、藥品苦味遮蔽</td>
+      <td><a href="https://www.insentjp.com/" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.alpha-mos.com/taste-analysis-astree-electronic-tongue" target="_blank" rel="noopener"><img src="sensors_img/0ea24f56b79a2a97751e9882de30538c2d7f87e0.jpg" loading="lazy" alt="Alpha MOS"></a></td>
+      <td><b>Alpha MOS</b><span class="hq">法國</span></td>
+      <td>ASTREE 電子舌</td><td>電位式化學感測陣列 + 統計模型</td><td>製藥、食品品管</td>
+      <td><a href="https://www.alpha-mos.com/taste-analysis-astree-electronic-tongue" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+  </table></div>
+  
+  <h3 class="sub">4-2 pH／導電度／水質感測器</h3>
+  <div class="panel"><table>
+    <tr><th>產品照片</th><th>廠商</th><th>代表產品／型號</th><th>關鍵規格／特色</th><th>典型應用</th><th>官網／來源</th></tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.us.endress.com/en/endress-hauser-group/press-center/news-and-press-releases/memosens-2.0" target="_blank" rel="noopener"><img src="sensors_img/47252dee54973d772d6ea748732b0503c45add6d.jpg" loading="lazy" alt="Endress+Hauser 恩德斯豪斯"></a></td>
+      <td><b>Endress+Hauser 恩德斯豪斯</b><span class="hq">瑞士</span></td>
+      <td>Memosens 2.0（CPS11E pH、CLS15E 導電度、COS22E 溶氧）+ Liquiline CM44</td><td>非接觸數位接頭，感測器自存校正與使用歷程；Heartbeat 診斷</td><td>化工、食品、生技、水處理</td>
+      <td><a href="https://www.us.endress.com/en/endress-hauser-group/press-center/news-and-press-releases/memosens-2.0" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.mt.com/us/en/home/products/Process-Analytics/pH-probe/in-line-pH-probe/inpro-x1-hls-n200-k120.html" target="_blank" rel="noopener"><img src="sensors_img/6dd4e46815e655efea668bb74e3c72cf1468eb4a.jpg" loading="lazy" alt="Mettler Toledo 梅特勒-托利多"></a></td>
+      <td><b>Mettler Toledo 梅特勒-托利多</b><span class="hq">瑞士／美國</span></td>
+      <td>InPro X1 pH 感測器、M400 變送器、ISM 數位感測器</td><td>ISM 預測保養與校正時機</td><td>製藥、生技、食品</td>
+      <td><a href="https://www.mt.com/us/en/home/products/Process-Analytics/pH-probe/in-line-pH-probe/inpro-x1-hls-n200-k120.html" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://my.hach.com/digital-controllers-transmitters/sc4500-controller/family?productCategoryId=59869811877" target="_blank" rel="noopener"><img src="sensors_img/44b2935c6e7b98b7fc2cc4bef74a63d1668992b8.jpg" loading="lazy" alt="Hach 哈希（Veralto 旗下）"></a></td>
+      <td><b>Hach 哈希（Veralto 旗下）</b><span class="hq">美國</span></td>
+      <td>SC4500 控制器、數位 pH／導電度／溶氧探頭</td><td>Claros 雲端水務管理</td><td>自來水、廢水處理</td>
+      <td><a href="https://my.hach.com/digital-controllers-transmitters/sc4500-controller/family?productCategoryId=59869811877" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.yokogawa.com/us/solutions/products-and-services/measurement/analyzers/liquid-analyzers/ph-analyzers/multi-channel-4-wire-analyzer-flxa402/" target="_blank" rel="noopener"><img src="sensors_img/8ba39ce9577d615fa28ee68ef0989b2be50c2f63.jpg" loading="lazy" alt="Yokogawa 橫河"></a></td>
+      <td><b>Yokogawa 橫河</b><span class="hq">日本</span></td>
+      <td>FLXA402 四線式分析儀、SENCOM 4.0 智慧感測器</td><td>多通道、數位感測器診斷</td><td>化工、電力、水處理</td>
+      <td><a href="https://www.yokogawa.com/us/solutions/products-and-services/measurement/analyzers/liquid-analyzers/ph-analyzers/multi-channel-4-wire-analyzer-flxa402/" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://atlas-scientific.com/embedded-solutions/ezo-ph-circuit/" target="_blank" rel="noopener"><img src="sensors_img/725800db41a9d74f8cb09e4a9a012a7108f63ca5.jpg" loading="lazy" alt="Atlas Scientific（創客／原型）"></a></td>
+      <td><b>Atlas Scientific（創客／原型）</b><span class="hq">美國</span></td>
+      <td>EZO-pH 電路板、EZO EC／DO／ORP</td><td>pH 0.001–14；UART 或 I²C</td><td>原型開發、水耕、研究</td>
+      <td><a href="https://atlas-scientific.com/embedded-solutions/ezo-ph-circuit/" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+  </table></div>
+  
+  
+  <h3 class="sub">4-M 市場規模</h3>
+  <div class="panel"><table>
+    <tr><th>細分市場</th><th>基準年規模</th><th>預測規模</th><th>CAGR</th><th>研究機構</th><th>來源</th></tr>
+    
+    <tr><td>電子舌 ⚠低可信度</td><td class="num">4.8 億（2025）</td><td class="num">8.3 億（2035）</td><td class="num">5.7%</td><td>Market Research Future</td><td><a href="https://www.marketresearchfuture.com/reports/electronic-tongue-market-26340" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+    <tr><td>製程液體分析儀</td><td class="num">31 億（2025）</td><td class="num">53.6 億（2036）</td><td class="num">5.1%</td><td>Future Market Insights</td><td><a href="https://www.futuremarketinsights.com/reports/process-liquid-analyzer-market" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+    <tr><td>製程液體分析儀</td><td class="num">33.5 億（2026 估）</td><td class="num">50.7 億（2032）</td><td class="num">7.1%</td><td>360iResearch</td><td><a href="https://www.researchandmarkets.com/reports/5889080/process-liquid-analyzers-market-global" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+    <tr><td>水質感測器（含環境監測）</td><td class="num">57.4 億（2024）</td><td class="num">91 億（2030）</td><td class="num">8.1%</td><td>Grand View Research</td><td><a href="https://www.grandviewresearch.com/industry-analysis/water-quality-sensor-market-report" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+    <tr><td>pH 感測器</td><td class="num">20.1 億（2025）</td><td class="num">40.4 億（2034）</td><td class="num">8.1%</td><td>Fortune Business Insights</td><td><a href="https://www.fortunebusinessinsights.com/ph-sensors-market-110871" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+  </table></div>
+  
+  
+  <h3 class="sub">技術趨勢</h3>
+  <ul class="trends"><li>真正的變化在「會記錄自己歷程」的製程感測器（Memosens 2.0、ISM、SENCOM），讓預測保養與 AI 分析成為可能。</li></ul>
+  
+</section>
+
+<section class="view" id="v-touch">
+  <h2 class="sec">🤚 5. 觸覺 Touch <span class="tag">力量、壓力、重量</span></h2>
+  <p class="intro">「市場規模總覽」一章用兩張圖比較各感官市場的規模與成長率。 第 1–10 章依感官分類，每章包含：用途說明、廠商比較表（廠商、總部、代表型號、規格、應用、連結）、市場規模表、技術趨勢。 第 11 章是依 ITAD／倉儲工廠情境整理的「第一階段感官組合」候選清單，可作為 PoC 選型起點。 表格最右欄可直接點開官網或新聞稿，查看產品實拍照片與完整規格書。 不同研究機構的市場規模常相差 2–3 倍，主因是定義不同：只算元件還是含軟體與服務、是否包含車用或手機。本報告盡量並列兩家機構的數字呈現區間，並以 ⚠ 標示二線機構或定義新、推估性高的數據。金額單位為美元，「億」即 1 億美元。 大環境：感測器、Physical AI、人形機器人與 ITAD 大市場多已成熟：CMOS 影像感測器、機器視覺、RFID、溫度感測器年成長約 4–13%，競爭激烈、價格透明。 小而快的市場：LiDAR、ToF、UWB／RTLS、觸覺與 3D 相機基期小，但年成長約 15–31%，是 Physical AI 帶動的主要新需求。 出貨量指標：RAIN RFID 標籤晶片 2025 年出貨 427 億顆（2024 年為 528 億顆，下滑主因庫存調整，且兩年統計的廠商數不同）；禾賽與速騰 2025 年機器人光達合計出貨約 54 萬台。 與 ITAD 的關聯：ITAD 市場本身約 175–283 億美元（2025），和機器視覺規模相當；感測器是讓 ITAD 作業自動化、可追溯的工具層。 圖：各類感測器全球市場規模（對數刻度）。長條為兩家以上機構的估值區間，圓點為單一估值或估值接近；淺色斜線為低可信度或定義差異大的數據。 圖：各市場預測期間年複合成長率（CAGR）。各機構預測期間不同（約 2024–2036），僅供量級比較。 觸覺讓機器人知道「抓了多大力、東西多重、有沒有碰到」。人形機器人帶動觸覺皮膚快速發展；倉儲則以稱重感測器最實用。</p>
+  
+  <h3 class="sub">5-1 六軸力／扭矩感測器</h3>
+  <div class="panel"><table>
+    <tr><th>產品照片</th><th>廠商</th><th>代表產品／型號</th><th>關鍵規格／特色</th><th>典型應用</th><th>官網／來源</th></tr>
+    
+    <tr>
+      <td class="photo"><a href="https://ati.novanta.com/product/axia90-force-torque-sensor-kit/" target="_blank" rel="noopener"><img src="sensors_img/511e88039cd0cebc98e19517ac1f4a6ab5bc6388.jpg" loading="lazy" alt="ATI Industrial Automation（Novanta 旗下）"></a></td>
+      <td><b>ATI Industrial Automation（Novanta 旗下）</b><span class="hq">美國</span></td>
+      <td>Axia80、Axia90</td><td>Axia90：1000 N／50 Nm、EtherCAT、8 kHz、IP67</td><td>協作機器人組裝、拋光</td>
+      <td><a href="https://ati.novanta.com/product/axia90-force-torque-sensor-kit/" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.therobotreport.com/bota-systems-launches-upgraded-force-torque-sensor-for-small-cobots/" target="_blank" rel="noopener"><img src="sensors_img/567329d32fdcc130748d595c29522a84789861d4.jpg" loading="lazy" alt="Bota Systems"></a></td>
+      <td><b>Bota Systems</b><span class="hq">瑞士</span></td>
+      <td>SensONE T5（2024/03）、PixONE 中空式</td><td>T5：0.05 N 解析度、2 kHz、EtherCAT</td><td>精密組裝、人形機器人手腕</td>
+      <td><a href="https://www.therobotreport.com/bota-systems-launches-upgraded-force-torque-sensor-for-small-cobots/" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://robotiq.com/products/ft-300-force-torque-sensor" target="_blank" rel="noopener"><img src="sensors_img/f4ca480290dc6bef1369d5eba0bf2fb14a476eb5.jpg" loading="lazy" alt="Robotiq"></a></td>
+      <td><b>Robotiq</b><span class="hq">加拿大</span></td>
+      <td>FT 300-S</td><td>可隨插即用於 Universal Robots</td><td>協作機器人插件、打磨</td>
+      <td><a href="https://robotiq.com/products/ft-300-force-torque-sensor" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://onrobot.com/en/products/hex-6-axis-force-torque-sensor" target="_blank" rel="noopener"><img src="sensors_img/796ec7e7e8eba34cb5ce3674a95c4381cc814f2a.jpg" loading="lazy" alt="OnRobot"></a></td>
+      <td><b>OnRobot</b><span class="hq">丹麥</span></td>
+      <td>HEX-E QC／HEX-H QC</td><td>六軸 + 快換接頭</td><td>協作機器人力控</td>
+      <td><a href="https://onrobot.com/en/products/hex-6-axis-force-torque-sensor" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.srisensor.com/humanoid-robot-force-torque-sensor/" target="_blank" rel="noopener"><img src="sensors_img/c8e8dfcb8fc2a7df12e952a7ffcc6d0fadd8c0fa.jpg" loading="lazy" alt="SRI 宇立儀器"></a></td>
+      <td><b>SRI 宇立儀器</b><span class="hq">中國</span></td>
+      <td>人形機器人系列 C025XX–C060XX、M3701F1（毫米級）</td><td>六軸；月產能逾 5,000 顆</td><td>人形機器人手腕、腳踝、關節</td>
+      <td><a href="https://www.srisensor.com/humanoid-robot-force-torque-sensor/" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+  </table></div>
+  
+  <h3 class="sub">5-2 觸覺皮膚（Tactile Skin）</h3>
+  <div class="panel"><table>
+    <tr><th>產品照片</th><th>廠商</th><th>代表產品／型號</th><th>關鍵規格／特色</th><th>典型應用</th><th>官網／來源</th></tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.gelsight.com/gelsight-and-meta-ai-introduce-digit-360-tactile-sensor/" target="_blank" rel="noopener"><img src="sensors_img/b91fee247a7b4e4941386e9c41764f2fdfdb7a00.jpg" loading="lazy" alt="GelSight（與 Meta FAIR 合作）"></a></td>
+      <td><b>GelSight（與 Meta FAIR 合作）</b><span class="hq">美國</span></td>
+      <td>Digit 360、GelSight Mini</td><td>18 種以上感測模式、約 1 mN 靈敏度</td><td>靈巧操作研究</td>
+      <td><a href="https://www.gelsight.com/gelsight-and-meta-ai-introduce-digit-360-tactile-sensor/" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.prnewswire.com/news-releases/xela-robotics-unlocks-enhanced-automation-for-humanoid-and-industrial-robots-302650533.html" target="_blank" rel="noopener"><img src="sensors_img/5f1148418b665d3722bad4c4dc6cdbfe0a35c3ac.jpg" loading="lazy" alt="XELA Robotics"></a></td>
+      <td><b>XELA Robotics</b><span class="hq">日本</span></td>
+      <td>uSkin</td><td>每個觸點三軸力；已整合進 Tesollo、Robotiq 等機械手</td><td>人形與工業機械手</td>
+      <td><a href="https://www.prnewswire.com/news-releases/xela-robotics-unlocks-enhanced-automation-for-humanoid-and-industrial-robots-302650533.html" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://technode.com/2026/08/04/embodied-ai-startup-paxini-raises-rmb1-billion-to-scale-tactile-sensing-technology/" target="_blank" rel="noopener"><img src="sensors_img/e4480207889d7f8a3bf2aa08f55a1000b8a3e863.jpg" loading="lazy" alt="PaXini 帕西尼"></a></td>
+      <td><b>PaXini 帕西尼</b><span class="hq">中國</span></td>
+      <td>PX-6AX-GEN3、DexH13 靈巧手（1,140 個觸覺單元）</td><td>每顆 15 維度感知；2026/08 完成 10 億人民幣融資</td><td>人形機器人、靈巧手</td>
+      <td><a href="https://technode.com/2026/08/04/embodied-ai-startup-paxini-raises-rmb1-billion-to-scale-tactile-sensing-technology/" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://eu.36kr.com/en/p/3889141540370949" target="_blank" rel="noopener"><img src="sensors_img/458c10e013b60bc8abb0fb3807eaaf184220ddde.jpg" loading="lazy" alt="Tashan 他山科技"></a></td>
+      <td><b>Tashan 他山科技</b><span class="hq">中國</span></td>
+      <td>TS-F 指尖感測器、脈衝神經網路 AI 觸覺晶片</td><td>0.01 N 解析度；NVIDIA Isaac Sim 觸覺模擬合作</td><td>靈巧手</td>
+      <td><a href="https://eu.36kr.com/en/p/3889141540370949" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+  </table></div>
+  
+  <h3 class="sub">5-3 荷重元與稱重</h3>
+  <div class="panel"><table>
+    <tr><th>產品照片</th><th>廠商</th><th>代表產品／型號</th><th>關鍵規格／特色</th><th>典型應用</th><th>官網／來源</th></tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.hbkworld.com/en/products/transducers/force/u10m" target="_blank" rel="noopener"><img src="sensors_img/757646c31354926b0c0f5ad1339cd00708addce9.jpg" loading="lazy" alt="HBK（Spectris 旗下，2025/12 由 KKR 私有化）"></a></td>
+      <td><b>HBK（Spectris 旗下，2025/12 由 KKR 私有化）</b><span class="hq">丹麥／德國</span></td>
+      <td>U10M／U10F 力傳感器（可選 IO-Link）</td><td>超高精度應變規</td><td>測試台、壓入配合</td>
+      <td><a href="https://www.hbkworld.com/en/products/transducers/force/u10m" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.mt.com/us/en/home/products/Industrial_Weighing_Solutions/AutomPrecision/load-cell-and-weigh-module/vehicle/powercell-pdx.html" target="_blank" rel="noopener"><img src="sensors_img/046a12b49b81981b48fe971acdf2f0f412fde0e5.jpg" loading="lazy" alt="Mettler Toledo"></a></td>
+      <td><b>Mettler Toledo</b><span class="hq">瑞士／美國</span></td>
+      <td>POWERCELL PDX 數位荷重元</td><td>自我診斷</td><td>地磅、槽體與料斗稱重</td>
+      <td><a href="https://www.mt.com/us/en/home/products/Industrial_Weighing_Solutions/AutomPrecision/load-cell-and-weigh-module/vehicle/powercell-pdx.html" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.flintec.com/company/about" target="_blank" rel="noopener"><img src="sensors_img/db476fa54c0a1f049381037ce42dda64be1e2726.jpg" loading="lazy" alt="Flintec（Indutrade 旗下）"></a></td>
+      <td><b>Flintec（Indutrade 旗下）</b><span class="hq">瑞典／美國</span></td>
+      <td>應變規荷重元</td><td>年產約 100 萬顆</td><td>OEM 秤、工業稱重</td>
+      <td><a href="https://www.flintec.com/company/about" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.zemiceurope.com/en/" target="_blank" rel="noopener"><img src="sensors_img/c0cc8649a2b8ee14e41aca20f2c011d58f3044ee.jpg" loading="lazy" alt="Zemic 中航電測"></a></td>
+      <td><b>Zemic 中航電測</b><span class="hq">中國</span></td>
+      <td>各式荷重元</td><td>大量、低成本</td><td>OEM 秤、物流稱重</td>
+      <td><a href="https://www.zemiceurope.com/en/" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+  </table></div>
+  
+  
+  <h3 class="sub">5-M 市場規模</h3>
+  <div class="panel"><table>
+    <tr><th>細分市場</th><th>基準年規模</th><th>預測規模</th><th>CAGR</th><th>研究機構</th><th>來源</th></tr>
+    
+    <tr><td>機器人力／扭矩感測器</td><td class="num">4.67 億（2024）</td><td class="num">8.7 億（2033）</td><td class="num">7.3%</td><td>Grand View Research</td><td><a href="https://www.grandviewresearch.com/horizon/statistics/robotic-sensors-market/sensor-type/force-torque-sensors/global" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+    <tr><td>人形機器人六軸力感測器 ⚠高不確定</td><td class="num">2.39 億（2023）</td><td class="num">27.7 億（2030）</td><td class="num">45.2%</td><td>QYResearch</td><td><a href="https://m.gelonghui.com/p/1619216" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+    <tr><td>人形機器人力感測器（中國）</td><td class="num">—</td><td class="num">人民幣 79 億（2030）</td><td class="num">—</td><td>中金公司（引用 GGII）</td><td><a href="https://finance.sina.com.cn/stock/stockzmt/2025-06-25/doc-infcfxps5880107.shtml" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+    <tr><td>觸覺感測器</td><td class="num">40.1 億（2025）</td><td class="num">83.7 億（2030）</td><td class="num">15.9%</td><td>Mordor Intelligence</td><td><a href="https://www.mordorintelligence.com/industry-reports/tactile-sensor-market" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+    <tr><td>電子皮膚（含穿戴健康貼片）</td><td class="num">73.9 億（2025）</td><td class="num">310.6 億（2034）</td><td class="num">17.3%</td><td>Precedence Research</td><td><a href="https://www.precedenceresearch.com/electronic-skin-market" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+    <tr><td>荷重元</td><td class="num">33.1 億（2024）</td><td class="num">51.9 億（2035）</td><td class="num">4.2%</td><td>Market Research Future</td><td><a href="https://www.marketresearchfuture.com/reports/load-cell-market-42058" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+  </table></div>
+  
+  
+  <h3 class="sub">技術趨勢</h3>
+  <ul class="trends"><li>中國觸覺廠商快速成長（帕西尼、他山）；他山表示靈巧手使用觸覺感測的比例從 2024 年約 20% 升到 2025 年超過 60%（廠商說法）。</li><li>低成本霍爾效應或視覺式觸覺皮膚，正在指尖位置取代傳統應變規力感測器。</li></ul>
+  
+</section>
+
+<section class="view" id="v-temp">
+  <h2 class="sec">🌡 6. 溫度感 Temperature <span class="tag">接觸式與非接觸式測溫</span></h2>
+  <p class="intro">溫度感測分成接觸式（熱電偶、RTD、數位溫度 IC）與非接觸式（紅外線測溫、熱電堆陣列）。低成本熱電堆陣列正成為邊緣 AI 的「簡易熱視覺」。</p>
+  
+  <h3 class="sub">6-1 接觸式與非接觸式溫度感測</h3>
+  <div class="panel"><table>
+    <tr><th>產品照片</th><th>廠商</th><th>代表產品／型號</th><th>關鍵規格／特色</th><th>典型應用</th><th>官網／來源</th></tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.us.endress.com/en/field-instruments-overview/temperature-measurement-thermometers-transmitters/sanitary-rtd-trustsens-tm371" target="_blank" rel="noopener"><img src="sensors_img/1576e1f173c39706c2de4eaef6faa5f7d4553e31.jpg" loading="lazy" alt="Endress+Hauser"></a></td>
+      <td><b>Endress+Hauser</b><span class="hq">瑞士</span></td>
+      <td>iTHERM TrustSens TM371／TM372</td><td>RTD 內建參考點，可在線自我校正；藍牙／WirelessHART</td><td>食品、製藥衛生製程</td>
+      <td><a href="https://www.us.endress.com/en/field-instruments-overview/temperature-measurement-thermometers-transmitters/sanitary-rtd-trustsens-tm371" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.wika.com/en-en/tr10_0.WIKA" target="_blank" rel="noopener"><img src="sensors_img/4857d16abe285de7739c8b63aea4bb39e5235523.jpg" loading="lazy" alt="WIKA 威卡"></a></td>
+      <td><b>WIKA 威卡</b><span class="hq">德國</span></td>
+      <td>TR10 RTD、TC10 熱電偶</td><td>模組化套管組件，符合 IEC／ASME</td><td>石化、化工、一般製程</td>
+      <td><a href="https://www.wika.com/en-en/tr10_0.WIKA" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.dwyeromega.com/en-us/ourbrands/omega" target="_blank" rel="noopener"><img src="sensors_img/cdde3973c2ae540087e92a4c7d0128ec00a27748.jpg" loading="lazy" alt="DwyerOmega（Omega）"></a></td>
+      <td><b>DwyerOmega（Omega）</b><span class="hq">美國</span></td>
+      <td>RTD、熱電偶、變送器、資料記錄器</td><td>型錄式產品線非常齊全</td><td>實驗室、OEM、維修</td>
+      <td><a href="https://www.dwyeromega.com/en-us/ourbrands/omega" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://optris.com/products/infrared-cameras/compact-line/xi-1m/" target="_blank" rel="noopener"><img src="sensors_img/212c4adea94a028fc19d20cf99eda841e6dbe49d.jpg" loading="lazy" alt="Optris"></a></td>
+      <td><b>Optris</b><span class="hq">德國</span></td>
+      <td>CSmicro、CTlaser 測溫槍、Xi 1M 紅外熱像儀</td><td>短波 1 µm 款適合金屬與高溫製程</td><td>金屬、玻璃、塑膠</td>
+      <td><a href="https://optris.com/products/infrared-cameras/compact-line/xi-1m/" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.flukeprocessinstruments.com/en-us/products/infrared-temperature-solutions/spot-pyrometers/endurance" target="_blank" rel="noopener"><img src="sensors_img/e731499d99c505840a513ac46d7b592f4e7392eb.jpg" loading="lazy" alt="Fluke Process Instruments"></a></td>
+      <td><b>Fluke Process Instruments</b><span class="hq">美國／德國</span></td>
+      <td>Thermalert 4.0、Endurance 高溫測溫儀</td><td>支援現場匯流排的智慧測溫儀</td><td>鋼鐵、水泥窯、玻璃</td>
+      <td><a href="https://www.flukeprocessinstruments.com/en-us/products/infrared-temperature-solutions/spot-pyrometers/endurance" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.ti.com/product/TMP117" target="_blank" rel="noopener"><img src="sensors_img/1608b419228a4bfaeae8e13d48c48924c14a20c4.jpg" loading="lazy" alt="Texas Instruments 德州儀器"></a></td>
+      <td><b>Texas Instruments 德州儀器</b><span class="hq">美國</span></td>
+      <td>TMP117</td><td>±0.1 °C 數位溫度 IC，可取代 AA 級 RTD</td><td>冷鏈、醫療、機器人熱管理</td>
+      <td><a href="https://www.ti.com/product/TMP117" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.melexis.com/en/news/2025/10apr2025-melexis-redefines-thermographic-sensing-with-the-mlx90642-32x24-ir-array" target="_blank" rel="noopener"><img src="sensors_img/e7eda4b06e06a8836520a440a27dfa921f825d05.jpg" loading="lazy" alt="Melexis 邁來芯"></a></td>
+      <td><b>Melexis 邁來芯</b><span class="hq">比利時</span></td>
+      <td>MLX90642（2025/04）、MLX90640／41</td><td>32×24 熱電堆陣列，晶片直接輸出溫度，不需主控 MCU</td><td>HVAC 人員偵測、電源過熱監控</td>
+      <td><a href="https://www.melexis.com/en/news/2025/10apr2025-melexis-redefines-thermographic-sensing-with-the-mlx90642-32x24-ir-array" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.heimannsensor.com/news" target="_blank" rel="noopener"><img src="sensors_img/c7d6e8460f54f2c6fc7144f8df6e183d33877b3f.jpg" loading="lazy" alt="Heimann Sensor"></a></td>
+      <td><b>Heimann Sensor</b><span class="hq">德國</span></td>
+      <td>HTPA 熱電堆陣列（32×32 到 160×120）</td><td>多種解析度 MEMS 熱電堆</td><td>熱像模組、家電、無人機</td>
+      <td><a href="https://www.heimannsensor.com/news" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+  </table></div>
+  
+  
+  <h3 class="sub">6-M 市場規模</h3>
+  <div class="panel"><table>
+    <tr><th>細分市場</th><th>基準年規模</th><th>預測規模</th><th>CAGR</th><th>研究機構</th><th>來源</th></tr>
+    
+    <tr><td>溫度感測器</td><td class="num">74 億（2024）</td><td class="num">97 億（2029）</td><td class="num">5.6%</td><td>MarketsandMarkets</td><td><a href="https://www.prnewswire.com/news-releases/temperature-sensor-market-worth-9-7-billion-by-2029---exclusive-report-by-marketsandmarkets-302032331.html" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+    <tr><td>溫度感測器</td><td class="num">67 億（2023）</td><td class="num">101 億（2030）</td><td class="num">6.0%</td><td>Grand View Research</td><td><a href="https://www.grandviewresearch.com/industry-analysis/temperature-sensors-market" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+    <tr><td>熱電堆紅外感測器 ⚠二線機構</td><td class="num">6.8 億（2025）</td><td class="num">10.8 億（2032）</td><td class="num">6.7%</td><td>ReportPrime</td><td><a href="https://www.reportprime.com/thermopile-infrared-sensor-r1459" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+  </table></div>
+  
+  
+  <h3 class="sub">技術趨勢</h3>
+  <ul class="trends"><li>製程現場以自我校正 RTD 與匯流排測溫儀減少人工校正；邊緣端以熱電堆陣列做低成本熱視覺。</li></ul>
+  
+</section>
+
+<section class="view" id="v-motion">
+  <h2 class="sec">🌀 7. 平衡／動作感 <span class="tag">IMU 與振動</span></h2>
+  <p class="intro">IMU 讓機器人知道自己的姿態與加速度；振動感測器則是設備預測保養的核心，碎紙機、馬達、風扇、輸送帶都適用。</p>
+  
+  <h3 class="sub">7-1 IMU 慣性量測單元</h3>
+  <div class="panel"><table>
+    <tr><th>產品照片</th><th>廠商</th><th>代表產品／型號</th><th>關鍵規格／特色</th><th>典型應用</th><th>官網／來源</th></tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.bosch-sensortec.com/en/news/from-immersive-xr-to-advanced-robotics-and-wearables-bosch-sensortec-launches-bmi5-motion-sensor-platform.html" target="_blank" rel="noopener"><img src="sensors_img/620c6ce5c950932baa62f8cc614d79c247f5c83e.jpg" loading="lazy" alt="Bosch Sensortec"></a></td>
+      <td><b>Bosch Sensortec</b><span class="hq">德國</span></td>
+      <td>BMI5 平台：BMI563（機器人）、BMI560（XR）、BMI570（穿戴）</td><td>延遲 < 0.5 ms、可程式化邊緣 AI 分類器；2026 Q3 量產</td><td>機器人 SLAM、XR</td>
+      <td><a href="https://www.bosch-sensortec.com/en/news/from-immersive-xr-to-advanced-robotics-and-wearables-bosch-sensortec-launches-bmi5-motion-sensor-platform.html" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://invensense.tdk.com/products/motion-tracking/6-axis/icm-45686/" target="_blank" rel="noopener"><img src="sensors_img/28cdbe475ca656dd39b322d4bfa6c967a22a4f71.jpg" loading="lazy" alt="TDK InvenSense"></a></td>
+      <td><b>TDK InvenSense</b><span class="hq">日本／美國</span></td>
+      <td>ICM-45686</td><td>BalancedGyro、±4000 dps／±32 g、0.42 mA</td><td>機器人、無人機</td>
+      <td><a href="https://invensense.tdk.com/products/motion-tracking/6-axis/icm-45686/" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.st.com/en/mems-and-sensors/lsm6dsv80x.html" target="_blank" rel="noopener"><img src="sensors_img/018c625ec52479711353914befe9aa50c83b70ff.jpg" loading="lazy" alt="STMicroelectronics"></a></td>
+      <td><b>STMicroelectronics</b><span class="hq">瑞士／法國</span></td>
+      <td>LSM6DSV80X</td><td>雙加速度計（16 g + 80 g）、機器學習核心</td><td>衝擊與動作追蹤</td>
+      <td><a href="https://www.st.com/en/mems-and-sensors/lsm6dsv80x.html" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.analog.com/en/products/adis16550.html" target="_blank" rel="noopener"><img src="sensors_img/11a6f66855fc74366a9c2137895537c766c0227f.jpg" loading="lazy" alt="Analog Devices"></a></td>
+      <td><b>Analog Devices</b><span class="hq">美國</span></td>
+      <td>ADIS16550</td><td>陀螺零偏穩定性 1°/hr、−40 至 105 °C</td><td>機器人、自駕、穩定平台</td>
+      <td><a href="https://www.analog.com/en/products/adis16550.html" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.murata.com/en-us/news/sensor/gyro/2025/1212" target="_blank" rel="noopener"><img src="sensors_img/9340d0f1f79f1fdbf576e6146ebd38f4557f1ddd.jpg" loading="lazy" alt="Murata 村田"></a></td>
+      <td><b>Murata 村田</b><span class="hq">日本／芬蘭</span></td>
+      <td>SCH16T-K20（2026 H1 量產）</td><td>零偏不穩定性 0.3°/h</td><td>航位推算、工業機器人</td>
+      <td><a href="https://www.murata.com/en-us/news/sensor/gyro/2025/1212" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.xsens.com/sensor-modules/xsens-mti-8" target="_blank" rel="noopener"><img src="sensors_img/c49629dfa334cbbaaf37b8c29b152f4a5b555f13.jpg" loading="lazy" alt="Movella Xsens；VectorNav"></a></td>
+      <td><b>Movella Xsens；VectorNav</b><span class="hq">荷蘭／美國；美國</span></td>
+      <td>MTi-8、Avior、Sirius；VN-110、VN-210</td><td>航向參考與 GNSS 輔助導航模組</td><td>AMR、無人機、移動機器人</td>
+      <td><a href="https://www.xsens.com/sensor-modules/xsens-mti-8" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+  </table></div>
+  
+  <h3 class="sub">7-2 工業振動感測（預測保養）</h3>
+  <div class="panel"><table>
+    <tr><th>產品照片</th><th>廠商</th><th>代表產品／型號</th><th>關鍵規格／特色</th><th>典型應用</th><th>官網／來源</th></tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.skf.com/group/products/condition-monitoring-systems/surveillance-systems/wireless/enlight-collect-imx-1" target="_blank" rel="noopener"><img src="sensors_img/2c5c4de457e3a2e433e25f1b69fec419b2c92578.jpg" loading="lazy" alt="SKF 斯凱孚"></a></td>
+      <td><b>SKF 斯凱孚</b><span class="hq">瑞典</span></td>
+      <td>Enlight Collect IMx-1</td><td>無線網狀網路、電池可用數年；2026/03 宣布收購台灣 G-Tech</td><td>泵浦、風機、造紙</td>
+      <td><a href="https://www.skf.com/group/products/condition-monitoring-systems/surveillance-systems/wireless/enlight-collect-imx-1" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.bannerengineering.com/us/en/company/new-products/qm30vt3-3-axis-vibration-sensor-.html" target="_blank" rel="noopener"><img src="sensors_img/9ecc3b25da49b4152bc28c46015da09f0726d0be.jpg" loading="lazy" alt="Banner Engineering 邦納"></a></td>
+      <td><b>Banner Engineering 邦納</b><span class="hq">美國</span></td>
+      <td>QM30VT3</td><td>三軸、FFT 資料、VIBE-IQ 機器學習、IO-Link／Modbus</td><td>馬達、齒輪箱警報</td>
+      <td><a href="https://www.bannerengineering.com/us/en/company/new-products/qm30vt3-3-axis-vibration-sensor-.html" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.ifm.com/na/en/shared/productnews/2024/sps/vvb-as-3-axis-vibration-sensor-with-io-link" target="_blank" rel="noopener"><img src="sensors_img/82fb90e6dee1eb0ecc68faf041a2051bce51ad3c.jpg" loading="lazy" alt="ifm 易福門"></a></td>
+      <td><b>ifm 易福門</b><span class="hq">德國</span></td>
+      <td>VVB3（VVB301）、VVB001</td><td>三軸 IO-Link、ISO 20816-3 門檻、moneo 軟體</td><td>工廠旋轉設備</td>
+      <td><a href="https://www.ifm.com/na/en/shared/productnews/2024/sps/vvb-as-3-axis-vibration-sensor-with-io-link" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.emerson.com/en/automation-systems/asset-performance-management/machinery-health-management/ams-wireless-vibration-monitor" target="_blank" rel="noopener"><img src="sensors_img/6f666f5c26080e2b9b6011188c9ed2d8c8f8e147.jpg" loading="lazy" alt="Emerson 艾默生"></a></td>
+      <td><b>Emerson 艾默生</b><span class="hq">美國</span></td>
+      <td>AMS Wireless Vibration Monitor</td><td>WirelessHART、PeakVue 軸承分析</td><td>製程工廠、防爆區</td>
+      <td><a href="https://www.emerson.com/en/automation-systems/asset-performance-management/machinery-health-management/ams-wireless-vibration-monitor" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.siemens.com/global/en/products/drives/digital-drivetrain/connect/siplus-cms1200.html" target="_blank" rel="noopener"><img src="sensors_img/466e1f47f3f944693f3a4e02cb7f34aa92987fa4.jpg" loading="lazy" alt="Siemens 西門子"></a></td>
+      <td><b>Siemens 西門子</b><span class="hq">德國</span></td>
+      <td>SIPLUS CMS1200 + Senseye</td><td>4 路加速度計輸入，在 PLC 內分析</td><td>傳動系統</td>
+      <td><a href="https://www.siemens.com/global/en/products/drives/digital-drivetrain/connect/siplus-cms1200.html" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+  </table></div>
+  
+  
+  <h3 class="sub">7-M 市場規模</h3>
+  <div class="panel"><table>
+    <tr><th>細分市場</th><th>基準年規模</th><th>預測規模</th><th>CAGR</th><th>研究機構</th><th>來源</th></tr>
+    
+    <tr><td>MEMS 整體（參考）</td><td class="num">154 億（2024）</td><td class="num">192 億（2030）</td><td class="num">3.7%</td><td>Yole Group</td><td><a href="https://www.yolegroup.com/press-release/mems-market-regains-momentum-leading-companies-bosch-stmicroelectronics-and-tdk-navigate-the-post-inventory-growth-era/" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+    <tr><td>MEMS IMU</td><td class="num">13.4 億（2026 估）</td><td class="num">22.8 億（2031）</td><td class="num">11.1%</td><td>Mordor Intelligence</td><td><a href="https://www.mordorintelligence.com/industry-reports/global-mems-based-inertial-measurement-unit-market" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+    <tr><td>高階慣性系統</td><td class="num">51.8 億（2025）</td><td class="num">74 億（2031）</td><td class="num">6.1%</td><td>Mordor Intelligence</td><td><a href="https://www.researchandmarkets.com/reports/6267435/high-end-inertial-systems-market-share" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+    <tr><td>振動監測</td><td class="num">18.5 億（2024）</td><td class="num">26.9 億（2029）</td><td class="num">7.8%</td><td>MarketsandMarkets</td><td><a href="https://www.marketsandmarkets.com/Market-Reports/vibration-monitoring-market-29273491.html" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+    <tr><td>機器狀態監測</td><td class="num">31 億（2024）</td><td class="num">47 億（2029）</td><td class="num">8.3%</td><td>MarketsandMarkets</td><td><a href="https://www.marketsandmarkets.com/Market-Reports/machine-health-monitoring-market-29627363.html" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+    <tr><td>預測保養（以軟體服務為主）</td><td class="num">109 億（2024）</td><td class="num">707 億（2032）</td><td class="num">26.5%</td><td>Fortune Business Insights</td><td><a href="https://www.fortunebusinessinsights.com/press-release/predictive-maintenance-market-9602" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+  </table></div>
+  
+  
+  <h3 class="sub">技術趨勢</h3>
+  <ul class="trends"><li>機器學習直接進到感測器：Bosch BMI5 分類器、ST 機器學習核心、Banner VIBE-IQ。</li><li>廠內振動監測走向無線、IO-Link 與 AI 自動分級警報。</li></ul>
+  
+</section>
+
+<section class="view" id="v-space">
+  <h2 class="sec">📡 8. 空間位置感 <span class="tag">雷達、UWB、GNSS、編碼器</span></h2>
+  <p class="intro">空間感回答「人或物在哪裡、怎麼移動」。室內精準定位以 UWB 為主，毫米波雷達適合隱私友善的人員偵測，編碼器則是機器人關節與輸送帶的位置回授。</p>
+  
+  <h3 class="sub">8-1 毫米波雷達</h3>
+  <div class="panel"><table>
+    <tr><th>產品照片</th><th>廠商</th><th>代表產品／型號</th><th>關鍵規格／特色</th><th>典型應用</th><th>官網／來源</th></tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.ti.com/product/IWRL6844" target="_blank" rel="noopener"><img src="sensors_img/785175c4c1f844674f736d4566300376ff0b973e.jpg" loading="lazy" alt="Texas Instruments"></a></td>
+      <td><b>Texas Instruments</b><span class="hq">美國</span></td>
+      <td>IWRL6844、IWRL6432／IWRL6432AOP、IWRL1432</td><td>60 GHz、4 發 4 收、邊緣 AI</td><td>人員計數與追蹤、機器人</td>
+      <td><a href="https://www.ti.com/product/IWRL6844" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.infineon.com/part/BGT60UTR11AIP" target="_blank" rel="noopener"><img src="sensors_img/14b1af150172481f9306b98aa576f446f1715b47.jpg" loading="lazy" alt="Infineon"></a></td>
+      <td><b>Infineon</b><span class="hq">德國</span></td>
+      <td>XENSIV BGT60TR13C、BGT60UTR11AIP</td><td>60 GHz FMCW、天線封裝、低功耗</td><td>存在偵測、空間佔用</td>
+      <td><a href="https://www.infineon.com/part/BGT60UTR11AIP" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://acconeer.com/news/a2-progress/" target="_blank" rel="noopener"><img src="sensors_img/6073fee262b7ec7937d956fb6261baf286835544.jpg" loading="lazy" alt="Acconeer"></a></td>
+      <td><b>Acconeer</b><span class="hq">瑞典</span></td>
+      <td>A121、A212 脈衝相干雷達；A2（新一代）</td><td>毫米級距離量測；A2 支援 3D 成像與多目標追蹤</td><td>液位、距離、AGV 近接</td>
+      <td><a href="https://acconeer.com/news/a2-progress/" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.calcalistech.com/ctechnews/article/ryb2oyera" target="_blank" rel="noopener"><img src="sensors_img/b761d1a09553da6f77beb52142f3ebe91b08fa8b.jpg" loading="lazy" alt="Vayyar"></a></td>
+      <td><b>Vayyar</b><span class="hq">以色列</span></td>
+      <td>4D 成像雷達</td><td>2024/09 裁員並聚焦智慧家居與汽車，工業已非重點</td><td>長照、車艙偵測</td>
+      <td><a href="https://www.calcalistech.com/ctechnews/article/ryb2oyera" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+  </table></div>
+  
+  <h3 class="sub">8-2 UWB 室內精準定位（RTLS）</h3>
+  <div class="panel"><table>
+    <tr><th>產品照片</th><th>廠商</th><th>代表產品／型號</th><th>關鍵規格／特色</th><th>典型應用</th><th>官網／來源</th></tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.qorvo.com/newsroom/news/2025/qorvo-expands-ultra-wideband-portfolio-with-first-fully-integrated-low-power-soc" target="_blank" rel="noopener"><img src="sensors_img/29c9bba65cd43d0f34e26602c60b4ea1e727ce0d.jpg" loading="lazy" alt="Qorvo（Skyworks 合併進行中）"></a></td>
+      <td><b>Qorvo（Skyworks 合併進行中）</b><span class="hq">美國</span></td>
+      <td>DW3110／DW3000、DWM3001C 模組、QM35825 SoC（2025/03）</td><td>QM35825：104 dB 鏈路預算、晶片端 AI／ML、雷達 + 測距</td><td>RTLS 基站與標籤晶片</td>
+      <td><a href="https://www.qorvo.com/newsroom/news/2025/qorvo-expands-ultra-wideband-portfolio-with-first-fully-integrated-low-power-soc" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.nxp.com/company/about-nxp/newsroom/NW-NXP-COMBINES-ULTRA-WIDEBAND-SECURE" target="_blank" rel="noopener"><img src="sensors_img/31b9c61423f0a65dd4d2548d63dce9fcba3d51a3.jpg" loading="lazy" alt="NXP 恩智浦"></a></td>
+      <td><b>NXP 恩智浦</b><span class="hq">荷蘭</span></td>
+      <td>Trimension SR250</td><td>UWB 雷達 + 安全測距單晶片、±5 cm、3D AoA</td><td>人員與資產追蹤、危險區域</td>
+      <td><a href="https://www.nxp.com/company/about-nxp/newsroom/NW-NXP-COMBINES-ULTRA-WIDEBAND-SECURE" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://newsroom.hidglobal.com/hid-acquires-sewio-networks-add-ultra-wideband-technology-growing-rtls-portfolio" target="_blank" rel="noopener"><img src="sensors_img/d8a760ac1aa0271536a57f406f0baabfa1f270f2.jpg" loading="lazy" alt="HID／Sewio（2024/08 被 HID 收購）"></a></td>
+      <td><b>HID／Sewio（2024/08 被 HID 收購）</b><span class="hq">瑞典／捷克</span></td>
+      <td>Sewio UWB 標籤、基站、RTLS Studio</td><td>完整 RTLS 軟硬體</td><td>汽車廠、堆高機與在製品追蹤</td>
+      <td><a href="https://newsroom.hidglobal.com/hid-acquires-sewio-networks-add-ultra-wideband-technology-growing-rtls-portfolio" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.pozyx.io/newsroom/pozyx-rtls-release-v2025-2" target="_blank" rel="noopener"><img src="sensors_img/e1aae165d34d45ff797ee3e59514887e2189a219.jpg" loading="lazy" alt="Pozyx"></a></td>
+      <td><b>Pozyx</b><span class="hq">比利時</span></td>
+      <td>Pozyx RTLS v2025.2、Platform v3.0</td><td>omlox 連接器、符合新版歐盟 UWB 法規</td><td>工廠棧板與車輛追蹤</td>
+      <td><a href="https://www.pozyx.io/newsroom/pozyx-rtls-release-v2025-2" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.nozominetworks.com/blog/uwb-rtls-vulnerability-confirmed-in-ubisense-dimension4-3d-tracking-system" target="_blank" rel="noopener"><img src="sensors_img/fa393dea523ad8e9d94ac008e3778b302d22838e.jpg" loading="lazy" alt="Ubisense"></a></td>
+      <td><b>Ubisense</b><span class="hq">英國</span></td>
+      <td>Dimension4</td><td>3D UWB 定位（曾揭露資安漏洞，導入時需評估）</td><td>汽車與航太組裝</td>
+      <td><a href="https://www.nozominetworks.com/blog/uwb-rtls-vulnerability-confirmed-in-ubisense-dimension4-3d-tracking-system" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.zebra.com/ap/en/products/location-technologies/dart-uwb.html" target="_blank" rel="noopener"><img src="sensors_img/4ce754bcd7179da1be928c5337441d999734c550.jpg" loading="lazy" alt="Zebra 斑馬"></a></td>
+      <td><b>Zebra 斑馬</b><span class="hq">美國</span></td>
+      <td>Dart UWB</td><td>較早期平台，仍在官網列出</td><td>運動、工業</td>
+      <td><a href="https://www.zebra.com/ap/en/products/location-technologies/dart-uwb.html" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+  </table></div>
+  
+  <h3 class="sub">8-3 GNSS 高精度定位模組</h3>
+  <div class="panel"><table>
+    <tr><th>產品照片</th><th>廠商</th><th>代表產品／型號</th><th>關鍵規格／特色</th><th>典型應用</th><th>官網／來源</th></tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.u-blox.com/en/zed-x20p-01b-global-ppp-high-precision-positioning" target="_blank" rel="noopener"><img src="sensors_img/5f5952022c7ac9746b4638f7ef83f341175e5c67.jpg" loading="lazy" alt="u-blox（2025/11 被 Advent 私有化）"></a></td>
+      <td><b>u-blox（2025/11 被 Advent 私有化）</b><span class="hq">瑞士</span></td>
+      <td>ZED-X20P、ZED-X20P-01B（2026/04）</td><td>全頻段 RTK；-01B 支援 Galileo HAS 分米級 PPP、抗干擾</td><td>戶外機器人、堆場 AMR</td>
+      <td><a href="https://www.u-blox.com/en/zed-x20p-01b-global-ppp-high-precision-positioning" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.septentrio.com/en/products/gnss-receivers/gnss-receiver-modules/mosaic-x5" target="_blank" rel="noopener"><img src="sensors_img/4514edf358bf195687f486da5390c14d3d22f2cd.jpg" loading="lazy" alt="Septentrio（2025/03 被 Hexagon 收購）"></a></td>
+      <td><b>Septentrio（2025/03 被 Hexagon 收購）</b><span class="hq">比利時</span></td>
+      <td>mosaic-X5、mosaic-G5</td><td>多頻 RTK、抗干擾</td><td>自主載具、機械控制</td>
+      <td><a href="https://www.septentrio.com/en/products/gnss-receivers/gnss-receiver-modules/mosaic-x5" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.quectel.com/news-and-pr/lg580p-rtk-multi-band-gnss-module-embedded-world-2025/" target="_blank" rel="noopener"><img src="sensors_img/0f4e49eded876e89b2f1587d4f0110450352cc54.jpg" loading="lazy" alt="Quectel 移遠"></a></td>
+      <td><b>Quectel 移遠</b><span class="hq">中國</span></td>
+      <td>LG290P、LG580P（2025/03）</td><td>LG580P：L1/L2/L5/L6、雙天線航向、CAN</td><td>割草機、AGV、無人機</td>
+      <td><a href="https://www.quectel.com/news-and-pr/lg580p-rtk-multi-band-gnss-module-embedded-world-2025/" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+  </table></div>
+  
+  <h3 class="sub">8-4 編碼器</h3>
+  <div class="panel"><table>
+    <tr><th>產品照片</th><th>廠商</th><th>代表產品／型號</th><th>關鍵規格／特色</th><th>典型應用</th><th>官網／來源</th></tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.heidenhain.com/news/press-releases/heidenhain-inductive-rotary-encoders-at-automatica-2025" target="_blank" rel="noopener"><img src="sensors_img/b6c95dd89a89a4b51bb2004403393ccdeea5206c.jpg" loading="lazy" alt="Heidenhain 海德漢"></a></td>
+      <td><b>Heidenhain 海德漢</b><span class="hq">德國</span></td>
+      <td>ECI 1323 Splus／EQI 1335 Splus</td><td>感應式、EnDat 3、SIL 3、內建加速度計可監測振動</td><td>機器人關節、伺服回授</td>
+      <td><a href="https://www.heidenhain.com/news/press-releases/heidenhain-inductive-rotary-encoders-at-automatica-2025" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.renishaw.com/en/10768.aspx" target="_blank" rel="noopener"><img src="sensors_img/c1a6b3dfd7e0df529cffb2be9b00b61ea84086d3.jpg" loading="lazy" alt="Renishaw 雷尼紹"></a></td>
+      <td><b>Renishaw 雷尼紹</b><span class="hq">英國</span></td>
+      <td>RESOLUTE、RXMA30、RLE 雷射編碼器</td><td>真絕對式光學、功能安全</td><td>半導體平台、工具機</td>
+      <td><a href="https://www.renishaw.com/en/10768.aspx" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.sick.com/us/en/sick-releases-ahsahm36-io-link-absolute-encoders/w/press-AHx36" target="_blank" rel="noopener"><img src="sensors_img/5ba4e32664d7617b9ffa97da6ce0ce29493d9728.jpg" loading="lazy" alt="SICK"></a></td>
+      <td><b>SICK</b><span class="hq">德國</span></td>
+      <td>AHS36／AHM36 IO-Link、DFS2x</td><td>IO-Link 絕對式編碼器</td><td>輸送帶、包裝</td>
+      <td><a href="https://www.sick.com/us/en/sick-releases-ahsahm36-io-link-absolute-encoders/w/press-AHx36" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.baumer.com/int/en/product-overview/rotary-encoders-angle-sensors/industrial-encoders-absolute/eam580/c/14160" target="_blank" rel="noopener"><img src="sensors_img/2ad8e7bae931c79e706ee0fd38f8d35df4024a5c.jpg" loading="lazy" alt="Baumer 堡盟"></a></td>
+      <td><b>Baumer 堡盟</b><span class="hq">瑞士</span></td>
+      <td>MAGRES EAM580、optoTurn EAL580</td><td>58 mm，支援 PROFINET／EtherCAT／EtherNet/IP</td><td>一般自動化</td>
+      <td><a href="https://www.baumer.com/int/en/product-overview/rotary-encoders-angle-sensors/industrial-encoders-absolute/eam580/c/14160" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+  </table></div>
+  
+  
+  <h3 class="sub">8-M 市場規模</h3>
+  <div class="panel"><table>
+    <tr><th>細分市場</th><th>基準年規模</th><th>預測規模</th><th>CAGR</th><th>研究機構</th><th>來源</th></tr>
+    
+    <tr><td>毫米波雷達（車用約占 52%）</td><td class="num">46.2 億（2025）</td><td class="num">223.8 億（2033）</td><td class="num">21.8%</td><td>Coherent Market Insights</td><td><a href="https://www.coherentmarketinsights.com/industry-reports/mmwave-radar-market" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+    <tr><td>毫米波感測器與模組（窄口徑）</td><td class="num">1.03 億（2024）</td><td class="num">5.29 億（2030）</td><td class="num">30.6%</td><td>Grand View Research</td><td><a href="https://www.grandviewresearch.com/industry-analysis/millimeter-wave-sensors-modules-market" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+    <tr><td>UWB（晶片＋系統）</td><td class="num">84.8 億（2025）</td><td class="num">176.2 億（2030）</td><td class="num">15.8%</td><td>MarketsandMarkets</td><td><a href="https://www.marketsandmarkets.com/PressReleases/ultra-wideband.asp" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+    <tr><td>UWB 裝置出貨量（非金額）</td><td class="num">4.36 億台（2024）</td><td class="num">14 億台（2030）</td><td class="num">21%</td><td>ABI Research</td><td><a href="https://www.abiresearch.com/press/next-generation-ultra-wideband-to-power-1.4-billion-devices-by-2030-as-ecosystem-matures-and-applications-diversify" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+    <tr><td>RTLS 即時定位系統</td><td class="num">66.8 億（2025）</td><td class="num">156.7 億（2030）</td><td class="num">18.6%</td><td>MarketsandMarkets</td><td><a href="https://www.marketsandmarkets.com/PressReleases/real-time-location-systems.asp" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+    <tr><td>GNSS 晶片</td><td class="num">83.7 億（2025）</td><td class="num">115.8 億（2031）</td><td class="num">5.6%</td><td>Mordor Intelligence</td><td><a href="https://www.mordorintelligence.com/industry-reports/gnss-chip-market" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+    <tr><td>中高精度 GPS 接收機</td><td class="num">34 億（2024）</td><td class="num">52 億（2029）</td><td class="num">8.8%</td><td>MarketsandMarkets</td><td><a href="https://www.prnewswire.com/news-releases/mid-and-high-level-precision-gps-receiver-market-worth-5-2-billion-by-2029---exclusive-report-by-marketsandmarkets-302063970.html" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+    <tr><td>編碼器</td><td class="num">30 億（2023）</td><td class="num">65 億（2030）</td><td class="num">11.6%</td><td>Grand View Research</td><td><a href="https://www.grandviewresearch.com/industry-analysis/encoder-market-report" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+    <tr><td>編碼器</td><td class="num">38.4 億（2025）</td><td class="num">104.9 億（2034）</td><td class="num">11.8%</td><td>Fortune Business Insights</td><td><a href="https://www.fortunebusinessinsights.com/encoder-market-111532" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+  </table></div>
+  
+  
+  <h3 class="sub">技術趨勢</h3>
+  <ul class="trends"><li>UWB 晶片開始同時具備雷達與測距（NXP SR250、Qorvo QM35825），一顆晶片既定位標籤也偵測人員存在。</li><li>高精度 GNSS 產業整併：u-blox 由 Advent 私有化、Septentrio 併入 Hexagon；Skyworks 與 Qorvo 合併進入最後階段（截至 2026/09 尚未完成）。</li></ul>
+  
+</section>
+
+<section class="view" id="v-electric">
+  <h2 class="sec">⚡ 9. 電氣感知 <span class="tag">電流、電壓、功率</span></h2>
+  <p class="intro">電流是設備的「脈搏」。量測馬達電流特徵（MCSA）就能在不加裝振動感測器的情況下判斷設備健康，也能做機台級能耗分析。</p>
+  
+  <h3 class="sub">9-1 電流感測 IC 與電力監測</h3>
+  <div class="panel"><table>
+    <tr><th>產品照片</th><th>廠商</th><th>代表產品／型號</th><th>關鍵規格／特色</th><th>典型應用</th><th>官網／來源</th></tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.lem.com/en/hmsr" target="_blank" rel="noopener"><img src="sensors_img/303932fbfee8757f5a8734b0df6428d19b526068.jpg" loading="lazy" alt="LEM 萊姆"></a></td>
+      <td><b>LEM 萊姆</b><span class="hq">瑞士</span></td>
+      <td>HMSR（SMD）、HLSR、GO SMS／SME、IN 系列</td><td>隔離式霍爾電流感測 IC；IN 系列高精度</td><td>變頻器、逆變器、充電樁</td>
+      <td><a href="https://www.lem.com/en/hmsr" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.allegromicro.com/en/about-allegro/newsroom/press-releases/2025/industrys-first-production-ready-10-mhz-tmr-current-sensor" target="_blank" rel="noopener"><img src="sensors_img/cd37b7d66e96dff29adc4a7633a593c0ca167d42.jpg" loading="lazy" alt="Allegro MicroSystems"></a></td>
+      <td><b>Allegro MicroSystems</b><span class="hq">美國</span></td>
+      <td>ACS37100（2025/10）、ACS37017（2026/02）</td><td>ACS37100：TMR、DC–10 MHz、5 kV 隔離；ACS37017：靈敏度誤差 0.55%</td><td>GaN／SiC 電源、AI 機房電源、機器人</td>
+      <td><a href="https://www.allegromicro.com/en/about-allegro/newsroom/press-releases/2025/industrys-first-production-ready-10-mhz-tmr-current-sensor" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.melexis.com/en/product/MLX91230/Smart-IVT-Conventional-Hall-Current-Sensor" target="_blank" rel="noopener"><img src="sensors_img/d4ce9c6e20f4264aa9ba09ac8e73394a378cc7a6.jpg" loading="lazy" alt="Melexis"></a></td>
+      <td><b>Melexis</b><span class="hq">比利時</span></td>
+      <td>MLX91230、MLX91220／91221</td><td>IMC-Hall；MLX91230 精度約 0.5%</td><td>電池管理、馬達相電流</td>
+      <td><a href="https://www.melexis.com/en/product/MLX91230/Smart-IVT-Conventional-Hall-Current-Sensor" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.ti.com/product/INA780B" target="_blank" rel="noopener"><img src="sensors_img/9f9daf45723aa9b2a9289cf8f2e75cc3ec68df26.jpg" loading="lazy" alt="Texas Instruments"></a></td>
+      <td><b>Texas Instruments</b><span class="hq">美國</span></td>
+      <td>INA780（EZShunt）、INA232、TMCS1123</td><td>內建分流電阻的數位功率監測</td><td>板級功耗遙測</td>
+      <td><a href="https://www.ti.com/product/INA780B" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.se.com/us/en/product-range/62252-powerlogic-pm8000-power-quality-meters/" target="_blank" rel="noopener"><img src="sensors_img/8ff4c2a2bb30e802e9f246e70be8da755ed5c5dd.jpg" loading="lazy" alt="Schneider Electric 施耐德"></a></td>
+      <td><b>Schneider Electric 施耐德</b><span class="hq">法國</span></td>
+      <td>PowerLogic PowerTag Energy（F160、M250）、PM8000、ION9000</td><td>可直接裝在斷路器上的無線電能感測；電能品質量測</td><td>分路與機台能耗</td>
+      <td><a href="https://www.se.com/us/en/product-range/62252-powerlogic-pm8000-power-quality-meters/" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://cache.industry.siemens.com/dl/files/026/109823026/att_1155933/v2/MAN_L1V30827278B-01_en_en-US.pdf" target="_blank" rel="noopener"><img src="sensors_img/fa43cfe3a89bbbe0d2468112aba87f6c247aef94.jpg" loading="lazy" alt="Siemens"></a></td>
+      <td><b>Siemens</b><span class="hq">德國</span></td>
+      <td>SENTRON PAC3120／3220、PAC4220、Powermanager</td><td>配電盤電力監測，Modbus／PROFINET</td><td>低壓配電監控</td>
+      <td><a href="https://cache.industry.siemens.com/dl/files/026/109823026/att_1155933/v2/MAN_L1V30827278B-01_en_en-US.pdf" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.eaton.com/us/en-us/products/low-voltage-power-distribution-control-systems/power-and-energy-monitoring-equipment-and-software/power-xpert-meters.html" target="_blank" rel="noopener"><img src="sensors_img/4c4d709a4c04820e77ab33182c231b15ce4b21c3.jpg" loading="lazy" alt="Eaton 伊頓"></a></td>
+      <td><b>Eaton 伊頓</b><span class="hq">愛爾蘭</span></td>
+      <td>Power Xpert Meter 4000／6000／8000</td><td>電能品質與波形擷取</td><td>關鍵電力、資料中心</td>
+      <td><a href="https://www.eaton.com/us/en-us/products/low-voltage-power-distribution-control-systems/power-and-energy-monitoring-equipment-and-software/power-xpert-meters.html" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.centricabusinesssolutions.com/energy-solutions/energy-management/energy-insights-solutions/powerradar" target="_blank" rel="noopener"><img src="sensors_img/79809925a6fbdb5ec711acd28dbd6be97441e581.jpg" loading="lazy" alt="Panoramic Power（Centrica）"></a></td>
+      <td><b>Panoramic Power（Centrica）</b><span class="hq">英國／以色列</span></td>
+      <td>PAN-10 無線感測器、PowerRadar</td><td>自供電夾式 CT 感測器</td><td>機台級能耗分析</td>
+      <td><a href="https://www.centricabusinesssolutions.com/energy-solutions/energy-management/energy-insights-solutions/powerradar" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://samotics.com/resources/news/announcing-the-integration-of-sam4-into-abbs-variable-frequency-drives" target="_blank" rel="noopener"><img src="sensors_img/be7e1dd4ed5c2bebdabb9889c80eae65746ff71e.jpg" loading="lazy" alt="Samotics"></a></td>
+      <td><b>Samotics</b><span class="hq">荷蘭</span></td>
+      <td>SAM4 馬達電流特徵分析</td><td>在電控箱量電流與電壓；2025/11 起整合進 ABB ACS880 變頻器，免加裝感測器</td><td>馬達與泵浦預測保養</td>
+      <td><a href="https://samotics.com/resources/news/announcing-the-integration-of-sam4-into-abbs-variable-frequency-drives" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+  </table></div>
+  
+  
+  <h3 class="sub">9-M 市場規模</h3>
+  <div class="panel"><table>
+    <tr><th>細分市場</th><th>基準年規模</th><th>預測規模</th><th>CAGR</th><th>研究機構</th><th>來源</th></tr>
+    
+    <tr><td>電流感測器</td><td class="num">32.4 億（2025）</td><td class="num">54.1 億（2030）</td><td class="num">10.8%</td><td>MarketsandMarkets</td><td><a href="https://www.prnewswire.com/news-releases/current-sensor-market-worth-5-41-billion-by-2030---exclusive-report-by-marketsandmarkets-302402786.html" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+    <tr><td>電流感測器（含光纖、CT、羅氏線圈）</td><td class="num">42.5 億（2026 估）</td><td class="num">65.7 億（2031）</td><td class="num">9.1%</td><td>Mordor Intelligence</td><td><a href="https://www.mordorintelligence.com/industry-reports/current-sensor-market" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+    <tr><td>電力監測（軟硬體＋服務）</td><td class="num">74.1 億（2026 估）</td><td class="num">105.6 億（2031）</td><td class="num">7.3%</td><td>MarketsandMarkets</td><td><a href="https://www.prnewswire.com/news-releases/power-monitoring-market-worth-10-56-billion-by-2031--marketsandmarkets-302771914.html" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+    <tr><td>電能品質表（僅儀表）</td><td class="num">40 億（2025）</td><td class="num">77 億（2035）</td><td class="num">6.7%</td><td>Global Market Insights</td><td><a href="https://www.gminsights.com/industry-analysis/power-quality-meter-market" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+    <tr><td>馬達監測（MCSA 為其中一種技術）</td><td class="num">26.2 億（2026 估）</td><td class="num">36.4 億（2031）</td><td class="num">6.8%</td><td>Mordor Intelligence</td><td><a href="https://www.mordorintelligence.com/industry-reports/motor-monitoring-market" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+  </table></div>
+  
+  
+  <h3 class="sub">技術趨勢</h3>
+  <ul class="trends"><li>狀態監測走進既有設備：變頻器內建分析（SAM4 in ABB）、編碼器內建振動感測（Heidenhain Splus）。</li><li>高頻寬 TMR 電流感測器在 GaN／SiC 與 AI 機房電源領域取代霍爾元件。</li></ul>
+  
+</section>
+
+<section class="view" id="v-id">
+  <h2 class="sec">🏷 10. 身分識別 <span class="tag">RFID、條碼、BLE、NFC</span></h2>
+  <p class="intro">這是機器獨有、人類沒有的感官：看一眼就知道「這是哪一台、哪一批、從哪裡來」。對 ITAD 的資產追蹤、盤點與資料安全鏈特別關鍵。</p>
+  
+  <h3 class="sub">10-1 RAIN（UHF）RFID</h3>
+  <div class="panel"><table>
+    <tr><th>產品照片</th><th>廠商</th><th>代表產品／型號</th><th>關鍵規格／特色</th><th>典型應用</th><th>官網／來源</th></tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.impinj.com/about-us/news-room/2025/impinj-flagship-m800-series-tag-chips-surpass-5-bi" target="_blank" rel="noopener"><img src="sensors_img/6d4e5c3de388b1f997bcf2237df8a72be8dc700d.jpg" loading="lazy" alt="Impinj"></a></td>
+      <td><b>Impinj</b><span class="hq">美國</span></td>
+      <td>M800 標籤晶片（M830／M850）、E910 讀取器晶片、R700 讀取器（2026/04 更新）</td><td>M800 出貨逾 50 億顆；新版 R700 運算力 2 倍、支援 Gen2X</td><td>零售、物流、自動化盤點</td>
+      <td><a href="https://www.impinj.com/about-us/news-room/2025/impinj-flagship-m800-series-tag-chips-surpass-5-bi" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.nxp.com/company/about-nxp/newsroom/NW-NXPS-NEW-UCODEX-DELIVERS-INDUSTRY" target="_blank" rel="noopener"><img src="sensors_img/826a494cd142ac4c63140a8c6266dae5087b333c.jpg" loading="lazy" alt="NXP"></a></td>
+      <td><b>NXP</b><span class="hq">荷蘭</span></td>
+      <td>UCODE X（2026/01）</td><td>Gen2V2、超低功耗、記憶體可配置，對應歐盟數位產品護照</td><td>製藥、食品、零售</td>
+      <td><a href="https://www.nxp.com/company/about-nxp/newsroom/NW-NXPS-NEW-UCODEX-DELIVERS-INDUSTRY" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.zebra.com/us/en/products/rfid/rfid-readers/fxr90.html" target="_blank" rel="noopener"><img src="sensors_img/cdbc6528fd5f73bce86c3cfcf612ec718882ddc4.jpg" loading="lazy" alt="Zebra"></a></td>
+      <td><b>Zebra</b><span class="hq">美國</span></td>
+      <td>FXR90 固定式讀取器</td><td>超耐用、IP65/67、4 或 8 埠</td><td>碼頭門、堆場</td>
+      <td><a href="https://www.zebra.com/us/en/products/rfid/rfid-readers/fxr90.html" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://rfid.averydennison.com/en/home/product-finder/circus-on-metal.html" target="_blank" rel="noopener"><img src="sensors_img/14ae8c84b4b69625b3e506aadec287995b16375d.jpg" loading="lazy" alt="Avery Dennison 艾利丹尼森"></a></td>
+      <td><b>Avery Dennison 艾利丹尼森</b><span class="hq">美國</span></td>
+      <td>AD Circus On-Metal、AD Midas Flagtag</td><td>抗金屬與惡劣表面標籤</td><td>周轉箱、工業資產、伺服器</td>
+      <td><a href="https://rfid.averydennison.com/en/home/product-finder/circus-on-metal.html" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.alientechnology.com/products/ic/higgs-10/" target="_blank" rel="noopener"><img src="sensors_img/f24f8d098acda98e33e7f5f953d6d9b38fe3d004.jpg" loading="lazy" alt="Alien Technology"></a></td>
+      <td><b>Alien Technology</b><span class="hq">美國</span></td>
+      <td>Higgs 10、Higgs-EC</td><td>低成本標籤晶片</td><td>大量標籤</td>
+      <td><a href="https://www.alientechnology.com/products/ic/higgs-10/" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+  </table></div>
+  
+  <h3 class="sub">10-2 工業條碼／二維碼讀取器</h3>
+  <div class="panel"><table>
+    <tr><th>產品照片</th><th>廠商</th><th>代表產品／型號</th><th>關鍵規格／特色</th><th>典型應用</th><th>官網／來源</th></tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.cognex.com/company/press-releases/2025/introducing-dataman-290-and-390" target="_blank" rel="noopener"><img src="sensors_img/43652c1a9f7ab686434ec499157457b96d72fd22.jpg" loading="lazy" alt="Cognex"></a></td>
+      <td><b>Cognex</b><span class="hq">美國</span></td>
+      <td>DataMan 290／390（2025/01）、DataMan 380</td><td>AI 解碼、一鍵設定</td><td>直接零件標記（DPM）、追溯</td>
+      <td><a href="https://www.cognex.com/company/press-releases/2025/introducing-dataman-290-and-390" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.vision-systems.com/factory/article/55020046/keyence-launches-ai-powered-code-reader-line" target="_blank" rel="noopener"><img src="sensors_img/7c1fe7ba61e4f09861dc65de6cfc8f0cdbe6f389.jpg" loading="lazy" alt="Keyence"></a></td>
+      <td><b>Keyence</b><span class="hq">日本</span></td>
+      <td>SR-X100／SR-X300（2024/04）</td><td>AI 解碼、自動對焦</td><td>電子、醫療試管</td>
+      <td><a href="https://www.vision-systems.com/factory/article/55020046/keyence-launches-ai-powered-code-reader-line" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.datalogic.com/eng/media-center/press-releases/matrix-220-xai-ultimate-dpm-with-the-fastest-auto-setup-ever-ai-powered-nd-8547.html" target="_blank" rel="noopener"><img src="sensors_img/dad630fc15bb73e10a941d1c5e448ca8445e33e6.jpg" loading="lazy" alt="Datalogic 得利捷"></a></td>
+      <td><b>Datalogic 得利捷</b><span class="hq">義大利</span></td>
+      <td>Matrix 220 XAI（2025/02）</td><td>機器學習 DPM 解碼、自動設定</td><td>汽車、包裝</td>
+      <td><a href="https://www.datalogic.com/eng/media-center/press-releases/matrix-220-xai-ultimate-dpm-with-the-fastest-auto-setup-ever-ai-powered-nd-8547.html" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.zebra.com/us/en/products/industrial-machine-vision-fixed-scanners/fixed-industrial-barcode-scanners/fs80.html" target="_blank" rel="noopener"><img src="sensors_img/ee65002f8951e027eece133e62fe0d32bbfc5d04.jpg" loading="lazy" alt="Zebra"></a></td>
+      <td><b>Zebra</b><span class="hq">美國</span></td>
+      <td>FS42、FS80 固定式工業掃描器</td><td>深度學習 OCR</td><td>物流分揀</td>
+      <td><a href="https://www.zebra.com/us/en/products/industrial-machine-vision-fixed-scanners/fixed-industrial-barcode-scanners/fs80.html" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.manufacturingdive.com/news/honeywell-brady-pss-14b-sale-barcode-scanner-printers-mobile-computers/817970/" target="_blank" rel="noopener"><img src="sensors_img/81d32dd603ffedd30a98b867b3b762746814b261.jpg" loading="lazy" alt="Brady（承接 Honeywell 掃描器業務）"></a></td>
+      <td><b>Brady（承接 Honeywell 掃描器業務）</b><span class="hq">美國</span></td>
+      <td>原 Honeywell 工業掃描器、印表機、行動電腦</td><td>Honeywell PSS 事業以 14 億美元售予 Brady，2026/08/05 完成</td><td>倉儲、物流</td>
+      <td><a href="https://www.manufacturingdive.com/news/honeywell-brady-pss-14b-sale-barcode-scanner-printers-mobile-computers/817970/" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+  </table></div>
+  
+  <h3 class="sub">10-3 BLE、無電池 IoT、NFC</h3>
+  <div class="panel"><table>
+    <tr><th>產品照片</th><th>廠商</th><th>代表產品／型號</th><th>關鍵規格／特色</th><th>典型應用</th><th>官網／來源</th></tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.wiliot.com/blog/wiliot-unveils-next-generation-iot-pixel" target="_blank" rel="noopener"><img src="sensors_img/043adc052de4588bf6a1c11516aac2503362a6d8.jpg" loading="lazy" alt="Wiliot"></a></td>
+      <td><b>Wiliot</b><span class="hq">以色列／美國</span></td>
+      <td>Gen3 IoT Pixel（2026/01）</td><td>無電池 BLE，雙頻能量採集；可感測溫度、濕度、光、動作</td><td>循環盤點、可重複周轉箱、冷鏈</td>
+      <td><a href="https://www.wiliot.com/blog/wiliot-unveils-next-generation-iot-pixel" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.prnewswire.com/news-releases/kontaktios-sticker-tag-sets-new-standard-for-scalable-cost-effective-asset-tracking-302237366.html" target="_blank" rel="noopener"><img src="sensors_img/467305da2371c99107fd99ce4b154262e92a6d26.jpg" loading="lazy" alt="Kontakt.io"></a></td>
+      <td><b>Kontakt.io</b><span class="hq">美國</span></td>
+      <td>Sticker Tag（2024/09）、Asset Tag 2 Mini</td><td>4 g、電池最長約 2.2 年、NFC 啟用</td><td>醫院與企業資產追蹤</td>
+      <td><a href="https://www.prnewswire.com/news-releases/kontaktios-sticker-tag-sets-new-standard-for-scalable-cost-effective-asset-tracking-302237366.html" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.nxp.com/company/about-nxp/newsroom/NW-NXP-ENABLES-SECURE-AUTHENTICATION" target="_blank" rel="noopener"><img src="sensors_img/f23e69d8906155db2482ce2ef8bfe4a7a11f8b8e.jpg" loading="lazy" alt="NXP"></a></td>
+      <td><b>NXP</b><span class="hq">荷蘭</span></td>
+      <td>NTAG X DNA（2025/05）</td><td>NFC Type 4、PKI 認證、CC EAL6+</td><td>防偽、數位產品護照</td>
+      <td><a href="https://www.nxp.com/company/about-nxp/newsroom/NW-NXP-ENABLES-SECURE-AUTHENTICATION" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+    <tr>
+      <td class="photo"><a href="https://www.st.com/en/nfc/st25-dynamic-nfc-tags.html" target="_blank" rel="noopener"><img src="sensors_img/7b005b486676a4b5e27425c818edb1d335cbdff0.jpg" loading="lazy" alt="STMicroelectronics"></a></td>
+      <td><b>STMicroelectronics</b><span class="hq">瑞士／法國</span></td>
+      <td>ST25 動態 NFC 標籤</td><td>NFC + I²C</td><td>設備設定、維修紀錄</td>
+      <td><a href="https://www.st.com/en/nfc/st25-dynamic-nfc-tags.html" target="_blank" rel="noopener">連結 ↗</a></td>
+    </tr>
+    
+  </table></div>
+  
+  
+  <h3 class="sub">10-M 市場規模</h3>
+  <div class="panel"><table>
+    <tr><th>細分市場</th><th>基準年規模</th><th>預測規模</th><th>CAGR</th><th>研究機構</th><th>來源</th></tr>
+    
+    <tr><td>RFID（整體）</td><td class="num">156 億（2025）</td><td class="num">230 億（2036）</td><td class="num">約 3.7%（推算）</td><td>IDTechEx</td><td><a href="https://www.idtechex.com/en/research-article/rfid-market-set-to-reach-us-23-billion-by-2036/33618" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+    <tr><td>RFID（整體）</td><td class="num">171.2 億（2025）</td><td class="num">462 億（2034）</td><td class="num">11.7%</td><td>Fortune Business Insights</td><td><a href="https://www.fortunebusinessinsights.com/rfid-market-109243" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+    <tr><td>RAIN RFID 標籤晶片出貨（非金額）</td><td class="num">528 億顆（2024）→ 427 億顆（2025）</td><td class="num">—</td><td class="num">2025 年因庫存調整下滑</td><td>RAIN Alliance</td><td><a href="https://therainalliance.org/rain-alliance-reports-42-7-billion-tag-chip-shipments-in-2025/" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+    <tr><td>2D 條碼讀取器</td><td class="num">81 億（2024）</td><td class="num">136 億（2030）</td><td class="num">9.4%</td><td>Grand View Research</td><td><a href="https://www.grandviewresearch.com/industry-analysis/2d-barcode-reader-market" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+    <tr><td>條碼掃描器（整體）</td><td class="num">78 億（2025）</td><td class="num">133 億（2034）</td><td class="num">5.9%</td><td>IMARC</td><td><a href="https://www.imarcgroup.com/barcode-scanner-market" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+    <tr><td>藍牙裝置出貨（非金額）</td><td class="num">逾 54 億台（2025）</td><td class="num">81 億台（2030）</td><td class="num">—</td><td>ABI Research／Bluetooth SIG</td><td><a href="https://www.abiresearch.com/news-resources/chart-data/bluetooth-market-shipments-growth-outlook" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+    <tr><td>Ambient IoT 無電池裝置出貨（非金額）</td><td class="num">—</td><td class="num">11 億台（2030）</td><td class="num">—</td><td>ABI Research</td><td><a href="https://www.abiresearch.com/press/emerging-ecosystem-of-energy-harvesting-drives-1.1-billion-ambient-iot-device-shipments-in-2030" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+    <tr><td>NFC（含支付與手機）</td><td class="num">228.7 億（2025）</td><td class="num">374.2 億（2032）</td><td class="num">7.4%</td><td>MarketsandMarkets</td><td><a href="https://www.marketsandmarkets.com/Market-Reports/near-field-communication-nfc-market-520.html" target="_blank" rel="noopener">連結 ↗</a></td></tr>
+    
+  </table></div>
+  
+  
+  <h3 class="sub">技術趨勢</h3>
+  <ul class="trends"><li>無電池標籤：Ambient IoT Alliance（2025/02 成立）整合 BLE、IEEE 802.11bp、3GPP Rel-19 三種無電池標準。</li><li>資料中心與 IT 資產：抗金屬 RAIN RFID（如 Xerafy + Impinj Gen2X）已用於伺服器全生命週期追蹤（Cisco 案例），可延伸到 ITAD 流程。</li></ul>
+  
+</section>
+
+
+<!-- ===================== ITAD 感官組合 ===================== -->
+<section class="view" id="v-picks">
+  <h2 class="sec">ITAD／倉儲工廠:第一階段感官組合候選清單</h2>
+  <p class="intro">對應「LiDAR＋Camera＋RFID/Barcode＋磅秤＋熱成像＋VOC/煙霧＋電流與振動」組合;為公開資訊整理的研究起點,實際採購前建議小規模 PoC 比較。</p>
+  <div class="panel"><table>
+    <tr><th>要解決的問題</th><th>感測器類型</th><th>候選廠商／產品</th><th>備註</th></tr>
+    
+    <tr><td><b>人員與物體位置、動線</b></td><td>3D LiDAR</td><td>Ouster REV8 OS 系列、Hesai JT 系列、Livox Mid-360S、SICK multiScan100-S（需安全等級時）</td><td>高處安裝，建立空間數位孿生；搭配相機做辨識</td></tr>
+    
+    <tr><td><b>物品辨識、瑕疵與外觀判讀</b></td><td>工業／AI 相機</td><td>Cognex In-Sight + OneVision、Keyence VS、Hikrobot SC 系列、LUCID Triton Smart</td><td>Hikrobot 價格較具競爭力；Cognex／Keyence 生態較完整</td></tr>
+    
+    <tr><td><b>資產身分與自動盤點</b></td><td>RAIN RFID + 條碼</td><td>Impinj R700／Zebra FXR90 讀取器 + Avery Dennison 抗金屬標籤；Cognex DataMan 390、Keyence SR-X</td><td>伺服器、硬碟等金屬資產需選抗金屬標籤</td></tr>
+    
+    <tr><td><b>重量核對（進貨、拆解、出貨）</b></td><td>荷重元／稱重</td><td>Mettler Toledo POWERCELL PDX、Flintec、Zemic</td><td>重量差異可作為缺件或資料載體遺漏的交叉驗證</td></tr>
+    
+    <tr><td><b>過熱與異常熱源</b></td><td>熱像／熱電堆陣列</td><td>Teledyne FLIR A50／A70、Seek EAGLE Core、Melexis MLX90642（低成本點位）</td><td>電池暫存區、充放電測試區、配電盤</td></tr>
+    
+    <tr><td><b>鋰電池排氣與極早期火災</b></td><td>氣體 + 吸氣式煙霧</td><td>Honeywell Li-ion Tamer、Xtralis VESDA-E VEP、Amphenol SGX REDTR、Sensirion SEN6x</td><td>排氣偵測可早於冒煙；需與消防規範一起評估</td></tr>
+    
+    <tr><td><b>設備健康（碎紙機、馬達、輸送帶）</b></td><td>振動 + 電流</td><td>Banner QM30VT3、ifm VVB3、Panoramic Power PAN-10、Samotics SAM4</td><td>振動看機械、電流看電氣，兩者互補</td></tr>
+    
+    <tr><td><b>（選配）人員／堆高機精準定位</b></td><td>UWB RTLS</td><td>HID Sewio、Pozyx；晶片：Qorvo、NXP Trimension</td><td>需要次公尺級精度或安全區域警示時再導入</td></tr>
+    
+  </table></div>
+</section>
+
+<!-- ===================== 資料說明 ===================== -->
+<section class="view" id="v-notes">
+  <h2 class="sec">注意事項與資料說明</h2>
+  <ul class="trends"><li>資料截至 2026/09/17，來源為廠商官網、新聞稿與產業媒體（The Robot Report、Vision Systems Design、PR Newswire 等）。規格為摘要，採購或設計前請以最新規格書為準。</li><li>標示「預計出貨」「送樣」者（如 RealSense D585 Pro 預計 2027 Q1、Bosch BMI563 2026 Q3 量產）尚未全面供貨。</li><li>需再確認的項目：TDK ICU-30201 停產狀態、Aryballe 營運狀態、Digit 360 實際供貨情形、LUCID 所有權。</li><li>廠商自述的數據（市佔、出貨量、提前預警時間等）屬廠商說法，未經第三方驗證。</li><li>市場規模取自研究機構的公開摘要頁、新聞稿或轉載（未購買完整報告）；各機構的定義與基準年（2023–2026）不同，跨表比較時請注意口徑。</li><li>已排除明顯不合理的數據，例如 IMARC 荷重元 1,191 億美元、Precedence 電子鼻 401 億美元、Mordor 聲學相機的誤植值；Goldman Sachs 2026/09 據報導上修的人形機器人預估僅見二手報導，未納入。</li><li>中金／GGII 的人民幣數據與 QYResearch 人形機器人力感測器預估屬早期推估，不確定性高。</li><li>產品照片：每列的縮圖是透過網路圖片搜尋取得的代表產品照片，僅供辨識外觀之用，版權屬各廠商或原始出處；部分圖片來自經銷商或媒體，未必是原廠官方照片，也可能是同系列的其他型號。正式對外文件請改用原廠提供的產品圖。</li></ul>
+</section>
+
+<footer>
+  Re-Teck Market Radar ・ 感測器市場頁 ・ 更新 2026-10-15 ・ 基礎資料截至 2026-09-17<br>
+  產品照片為網路蒐集之代表圖,版權屬各廠商或原始出處,僅供內部辨識;正式對外文件請改用原廠產品圖。
+</footer>
+</div>
+<script>
+(function(){
+  var chips = document.querySelectorAll('.chip');
+  function show(v){
+    document.querySelectorAll('.view').forEach(function(x){x.classList.remove('on')});
+    chips.forEach(function(c){c.classList.toggle('on', c.dataset.v===v)});
+    var el = document.getElementById('v-'+v);
+    if(el){el.classList.add('on')}
+    try{localStorage.sensorsView=v}catch(e){}
+    if(history.replaceState){history.replaceState(null,'','#'+v)}
+    window.scrollTo(0,0);
+  }
+  chips.forEach(function(c){c.addEventListener('click',function(){show(c.dataset.v)})});
+  var v = (location.hash||'').replace('#','');
+  if(!document.getElementById('v-'+v)){
+    try{v=localStorage.sensorsView}catch(e){}
+  }
+  if(!v || !document.getElementById('v-'+v)){v='ov'}
+  show(v);
+})();
+</script>
+</body>
+</html>
