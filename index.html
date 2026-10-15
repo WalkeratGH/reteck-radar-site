@@ -232,7 +232,7 @@ footer{margin-top:48px;border-top:1px solid var(--line);padding-top:14px;font-fa
   <div class="date-block">
     <span class="report-date">2026-10-15</span>
     <span class="date-window">last 72h</span>
-    <span class="date-window">updated 2026-10-16 04:54 (UTC+8) · by Walker</span>
+    <span class="date-window">updated 2026-10-16 05:09 (UTC+8) · by Walker</span>
   </div>
   <div class="date-nav">
     
@@ -404,7 +404,7 @@ footer{margin-top:48px;border-top:1px solid var(--line);padding-top:14px;font-fa
   <div id="compBody"></div>
 </section>
 
-<footerRE-TECK Market Radar · internal use only · updated 2026-10-16 04:54 (UTC+8) by Walker · generated 2026-10-15 20:54 UTC</footer>
+<footerRE-TECK Market Radar · internal use only · updated 2026-10-16 05:09 (UTC+8) by Walker · generated 2026-10-15 21:09 UTC</footer>
 </div>
 
 <script>
@@ -994,6 +994,14 @@ function renderComp(){
 /* Restore saved language + tab preferences, then render */
 try{ var saved = localStorage.getItem("radarLang"); if (LANGS.indexOf(saved) >= 0) lang = saved; }catch(e){}
 try{ var savedT = localStorage.getItem("radarTab"); if (TAB_KEYS.indexOf(savedT) >= 0) curTab = savedT; }catch(e){}
+try{ /* deep link: #<tab> or #devstrat/<sub> (used by sensors.html subnav) */
+  var hp = (location.hash||"").replace(/^#/,"").split("/");
+  if (TAB_KEYS.indexOf(hp[0]) >= 0){
+    curTab = hp[0];
+    if (hp[0]==="devstrat" && ["dvstrat","dvlap","dvphone","dvrobot"].indexOf(hp[1]) >= 0) curDevSub = hp[1];
+    if (hp[0]==="dcstrat" && ["strat","dcshare","bigtech","gpuroute"].indexOf(hp[1]) >= 0) curDcSub = hp[1];
+  }
+}catch(e){}
 TAB_KEYS.forEach(function(x){ var el=document.getElementById("tab-"+x); if(el) el.classList.toggle("on", x===curTab); });
 applyTheme(themeDark);
 refresh();
