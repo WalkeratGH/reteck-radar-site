@@ -104,6 +104,8 @@ footer{margin-top:48px;border-top:1px solid var(--line);padding-top:14px;font-fa
 .tabnav button{font-family:'Archivo',sans-serif;font-weight:600;font-size:13px;letter-spacing:.4px;padding:9px 15px;border:1.5px solid var(--line);border-bottom:0;background:#fff;color:var(--muted);cursor:pointer;border-radius:6px 6px 0 0;position:relative;top:2px}
 .tabnav button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
 .tabnav button:not(.on):hover{color:var(--teal);border-color:var(--teal)}
+.tabnav a.tablink{font-family:'Archivo','Microsoft JhengHei','PingFang TC','Hiragino Sans','Yu Gothic',sans-serif;font-weight:600;font-size:13px;letter-spacing:.4px;padding:9px 15px;border:1.5px solid var(--line);border-bottom:0;background:#fff;color:var(--muted);border-radius:6px 6px 0 0;position:relative;top:2px;text-decoration:none;display:inline-block;line-height:normal}
+.tabnav a.tablink:hover{color:var(--teal);border-color:var(--teal);text-decoration:none}
 .tabpanel{display:none}
 .tabpanel.on{display:block}
 /* Sub-tabs (within DC / Device strategy) */
@@ -201,6 +203,8 @@ footer{margin-top:48px;border-top:1px solid var(--line);padding-top:14px;font-fa
 [data-theme="dark"] .tabnav button{background:transparent;border:0;border-radius:0;top:1px;color:var(--muted);padding:9px 4px;margin-right:16px}
 [data-theme="dark"] .tabnav button.on{background:transparent;color:var(--teal);border-bottom:2px solid var(--teal);box-shadow:none}
 [data-theme="dark"] .tabnav button:not(.on):hover{color:var(--teal);border-color:transparent}
+[data-theme="dark"] .tabnav a.tablink{background:transparent;border:0;border-radius:0;top:1px;color:var(--muted);padding:9px 4px;margin-right:16px}
+[data-theme="dark"] .tabnav a.tablink:hover{color:var(--teal)}
 [data-theme="dark"] .card ul li,[data-theme="dark"] .opp p,[data-theme="dark"] .reg p{color:#AFC9D4}
 [data-theme="dark"] .dq{background:var(--card)}
 [data-theme="dark"] .dq.high{color:#2DD4BF}
@@ -232,7 +236,7 @@ footer{margin-top:48px;border-top:1px solid var(--line);padding-top:14px;font-fa
   <div class="date-block">
     <span class="report-date">2026-10-15</span>
     <span class="date-window">last 72h</span>
-    <span class="date-window">updated 2026-10-16 05:09 (UTC+8) · by Walker</span>
+    <span class="date-window">updated 2026-10-16 21:46 (UTC+8) · by Walker</span>
   </div>
   <div class="date-nav">
     
@@ -404,7 +408,7 @@ footer{margin-top:48px;border-top:1px solid var(--line);padding-top:14px;font-fa
   <div id="compBody"></div>
 </section>
 
-<footerRE-TECK Market Radar · internal use only · updated 2026-10-16 05:09 (UTC+8) by Walker · generated 2026-10-15 21:09 UTC</footer>
+<footerRE-TECK Market Radar · internal use only · updated 2026-10-16 21:46 (UTC+8) by Walker · generated 2026-10-16 13:46 UTC</footer>
 </div>
 
 <script>
@@ -705,6 +709,7 @@ function buildTabNav(){
   TAB_KEYS.forEach(function(k){
     h += "<button class='"+(curTab===k?"on":"")+"' onclick='setTab(\""+k+"\")'>"+esc(t(TAB_UI[k]))+"</button>";
   });
+  h += "<a class='tablink' href='sensors.html'>🤚 "+esc(t("sub_dvsensors"))+"</a>";
   document.getElementById("tabnav").innerHTML = h;
 }
 function setTab(k){
